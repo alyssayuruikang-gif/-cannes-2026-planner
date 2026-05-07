@@ -15,16 +15,6 @@ Click any film to instantly see which other screenings you can still catch, fact
 - 🎩 Black-tie indicator for gala premieres in the Grand Théâtre Lumière
 - 📱 Mobile-friendly
 
-## Deploy to GitHub Pages
-
-1. Create a new public repository on GitHub.
-2. Upload `index.html` (and optionally this `README.md`) to the root of the repo.
-3. Go to **Settings → Pages**.
-4. Under **Source**, select branch **main** and folder **/ (root)**.
-5. Click **Save**. Your site will be live at `https://<your-username>.github.io/<repo-name>/` within a minute.
-
-That's it — no build step, no dependencies. Everything runs client-side.
-
 ## Notes on data and accuracy
 
 - **Travel times** are straight-line (Haversine) estimates: walking at 5 km/h, scooter at 15 km/h plus a 2-min unlock buffer. The festival shuttle is modelled at ~18 min including average wait time, and only between the Palais and Cineum (the only campus-to-campus route it serves).
