@@ -3,95 +3,180 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cannes 2026 — Schedule Planner (May 20–23)</title>
-<meta name="description" content="Interactive schedule planner for the 79th Cannes Film Festival, May 20–23, 2026.">
+<title>Cannes 2026 — Schedule Planner (May 21–23)</title>
+<meta name="description" content="Interactive schedule planner for the 79th Cannes Film Festival, May 21–23, 2026.">
 <style>
+:root {
+  --paper: #fbf7ec;
+  --paper-warm: #f2ead7;
+  --ink: #1f1f1a;
+  --muted: #6f6a58;
+  --cannes-gold: #a99b61;
+  --cannes-olive: #8f8760;
+  --line: #ddd4c0;
+  --danger-soft: #f3e5e0;
+  --ok-soft: #f8f4e7;
+  --tight-soft: #f5ecd0;
+  --panel: rgba(255, 252, 244, 0.82);
+  --panel-solid: #fbf7ec;
+  --shadow-soft: 0 10px 28px rgba(29, 24, 16, 0.08);
+}
 * { box-sizing: border-box; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   margin: 0;
-  background: #f7f5f0;
-  color: #1a1a1a;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.35), rgba(232,222,203,0.65)),
+    var(--paper);
+  color: var(--ink);
   line-height: 1.5;
 }
 header {
-  background: linear-gradient(135deg, #2c3e50 0%, #4a5d75 100%);
-  color: #fff;
-  padding: 24px 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background:
+    linear-gradient(180deg, rgba(23,22,18,0.88), rgba(23,22,18,0.76)),
+    radial-gradient(circle at 20% 0%, rgba(165,138,70,0.18), transparent 34%),
+    var(--ink);
+  color: var(--paper);
+  padding: 46px 20px 38px;
+  border-bottom: 1px solid rgba(165,138,70,0.55);
 }
-header h1 { margin: 0 0 4px 0; font-size: 22px; font-weight: 600; }
-header p { margin: 0; opacity: 0.85; font-size: 13px; }
+.poster-header {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.poster-kicker {
+  margin: 0 0 10px;
+  color: var(--cannes-gold);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+header h1 {
+  margin: 0;
+  color: #d2b66a;
+  font-size: clamp(42px, 10vw, 108px);
+  font-weight: 500;
+  line-height: 0.88;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.poster-subtitle {
+  margin: 16px 0 0;
+  max-width: 720px;
+  color: rgba(246,241,230,0.92);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
 .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 .controls {
-  background: #fff;
-  border-radius: 8px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 2px;
   padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  margin: 18px 0 16px;
+  box-shadow: var(--shadow-soft);
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
 }
-.controls label { font-size: 13px; color: #555; font-weight: 500; }
+.controls label {
+  color: var(--muted);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
 .controls input[type="text"] {
   flex: 1;
   min-width: 200px;
-  padding: 9px 12px;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
   font-size: 14px;
-  font-family: inherit;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: rgba(255,250,240,0.78);
+  color: var(--ink);
 }
-.controls input[type="text"]:focus { outline: none; border-color: #2c3e50; }
+.controls input[type="text"]:focus {
+  outline: 2px solid rgba(165,138,70,0.35);
+  border-color: var(--cannes-gold);
+}
 .controls select {
   padding: 8px 10px;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
-  font-size: 13px;
-  font-family: inherit;
-  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+  background: var(--panel-solid);
   cursor: pointer;
 }
-.day-tabs { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; }
+.day-filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.day-tabs { display: flex; flex-wrap: wrap; gap: 8px; overflow-x: auto; }
 .day-tabs button {
-  padding: 8px 16px;
-  background: #fff;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
+  padding: 9px 18px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
   cursor: pointer;
-  font-size: 13px;
-  font-family: inherit;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   white-space: nowrap;
-  font-weight: 500;
+  font-weight: 700;
 }
-.day-tabs button.active { background: #2c3e50; color: #fff; border-color: #2c3e50; }
+.day-tabs button.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
 
 /* Категория-кнопки фильтра */
 .filter-section {
-  background: #fff;
-  border-radius: 8px;
-  margin-bottom: 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-  overflow: hidden;
+  position: relative;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  margin-bottom: 0;
+  box-shadow: none;
+  overflow: visible;
 }
 .filter-section h3 {
   margin: 0;
-  padding: 10px 14px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #555;
+  min-height: 34px;
+  padding: 9px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.18em;
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
   user-select: none;
   transition: background 0.15s;
+  gap: 8px;
 }
-.filter-section h3:hover { background: #f7f5f0; }
+.filter-section h3:hover { background: rgba(165,138,70,0.08); }
 .filter-section h3 .head-meta {
   display: flex;
   align-items: center;
@@ -102,45 +187,61 @@ header p { margin: 0; opacity: 0.85; font-size: 13px; }
 .filter-section h3 .summary {
   font-size: 11px;
   font-weight: 400;
-  color: #888;
+  color: var(--muted);
 }
 .filter-section h3 .reset-link {
   font-size: 11px;
-  font-weight: 400;
-  color: #888;
+  font-weight: 700;
+  color: var(--cannes-olive);
   cursor: pointer;
 }
-.filter-section h3 .reset-link:hover { color: #2c3e50; text-decoration: underline; }
+.filter-section h3 .reset-link:hover { color: var(--ink); text-decoration: underline; }
 .filter-section h3 .chevron {
   font-size: 10px;
-  color: #888;
+  color: var(--muted);
   transition: transform 0.2s;
   display: inline-block;
 }
 .filter-section.collapsed h3 .chevron { transform: rotate(-90deg); }
 .filter-body {
-  padding: 4px 14px 12px 14px;
-  border-top: 1px solid #f0ede5;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 30;
+  width: min(520px, calc(100vw - 40px));
+  max-height: 320px;
+  overflow: auto;
+  padding: 10px 12px 12px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: var(--panel-solid);
+  box-shadow: var(--shadow-soft);
 }
 .filter-section.collapsed .filter-body { display: none; }
+.compact-filter-trigger {}
+.compact-filter-panel {}
+.filter-popover {}
 .cat-filters { display: flex; flex-wrap: wrap; gap: 6px; }
 .cat-filters button {
-  padding: 5px 11px;
-  background: #fff;
-  border: 1.5px solid var(--btn-color, #ccc);
-  color: var(--btn-color, #555);
-  border-radius: 14px;
+  padding: 6px 11px;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 999px;
   cursor: pointer;
-  font-size: 12px;
-  font-family: inherit;
-  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   transition: all 0.15s;
 }
 .cat-filters button.active {
-  background: var(--btn-color, #2c3e50);
-  color: #fff;
+  background: var(--cannes-olive);
+  border-color: var(--cannes-olive);
+  color: var(--paper);
 }
-.cat-filters button:hover:not(.active) { background: #f5f5f5; }
+.cat-filters button:hover:not(.active) { background: rgba(165,138,70,0.1); }
 .loc-filters {
   display: flex;
   flex-wrap: wrap;
@@ -150,32 +251,40 @@ header p { margin: 0; opacity: 0.85; font-size: 13px; }
   display: inline-flex;
   align-items: center;
   gap: 5px;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   font-size: 12px;
   cursor: pointer;
   user-select: none;
   font-weight: 400 !important;
   padding: 3px 6px;
-  border-radius: 4px;
+  border-radius: 2px;
 }
-.loc-filters label:hover { background: #f5f5f5; }
+.loc-filters label:hover { background: rgba(165,138,70,0.1); }
 .loc-filters input[type="checkbox"] { cursor: pointer; margin: 0; }
 
-.stats { font-size: 13px; color: #666; margin-bottom: 12px; }
+.stats {
+  color: var(--muted);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
 .selection-bar {
-  background: #fffbe8;
-  border: 1.5px solid #b8860b;
-  border-radius: 8px;
+  background: rgba(165,138,70,0.1);
+  border: 1px solid rgba(165,138,70,0.5);
+  border-radius: 2px;
   padding: 12px 14px;
   margin-bottom: 12px;
   font-size: 13px;
 }
 .selection-bar h3 {
   margin: 0 0 8px 0;
-  font-size: 12px;
-  font-weight: 600;
-  color: #5a4a1a;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.18em;
 }
 .selection-list { display: flex; flex-direction: column; gap: 6px; }
 .selection-item {
@@ -184,32 +293,63 @@ header p { margin: 0; opacity: 0.85; font-size: 13px; }
   justify-content: space-between;
   gap: 10px;
   padding: 6px 10px;
-  background: #fff;
-  border-radius: 6px;
+  background: var(--panel-solid);
+  border: 1px solid var(--line);
+  border-radius: 2px;
   font-size: 12px;
 }
 .selection-item .info { flex: 1; min-width: 0; }
-.selection-item .info b { color: #2c3e50; }
-.selection-item .info .meta { color: #888; font-size: 11px; }
+.selection-item .info b { color: var(--ink); }
+.selection-item .info .meta { color: var(--muted); font-size: 11px; }
+.selection-item.duplicate {
+  border-color: rgba(169,155,97,0.55);
+  background: rgba(249,240,218,0.7);
+}
+.duplicate-warning {
+  margin: 0 0 10px;
+  padding: 8px 10px;
+  border: 1px solid rgba(169,155,97,0.45);
+  border-left: 3px solid var(--cannes-gold);
+  border-radius: 2px;
+  background: rgba(251,247,236,0.9);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  line-height: 1.45;
+}
+.duplicate-selection-marker {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border: 1px solid rgba(169,155,97,0.45);
+  border-radius: 999px;
+  color: var(--cannes-olive);
+  background: rgba(251,247,236,0.95);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
 .selection-item button {
   background: transparent;
   border: none;
-  color: #c62828;
+  color: #8b3b2f;
   cursor: pointer;
   font-size: 16px;
   padding: 2px 6px;
   line-height: 1;
 }
-.selection-item button:hover { color: #8a0000; }
-.film-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 10px; }
+.selection-item button:hover { color: #5f1f17; }
+.film-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 12px; }
 .film {
-  background: #fff;
-  border-radius: 8px;
-  padding: 12px 14px 12px 18px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  background: #fbf7ec;
+  border-radius: 2px;
+  padding: 14px 15px 13px 18px;
+  box-shadow: none;
   cursor: pointer;
   transition: all 0.15s ease;
-  border: 2px solid transparent;
+  border: 1px solid var(--line);
   position: relative;
   overflow: hidden;
 }
@@ -219,50 +359,193 @@ header p { margin: 0; opacity: 0.85; font-size: 13px; }
   top: 0;
   left: 0;
   bottom: 0;
-  width: 5px;
-  background: var(--cat-color, #ccc);
+  width: 3px;
+  background: var(--cannes-gold);
 }
-.film:hover:not(.locked) { box-shadow: 0 2px 8px rgba(0,0,0,0.1); transform: translateY(-1px); }
-.film.selected { border-color: #2c3e50; background: #fffbe8; }
-.film.conflict { opacity: 0.45; background: #ffeeee; }
-.film.tight { background: #fff3e0; }
-.film.ok { background: #e8f5e9; }
+.film:hover:not(.locked) { border-color: var(--cannes-gold); box-shadow: var(--shadow-soft); transform: translateY(-1px); }
+.film.is-competition {
+  border-color: rgba(169,155,97,0.72);
+  background:
+    linear-gradient(90deg, rgba(169,155,97,0.09), rgba(251,247,236,0.98) 24%),
+    #fbf7ec;
+}
+.film.is-competition::before {
+  width: 4px;
+  background: var(--cannes-gold);
+}
+.film.is-competition::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(45deg, transparent 50%, rgba(169,155,97,0.28) 50%);
+  pointer-events: none;
+}
+.film.selected {
+  border-color: var(--cannes-gold);
+  background: #f7efdb;
+}
+.film.conflict { opacity: 0.58; background: var(--danger-soft); border-color: #d7c0b8; }
+.film.tight { background: var(--tight-soft); border-color: #e0cf9d; }
+.film.ok {
+  background: #fbf7ec;
+  border-color: #e3dac3;
+}
 .film.locked {
   cursor: not-allowed;
-  opacity: 0.4;
-  background: #f5e0e0;
+  opacity: 0.55;
+  background: var(--danger-soft);
+  border-color: #d7c0b8;
 }
-.film.locked .film-title { text-decoration: line-through; text-decoration-thickness: 1px; }
-.film-title {
-  font-weight: 600;
-  font-size: 14px;
-  margin-bottom: 4px;
-  line-height: 1.3;
+.film.locked .film-title-en { text-decoration: line-through; text-decoration-thickness: 1px; }
+.film-title-block {
   padding-right: 60px;
+  margin-bottom: 8px;
 }
-.film-title .gala-icon {
+.film-title-en {
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.film-title-en .gala-icon {
   display: inline-block;
   margin-left: 4px;
   font-size: 13px;
   opacity: 0.85;
 }
-.film-meta { font-size: 12px; color: #666; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.film-title-zh-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+}
+.film-title-zh {
+  color: var(--muted);
+}
+.douban-link {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.douban-link a {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.douban-link a:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+.film-primary-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 7px;
+  color: var(--muted);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.meta-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,250,240,0.7);
+  color: var(--ink);
+  line-height: 1.3;
+}
+.meta-chip.time-chip {
+  border-color: rgba(169,155,97,0.55);
+  background: rgba(169,155,97,0.13);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.meta-chip.venue-chip {
+  background: rgba(242,234,215,0.82);
+  font-weight: 650;
+}
+.meta-chip.section-chip {
+  background: rgba(143,135,96,0.12);
+  color: var(--ink);
+  font-weight: 650;
+}
+.film-director-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 7px;
+  margin-top: 8px;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.director-label {
+  color: var(--cannes-olive);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.director-name {
+  color: var(--ink);
+  font-weight: 650;
+}
+.film-meta {
+  color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+}
 .tag {
   display: inline-block;
   padding: 2px 8px;
-  background: #eee;
-  border-radius: 10px;
+  background: rgba(235,225,207,0.72);
+  border: 1px solid rgba(215,203,183,0.8);
+  border-radius: 999px;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 650;
 }
-.tag.time { background: #d4e3f0; color: #1a3a5c; }
-.tag.loc { background: #e7d8ec; color: #5c2d6e; }
-.tag.cat { color: #fff; font-weight: 600; }
+.tag.time { background: rgba(169,155,97,0.16); color: var(--ink); }
+.tag.loc { background: rgba(242,234,215,0.86); color: var(--ink); }
+.tag.cat {
+  background: rgba(242,234,215,0.92) !important;
+  border-color: rgba(217,207,184,0.9);
+  color: var(--ink);
+  font-weight: 700;
+}
 .tag.type {
-  background: #ecebe4;
-  color: #555;
+  background: transparent;
+  color: var(--muted);
   font-weight: 500;
-  border: 1px solid #d8d6cc;
+  border: 1px solid var(--line);
 }
 .badge {
   position: absolute;
@@ -273,110 +556,228 @@ header p { margin: 0; opacity: 0.85; font-size: 13px; }
   border-radius: 10px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.08em;
 }
-.badge.conflict { background: #ffcdd2; color: #c62828; }
-.badge.tight { background: #ffe0b2; color: #b86700; }
-.badge.ok { background: #c8e6c9; color: #2e7d32; }
-.badge.selected { background: #2c3e50; color: #fff; }
-.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: #555; margin-bottom: 12px; }
+.badge.conflict { background: #c9a39a; color: #3d1711; }
+.badge.tight { background: #d3bd82; color: #3d3212; }
+.badge.ok { background: #c2caa5; color: #26300f; }
+.badge.selected { background: var(--ink); color: var(--paper); }
+.legend {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .swatch { width: 14px; height: 14px; border-radius: 3px; display: inline-block; }
-.empty { text-align: center; padding: 40px 20px; color: #888; font-size: 14px; }
-.travel-info { font-size: 11px; color: #666; margin-top: 6px; font-style: italic; line-height: 1.4; }
-.travel-info .options { color: #888; }
-.clear-btn {
-  padding: 6px 12px;
-  background: #fff;
-  border: 1px solid #d0d0d0;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 12px;
-  font-family: inherit;
-  color: #666;
+.swatch.selected { background: rgba(169,155,97,0.16); border: 2px solid var(--cannes-gold); }
+.swatch.ok { background: var(--ok-soft); border: 1px solid var(--line); }
+.swatch.tight { background: var(--tight-soft); border: 1px solid var(--line); }
+.swatch.locked { background: var(--danger-soft); border: 1px solid #d7c0b8; }
+.empty { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 14px; }
+.travel-info { font-size: 11px; color: var(--muted); margin-top: 6px; font-style: italic; line-height: 1.4; }
+.travel-info .options { color: var(--muted); }
+.other-screenings {
+  margin-top: 7px;
+  color: var(--muted);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  line-height: 1.45;
 }
-.clear-btn:hover { background: #f0f0f0; }
-.clear-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-footer { text-align: center; padding: 24px 20px; font-size: 12px; color: #888; }
-.gala-info {
-  background: #fdf6e3;
-  border-left: 3px solid #b8860b;
-  padding: 8px 12px;
-  margin-bottom: 12px;
-  border-radius: 4px;
-  font-size: 12px;
-  color: #5a4a1a;
+.other-screenings-label {
+  display: inline-block;
+  margin-right: 6px;
+  color: var(--cannes-olive);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
-.verify-banner {
-  background: #eef4fa;
-  border-left: 3px solid #4a5d75;
-  padding: 10px 14px;
-  margin-bottom: 16px;
-  border-radius: 4px;
-  font-size: 13px;
-  color: #2c3e50;
+.other-screening-chips {
   display: flex;
   flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
+}
+.other-screening-chip {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-  justify-content: space-between;
-}
-.verify-banner a {
-  display: inline-block;
-  padding: 6px 14px;
-  background: #2c3e50;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(251,247,236,0.92);
+  color: var(--ink);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
   white-space: nowrap;
-  transition: background 0.15s;
 }
-.verify-banner a:hover { background: #1a2733; }
+.other-screening-chip.selected {
+  border-color: var(--cannes-gold);
+  background: rgba(249,240,218,0.96);
+}
+.other-screening-more {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(242,234,215,0.8);
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+.day-booking-notice {
+  background: rgba(255,250,240,0.82);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--cannes-gold);
+  border-radius: 2px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  color: var(--ink);
+}
+.day-booking-title {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  line-height: 1.6;
+}
+.day-booking-meta {
+  margin-top: 4px;
+  color: var(--muted);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  line-height: 1.45;
+}
+.clear-btn {
+  padding: 8px 13px;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.clear-btn:hover { background: rgba(165,138,70,0.12); }
+.clear-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.gala-info {
+  background: rgba(165,138,70,0.11);
+  border-left: 3px solid var(--cannes-gold);
+  padding: 8px 12px;
+  margin-bottom: 12px;
+  border-radius: 2px;
+  font-size: 12px;
+  color: var(--ink);
+}
+.official-snapshot-compact {
+  margin-bottom: 14px;
+  color: var(--muted);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 11px;
+}
+.official-snapshot-details {
+  display: inline-block;
+  max-width: 100%;
+}
+.official-snapshot-details summary {
+  cursor: pointer;
+  list-style: none;
+  color: var(--muted);
+}
+.official-snapshot-details summary::-webkit-details-marker { display: none; }
+.official-snapshot-details summary:hover { color: var(--ink); }
+.official-snapshot-body {
+  margin-top: 6px;
+  max-width: 720px;
+  line-height: 1.45;
+}
+.official-snapshot-link {
+  color: var(--ink);
+  font-weight: 800;
+  text-decoration: none;
+  border-bottom: 1px solid var(--cannes-gold);
+}
+.official-snapshot-link:hover { color: var(--cannes-olive); }
 .unofficial-note {
   font-size: 11px;
-  color: #888;
+  color: var(--muted);
   margin-top: 6px;
   font-style: italic;
 }
-footer { text-align: center; padding: 28px 20px; font-size: 12px; color: #888; line-height: 1.7; }
+.snapshot-note {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+footer {
+  text-align: center;
+  padding: 30px 20px;
+  color: var(--muted);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 12px;
+  line-height: 1.7;
+}
 .socials { display: flex; gap: 14px; justify-content: center; margin-bottom: 12px; flex-wrap: wrap; }
 .socials a {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   padding: 6px 12px;
-  background: #fff;
-  color: #2c3e50;
+  background: transparent;
+  color: var(--ink);
   text-decoration: none;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
-  border: 1px solid #d0d0d0;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--line);
   transition: all 0.15s;
 }
 .socials a:hover {
-  background: #2c3e50;
-  color: #fff;
-  border-color: #2c3e50;
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
 }
 .socials-intro {
   font-size: 13px;
-  color: #555;
+  color: var(--muted);
   margin-bottom: 10px;
   font-style: italic;
 }
 @media (max-width: 600px) {
   .film-grid { grid-template-columns: 1fr; }
   .controls { flex-direction: column; align-items: stretch; }
+  header { padding: 34px 18px 30px; }
+  header h1 { letter-spacing: 0.08em; }
+  .poster-subtitle { font-size: 12px; }
+  .day-filter-row { align-items: stretch; }
+  .day-tabs { width: 100%; }
+  .filter-section { flex: 1 1 auto; }
+  .filter-body {
+    position: static;
+    width: 100%;
+    max-height: 260px;
+    margin-top: 6px;
+  }
 }
 </style>
 </head>
 <body>
 <header>
-  <h1>🎬 Cannes 2026 — Schedule Planner</h1>
-  <p>May 20–23 · Click films to build your day, factoring in travel between venues. Conflicting screenings are auto-locked.</p>
+  <div class="poster-header">
+    <p class="poster-kicker">Schedule Planner</p>
+    <h1>Cannes 2026</h1>
+    <p class="poster-subtitle">79th Festival de Cannes · May 21–23</p>
+  </div>
 </header>
 
 <div class="container">
@@ -401,39 +802,38 @@ footer { text-align: center; padding: 28px 20px; font-size: 12px; color: #888; l
     <button class="clear-btn" id="clear" disabled>Clear all selections</button>
   </div>
 
-  <div class="day-tabs" id="dayTabs">
-    <button class="active" data-day="all">All days</button>
-    <button data-day="20">Wed 20</button>
-    <button data-day="21">Thu 21</button>
-    <button data-day="22">Fri 22</button>
-    <button data-day="23">Sat 23</button>
-  </div>
-
-  <div class="filter-section collapsed" id="catSection">
-    <h3 data-toggle="catSection">
-      <span>Festival sections</span>
-      <span class="head-meta">
-        <span class="summary" id="catSummary"></span>
-        <span class="reset-link" id="resetCats">all</span>
-        <span class="chevron">▼</span>
-      </span>
-    </h3>
-    <div class="filter-body">
-      <div class="cat-filters" id="catFilters"></div>
+  <div class="day-filter-row">
+    <div class="day-tabs" id="dayTabs">
+      <button data-day="21">Thu 21</button>
+      <button data-day="22">Fri 22</button>
+      <button data-day="23">Sat 23</button>
+      <button class="active" data-day="all">All days</button>
     </div>
-  </div>
 
-  <div class="filter-section collapsed" id="locSection">
-    <h3 data-toggle="locSection">
-      <span>Venues</span>
-      <span class="head-meta">
+    <div class="filter-section filter-popover collapsed" id="catSection">
+      <h3 class="compact-filter-trigger" data-toggle="catSection">
+        <span class="summary" id="catSummary"></span>
+        <span class="head-meta">
+          <span class="reset-link" id="resetCats">all</span>
+          <span class="chevron">▼</span>
+        </span>
+      </h3>
+      <div class="filter-body compact-filter-panel">
+        <div class="cat-filters" id="catFilters"></div>
+      </div>
+    </div>
+
+    <div class="filter-section filter-popover collapsed" id="locSection">
+      <h3 class="compact-filter-trigger" data-toggle="locSection">
         <span class="summary" id="locSummary"></span>
-        <span class="reset-link" id="resetLocs">all</span>
-        <span class="chevron">▼</span>
-      </span>
-    </h3>
-    <div class="filter-body">
-      <div class="loc-filters" id="locFilters"></div>
+        <span class="head-meta">
+          <span class="reset-link" id="resetLocs">all</span>
+          <span class="chevron">▼</span>
+        </span>
+      </h3>
+      <div class="filter-body compact-filter-panel">
+        <div class="loc-filters" id="locFilters"></div>
+      </div>
     </div>
   </div>
 
@@ -441,26 +841,31 @@ footer { text-align: center; padding: 28px 20px; font-size: 12px; color: #888; l
     🎩 <strong>Black tie required</strong> for screenings marked with this icon — evening sessions in the Grand Théâtre Lumière and the festival closing ceremony.
   </div>
 
-  <div class="verify-banner">
-    <span>📋 Not sure the schedule is up to date? Download the latest official version from the festival website.
-      <div class="unofficial-note">⚠️ This is an unofficial planner — not affiliated with the Festival de Cannes or its organisers.</div>
-    </span>
-    <a href="https://www.festival-cannes.com/2026/les-horaires-des-projections-du-79e-festival-de-cannes/" target="_blank" rel="noopener noreferrer">Open official schedule ↗</a>
+  <div class="official-snapshot-compact">
+    <details class="official-snapshot-details">
+      <summary>Official snapshot checked: 2026-05-10 · <a class="official-snapshot-link" href="https://www.festival-cannes.com/2026/les-horaires-des-projections-du-79e-festival-de-cannes/" target="_blank" rel="noopener noreferrer">Verify on official schedule ↗</a></summary>
+      <div class="official-snapshot-body">
+        Booking information is based on a saved official ticketing snapshot and may change. Always check your official Cannes ticketing account before booking.
+        <div class="unofficial-note">This is an unofficial planner — not affiliated with the Festival de Cannes or its organisers.</div>
+      </div>
+    </details>
   </div>
 
   <div class="legend" id="legend" style="display:none">
-    <span><span class="swatch" style="background:#fffbe8;border:2px solid #2c3e50"></span> In your plan</span>
-    <span><span class="swatch" style="background:#e8f5e9"></span> You can make it</span>
-    <span><span class="swatch" style="background:#fff3e0"></span> Tight</span>
-    <span><span class="swatch" style="background:#f5e0e0"></span> Locked (conflicts)</span>
+    <span><span class="swatch selected"></span> In your plan</span>
+    <span><span class="swatch ok"></span> You can make it</span>
+    <span><span class="swatch tight"></span> Tight</span>
+    <span><span class="swatch locked"></span> Locked (conflicts)</span>
   </div>
 
   <div class="selection-bar" id="selectionBar" style="display:none">
     <h3>Your plan</h3>
+    <div class="duplicate-warning" id="duplicateWarning" style="display:none"></div>
     <div class="selection-list" id="selectionList"></div>
   </div>
 
   <div class="stats" id="stats"></div>
+  <div id="dayBookingNotice"></div>
   <div class="film-grid" id="grid"></div>
 </div>
 
@@ -481,9 +886,965 @@ const events = [{"id": 0,"day": "20","start": "00:30","title": "Elastic Rome（�
 const travel = {"Grand Théâtre Lumière": {"Grand Théâtre Lumière": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Salle Debussy": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Buñuel": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Agnès Varda": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Bazin": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum IMAX": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Aurore": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Screen X": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Salle 3": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Théâtre Croisette / JW Marriott": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Espace Miramar": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Olympia": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Alexandre III": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Le Raimu": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Les Arcades": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Studio 13": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Plage Macé": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}}, "Salle Debussy": {"Grand Théâtre Lumière": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Debussy": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Salle Buñuel": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Agnès Varda": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Bazin": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum IMAX": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Aurore": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Screen X": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Salle 3": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Théâtre Croisette / JW Marriott": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Espace Miramar": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Olympia": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Alexandre III": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Le Raimu": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Les Arcades": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Studio 13": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Plage Macé": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}}, "Salle Buñuel": {"Grand Théâtre Lumière": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Debussy": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Buñuel": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Salle Agnès Varda": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Bazin": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum IMAX": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Aurore": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Screen X": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Salle 3": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Théâtre Croisette / JW Marriott": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Espace Miramar": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Olympia": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Alexandre III": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Le Raimu": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Les Arcades": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Studio 13": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Plage Macé": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}}, "Salle Agnès Varda": {"Grand Théâtre Lumière": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Debussy": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Buñuel": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Agnès Varda": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Salle Bazin": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum IMAX": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Aurore": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Screen X": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Salle 3": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Théâtre Croisette / JW Marriott": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Espace Miramar": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Olympia": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Alexandre III": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Le Raimu": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Les Arcades": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Studio 13": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Plage Macé": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}}, "Salle Bazin": {"Grand Théâtre Lumière": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Debussy": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Buñuel": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Agnès Varda": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Bazin": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Cineum IMAX": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Aurore": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Screen X": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Salle 3": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Théâtre Croisette / JW Marriott": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Espace Miramar": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Olympia": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Alexandre III": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Le Raimu": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Les Arcades": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Studio 13": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Plage Macé": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}}, "Cineum IMAX": {"Grand Théâtre Lumière": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Debussy": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Buñuel": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Agnès Varda": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Bazin": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum IMAX": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Cineum Aurore": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Screen X": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Salle 3": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Théâtre Croisette / JW Marriott": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Espace Miramar": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Olympia": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Alexandre III": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Le Raimu": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Les Arcades": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Studio 13": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Plage Macé": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}}, "Cineum Aurore": {"Grand Théâtre Lumière": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Debussy": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Buñuel": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Agnès Varda": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Bazin": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum IMAX": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Aurore": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Cineum Screen X": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Salle 3": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Théâtre Croisette / JW Marriott": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Espace Miramar": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Olympia": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Alexandre III": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Le Raimu": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Les Arcades": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Studio 13": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Plage Macé": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}}, "Cineum Screen X": {"Grand Théâtre Lumière": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Debussy": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Buñuel": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Agnès Varda": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Bazin": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum IMAX": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Aurore": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Screen X": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Cineum Salle 3": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Théâtre Croisette / JW Marriott": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Espace Miramar": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Olympia": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Alexandre III": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Le Raimu": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Les Arcades": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Studio 13": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Plage Macé": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}}, "Cineum Salle 3": {"Grand Théâtre Lumière": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Debussy": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Buñuel": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Agnès Varda": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Bazin": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum IMAX": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Aurore": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Screen X": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Salle 3": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Théâtre Croisette / JW Marriott": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Espace Miramar": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Olympia": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Alexandre III": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Le Raimu": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Les Arcades": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Studio 13": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Plage Macé": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}}, "Théâtre Croisette / JW Marriott": {"Grand Théâtre Lumière": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Salle Debussy": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Salle Buñuel": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Salle Agnès Varda": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Salle Bazin": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Cineum IMAX": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Cineum Aurore": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Cineum Screen X": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Cineum Salle 3": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Théâtre Croisette / JW Marriott": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Espace Miramar": {"walk": 4, "scoot": 3, "shuttle": 4, "km": 0.32}, "Olympia": {"walk": 9, "scoot": 5, "shuttle": 9, "km": 0.75}, "Alexandre III": {"walk": 12, "scoot": 6, "shuttle": 12, "km": 0.99}, "Le Raimu": {"walk": 62, "scoot": 23, "shuttle": 62, "km": 5.17}, "Les Arcades": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.84}, "Studio 13": {"walk": 16, "scoot": 7, "shuttle": 16, "km": 1.31}, "Plage Macé": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.21}}, "Espace Miramar": {"Grand Théâtre Lumière": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Salle Debussy": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Salle Buñuel": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Salle Agnès Varda": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Salle Bazin": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Cineum IMAX": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Cineum Aurore": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Cineum Screen X": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Cineum Salle 3": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Théâtre Croisette / JW Marriott": {"walk": 4, "scoot": 3, "shuttle": 4, "km": 0.32}, "Espace Miramar": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Olympia": {"walk": 13, "scoot": 6, "shuttle": 13, "km": 1.07}, "Alexandre III": {"walk": 8, "scoot": 5, "shuttle": 8, "km": 0.68}, "Le Raimu": {"walk": 66, "scoot": 24, "shuttle": 66, "km": 5.49}, "Les Arcades": {"walk": 14, "scoot": 7, "shuttle": 14, "km": 1.16}, "Studio 13": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.61}, "Plage Macé": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.48}}, "Olympia": {"Grand Théâtre Lumière": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Salle Debussy": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Salle Buñuel": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Salle Agnès Varda": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Salle Bazin": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Cineum IMAX": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Cineum Aurore": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Cineum Screen X": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Cineum Salle 3": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Théâtre Croisette / JW Marriott": {"walk": 9, "scoot": 5, "shuttle": 9, "km": 0.75}, "Espace Miramar": {"walk": 13, "scoot": 6, "shuttle": 13, "km": 1.07}, "Olympia": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Alexandre III": {"walk": 21, "scoot": 9, "shuttle": 21, "km": 1.75}, "Le Raimu": {"walk": 53, "scoot": 20, "shuttle": 53, "km": 4.41}, "Les Arcades": {"walk": 1, "scoot": 2, "shuttle": 1, "km": 0.1}, "Studio 13": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.62}, "Plage Macé": {"walk": 8, "scoot": 5, "shuttle": 8, "km": 0.66}}, "Alexandre III": {"Grand Théâtre Lumière": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Salle Debussy": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Salle Buñuel": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Salle Agnès Varda": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Salle Bazin": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Cineum IMAX": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Cineum Aurore": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Cineum Screen X": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Cineum Salle 3": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Théâtre Croisette / JW Marriott": {"walk": 12, "scoot": 6, "shuttle": 12, "km": 0.99}, "Espace Miramar": {"walk": 8, "scoot": 5, "shuttle": 8, "km": 0.68}, "Olympia": {"walk": 21, "scoot": 9, "shuttle": 21, "km": 1.75}, "Alexandre III": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Le Raimu": {"walk": 74, "scoot": 27, "shuttle": 74, "km": 6.16}, "Les Arcades": {"walk": 22, "scoot": 9, "shuttle": 22, "km": 1.84}, "Studio 13": {"walk": 27, "scoot": 11, "shuttle": 27, "km": 2.28}, "Plage Macé": {"walk": 14, "scoot": 7, "shuttle": 14, "km": 1.13}}, "Le Raimu": {"Grand Théâtre Lumière": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Salle Debussy": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Salle Buñuel": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Salle Agnès Varda": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Salle Bazin": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Cineum IMAX": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Cineum Aurore": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Cineum Screen X": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Cineum Salle 3": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Théâtre Croisette / JW Marriott": {"walk": 62, "scoot": 23, "shuttle": 62, "km": 5.17}, "Espace Miramar": {"walk": 66, "scoot": 24, "shuttle": 66, "km": 5.49}, "Olympia": {"walk": 53, "scoot": 20, "shuttle": 53, "km": 4.41}, "Alexandre III": {"walk": 74, "scoot": 27, "shuttle": 74, "km": 6.16}, "Le Raimu": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Les Arcades": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.32}, "Studio 13": {"walk": 47, "scoot": 18, "shuttle": 47, "km": 3.94}, "Plage Macé": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.05}}, "Les Arcades": {"Grand Théâtre Lumière": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Salle Debussy": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Salle Buñuel": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Salle Agnès Varda": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Salle Bazin": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Cineum IMAX": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Cineum Aurore": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Cineum Screen X": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Cineum Salle 3": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Théâtre Croisette / JW Marriott": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.84}, "Espace Miramar": {"walk": 14, "scoot": 7, "shuttle": 14, "km": 1.16}, "Olympia": {"walk": 1, "scoot": 2, "shuttle": 1, "km": 0.1}, "Alexandre III": {"walk": 22, "scoot": 9, "shuttle": 22, "km": 1.84}, "Le Raimu": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.32}, "Les Arcades": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Studio 13": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Plage Macé": {"walk": 9, "scoot": 5, "shuttle": 9, "km": 0.73}}, "Studio 13": {"Grand Théâtre Lumière": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Salle Debussy": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Salle Buñuel": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Salle Agnès Varda": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Salle Bazin": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Cineum IMAX": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Cineum Aurore": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Cineum Screen X": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Cineum Salle 3": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Théâtre Croisette / JW Marriott": {"walk": 16, "scoot": 7, "shuttle": 16, "km": 1.31}, "Espace Miramar": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.61}, "Olympia": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.62}, "Alexandre III": {"walk": 27, "scoot": 11, "shuttle": 27, "km": 2.28}, "Le Raimu": {"walk": 47, "scoot": 18, "shuttle": 47, "km": 3.94}, "Les Arcades": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Studio 13": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Plage Macé": {"walk": 15, "scoot": 7, "shuttle": 15, "km": 1.26}}, "Plage Macé": {"Grand Théâtre Lumière": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}, "Salle Debussy": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}, "Salle Buñuel": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}, "Salle Agnès Varda": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}, "Salle Bazin": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}, "Cineum IMAX": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}, "Cineum Aurore": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}, "Cineum Screen X": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}, "Cineum Salle 3": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}, "Théâtre Croisette / JW Marriott": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.21}, "Espace Miramar": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.48}, "Olympia": {"walk": 8, "scoot": 5, "shuttle": 8, "km": 0.66}, "Alexandre III": {"walk": 14, "scoot": 7, "shuttle": 14, "km": 1.13}, "Le Raimu": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.05}, "Les Arcades": {"walk": 9, "scoot": 5, "shuttle": 9, "km": 0.73}, "Studio 13": {"walk": 15, "scoot": 7, "shuttle": 15, "km": 1.26}, "Plage Macé": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}}};
 const catColors = {"Compétition": "#c0392b", "Un Certain Regard": "#8e44ad", "Cannes Première": "#16a085", "Special Screening": "#d35400", "Midnight Screening": "#2c3e50", "Cannes Classics": "#b8860b", "Rendez-vous": "#2980b9", "Directors' Fortnight": "#27ae60", "Critics' Week": "#e91e63", "ACID": "#e67e22", "La CINEF": "#9b59b6", "Short Films": "#34495e", "Ceremony": "#c0392b", "Cinéma de la Plage": "#1abc9c"};
 
+const DOUBAN_FILM_MAP = {
+  "9 temples to heaven": {
+    foreignTitle: "9 Temples to Heaven",
+    chineseTitle: "九庙上天堂",
+    director: "Sompot Chidgasornpongse",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/34954059/"
+  },
+  "a secret heart": {
+    foreignTitle: "A Secret Heart",
+    chineseTitle: "秘密的心",
+    director: "Tom Fontenille",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37895250/"
+  },
+  "atonement": {
+    foreignTitle: "Atonement",
+    chineseTitle: "求恕者",
+    director: "Reed Van Dyk",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37344062/"
+  },
+  "blaise": {
+    foreignTitle: "Blaise",
+    chineseTitle: "布莱兹",
+    director: "Dimitri Planchon & Jean-Paul Guigue",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/38211618/"
+  },
+  "butterfly jam": {
+    foreignTitle: "Butterfly Jam",
+    chineseTitle: "蝴蝶果酱",
+    director: "Kantemir Balagov",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/35942275/"
+  },
+  "coward": {
+    foreignTitle: "Coward",
+    chineseTitle: "懦夫",
+    director: "Lukas Dhont",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37148241/"
+  },
+  "death has no master": {
+    foreignTitle: "Death Has No Master",
+    chineseTitle: "死神无主",
+    director: "Jorge Thielen Armand",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/36919908/"
+  },
+  "diamond": {
+    foreignTitle: "Diamond",
+    chineseTitle: "钻石",
+    director: "Andy Garcia",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37666654/"
+  },
+  "elephants in the fog": {
+    foreignTitle: "Elephants in the Fog",
+    chineseTitle: "雾中的大象",
+    director: "Abinash Bikram Shah",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/36473054/"
+  },
+  "everytime": {
+    foreignTitle: "Everytime",
+    chineseTitle: "逝者萦念",
+    director: "Sandra Wollner",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/36159749/"
+  },
+  "fjord": {
+    foreignTitle: "Fjord",
+    chineseTitle: "峡湾",
+    director: "Cristian Mungiu",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37168181/"
+  },
+  "garance": {
+    foreignTitle: "Garance",
+    chineseTitle: "嘉朗丝",
+    director: "Jeanne Herry",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37521904/"
+  },
+  "her private hell": {
+    foreignTitle: "Her Private Hell",
+    chineseTitle: "她的私人地狱",
+    director: "Nicolas Winding Refn",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/36788515/"
+  },
+  "hope": {
+    foreignTitle: "Hope",
+    chineseTitle: "希望",
+    director: "Na Hong-jin",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/36179101/"
+  },
+  "i see buildings fall like lightning": {
+    foreignTitle: "I See Buildings Fall Like Lightning",
+    chineseTitle: "忽喇喇似大厦倾",
+    director: "Clio Barnard",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37294802/"
+  },
+  "living twice, dying thrice": {
+    foreignTitle: "Living Twice, Dying Thrice",
+    chineseTitle: "两生三死",
+    director: "Karim Lakzadeh",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/38424335/"
+  },
+  "lucy lost": {
+    foreignTitle: "Lucy Lost",
+    chineseTitle: "迷失的露西",
+    director: "Olivier Clert",
+    year: "2025",
+    doubanUrl: "https://movie.douban.com/subject/36801349/"
+  },
+  "moulin": {
+    foreignTitle: "Moulin",
+    chineseTitle: "穆兰",
+    director: "László Nemes",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37248336/"
+  },
+  "my uncle": {
+    foreignTitle: "My Uncle",
+    chineseTitle: "我的舅舅",
+    director: "Jacques Tati",
+    year: "1958",
+    doubanUrl: "https://movie.douban.com/subject/1400829/"
+  },
+  "our salvation": {
+    foreignTitle: "Our Salvation",
+    chineseTitle: "我们的救赎",
+    director: "Emmanuel Marre",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/36660162/"
+  },
+  "raise ravens": {
+    foreignTitle: "Raise Ravens",
+    chineseTitle: "饲养乌鸦",
+    director: "Carlos Saura",
+    year: "1976",
+    doubanUrl: "https://movie.douban.com/subject/1303813/"
+  },
+  "red rocks": {
+    foreignTitle: "Red Rocks",
+    chineseTitle: "红岩",
+    director: "Bruno Dumont",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/36778280/"
+  },
+  "the black ball": {
+    foreignTitle: "The Black Ball",
+    chineseTitle: "黑球",
+    director: "Javier Calvo & Javier Ambrossi",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37215318/"
+  },
+  "the drift": {
+    foreignTitle: "The Drift",
+    chineseTitle: "漂流",
+    director: "Paula Delsol",
+    year: "1964",
+    doubanUrl: "https://movie.douban.com/subject/5127460/"
+  },
+  "the end of it": {
+    foreignTitle: "The End of It",
+    chineseTitle: "择日而终",
+    director: "Maria Martínez Bayona",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37342648/"
+  },
+  "the man i love": {
+    foreignTitle: "The Man I Love",
+    chineseTitle: "我爱的男人",
+    director: "Ira Sachs",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37494774/"
+  },
+  "the survivors of che": {
+    foreignTitle: "The Survivors of Che",
+    chineseTitle: "切的幸存者",
+    director: "Christophe Dimitri Réveille",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/6873891/"
+  },
+  "titanic ocean": {
+    foreignTitle: "Titanic Ocean",
+    chineseTitle: "人鱼海洋",
+    director: "Konstantina Kotzamani",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/35972827/"
+  },
+  "ulya": {
+    foreignTitle: "Ulya",
+    chineseTitle: "乌莉娅",
+    director: "Viesturs Kairišs",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/35937672/"
+  },
+  "ulysses": {
+    foreignTitle: "Ulysses",
+    chineseTitle: "尤利西斯",
+    director: "Laetitia Masson",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37331389/"
+  },
+  "vertiginous": {
+    foreignTitle: "Vertiginous",
+    chineseTitle: "眩晕",
+    director: "Quentin Dupieux",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/38424785/"
+  },
+  "victorian psycho": {
+    foreignTitle: "Victorian Psycho",
+    chineseTitle: "维多利亚时代的精神病人",
+    director: "Zachary Wigon",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37097039/"
+  },
+  "yesterday the eye didn't sleep": {
+    foreignTitle: "Yesterday the Eye Didn't Sleep",
+    chineseTitle: "昨天，那只眼彻夜未眠",
+    director: "Rakan Mayasi",
+    year: "2026",
+    doubanUrl: "https://movie.douban.com/subject/37441482/"
+  }
+};
+
+const DOUBAN_DIRECTOR_CHINESE_MAP = {
+  "9 temples to heaven": "索波特·智德瓜索泼瑟",
+  "atonement": "里德·范·迪克",
+  "bitter christmas": "佩德罗·阿莫多瓦",
+  "blaise": "Dimitri Planchon / 让-保罗·吉格",
+  "butterfly jam": "康捷米尔·巴拉戈夫",
+  "coward": "卢卡斯·德霍特",
+  "death has no master": "豪尔赫·迭伦·阿尔曼德",
+  "diamond": "安迪·加西亚",
+  "elephants in the fog": "阿比纳什·维克拉姆·沙阿",
+  "everytime": "桑德拉·沃纳尔",
+  "fjord": "克里斯蒂安·蒙吉",
+  "garance": "让娜·埃里",
+  "her private hell": "尼古拉斯·温丁·雷弗恩",
+  "hope": "罗泓轸",
+  "i see buildings fall like lightning": "克里欧·巴纳德",
+  "living twice, dying thrice": "卡里姆·拉克扎德",
+  "minotaur": "安德烈·兹维亚金采夫",
+  "moulin": "拉斯洛·奈迈施",
+  "my uncle": "雅克·塔蒂",
+  "our salvation": "伊曼努尔·马雷",
+  "raise ravens": "卡洛斯·绍拉",
+  "red rocks": "布鲁诺·杜蒙",
+  "the black ball": "哈维尔·安布罗希 / 哈维尔·卡尔沃",
+  "the man i love": "艾拉·萨克斯",
+  "titanic ocean": "康斯坦蒂娜·科扎马尼",
+  "ulya": "维斯特·凯里斯",
+  "ulysses": "拉埃蒂恰·玛松",
+  "ulysses — ucr closing": "拉埃蒂恰·玛松",
+  "ulysses ucr closing": "拉埃蒂恰·玛松",
+  "vertiginous": "昆汀·杜皮约",
+  "victorian psycho": "扎克瑞·维贡",
+  "yesterday the eye didn't sleep": "拉坎·马亚西"
+};
+
+const OFFICIAL_TICKETING_SNAPSHOT_CHECKED = "2026-05-10";
+const OFFICIAL_SCREENING_MAP = {
+  "46": {
+    "day": "21",
+    "start": "08:30",
+    "title": "THE MAN I LOVE",
+    "director": "IRA SACHS",
+    "venue": "Grand Théâtre Lumière",
+    "durationMinutes": 95,
+    "dur": "1h35",
+    "end": "10:05",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "47": {
+    "day": "21",
+    "start": "08:30",
+    "title": "YESTERDAY THE EYE DIDN'T SLEEP",
+    "director": "RAKAN MAYASI",
+    "venue": "Debussy Theatre",
+    "durationMinutes": 100,
+    "dur": "1h40",
+    "end": "10:10",
+    "section": "Un Certain Regard",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "48": {
+    "day": "21",
+    "start": "08:45",
+    "title": "LE VERTIGE (VERTIGINOUS)",
+    "director": "QUENTIN DUPIEUX",
+    "venue": "Théâtre Croisette",
+    "durationMinutes": 77,
+    "dur": "1h17",
+    "end": "10:02",
+    "section": "Directors' Fortnight",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "49": {
+    "day": "21",
+    "start": "08:45",
+    "title": "MINOTAUR",
+    "director": "ANDREÏ ZVIAGUINTSEV",
+    "venue": "Cineum Aurore",
+    "durationMinutes": 140,
+    "dur": "2h20",
+    "end": "11:05",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "50": {
+    "day": "21",
+    "start": "08:45",
+    "title": "THE MAN I LOVE",
+    "director": "IRA SACHS",
+    "venue": "Cineum Imax",
+    "durationMinutes": 95,
+    "dur": "1h35",
+    "end": "10:20",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "52": {
+    "day": "21",
+    "start": "09:15",
+    "title": "BEN'IMANA",
+    "director": "MARIE-CLÉMENTINE DUSABEJAMBO",
+    "venue": "Cineum Screen X",
+    "durationMinutes": 101,
+    "dur": "1h41",
+    "end": "10:56",
+    "section": "Un Certain Regard",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "54": {
+    "day": "21",
+    "start": "11:00",
+    "title": "LIVING TWICE, DYING THRICE",
+    "director": "KARIM LAKZADEH",
+    "venue": "Studio 13",
+    "durationMinutes": 103,
+    "dur": "1h43",
+    "end": "12:43",
+    "section": "Acid",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "59": {
+    "day": "21",
+    "start": "11:00",
+    "title": "UĻA (ULYA)",
+    "director": "VIESTURS KAIRIŠS",
+    "venue": "Debussy Theatre",
+    "durationMinutes": 102,
+    "dur": "1h42",
+    "end": "12:42",
+    "section": "Un Certain Regard",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "64": {
+    "day": "21",
+    "start": "12:00",
+    "title": "I SEE BUILDINGS FALL LIKE LIGHTNING",
+    "director": "CLIO BARNARD",
+    "venue": "Olympia 8",
+    "durationMinutes": 109,
+    "dur": "1h49",
+    "end": "13:49",
+    "section": "Directors' Fortnight",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "67": {
+    "day": "21",
+    "start": "14:00",
+    "title": "VICTORIAN PSYCHO",
+    "director": "ZACHARY WIGON",
+    "venue": "Debussy Theatre",
+    "durationMinutes": 90,
+    "dur": "1h30",
+    "end": "15:30",
+    "section": "Un Certain Regard",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "68": {
+    "day": "21",
+    "start": "14:15",
+    "title": "DIAMOND",
+    "director": "ANDY GARCIA",
+    "venue": "Cineum Aurore",
+    "durationMinutes": 118,
+    "dur": "1h58",
+    "end": "16:13",
+    "section": "Out of Competition",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "70": {
+    "day": "21",
+    "start": "14:15",
+    "title": "YESTERDAY THE EYE DIDN'T SLEEP",
+    "director": "RAKAN MAYASI",
+    "venue": "Cineum Salle 3",
+    "durationMinutes": 100,
+    "dur": "1h40",
+    "end": "15:55",
+    "section": "Un Certain Regard",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "72": {
+    "day": "21",
+    "start": "14:30",
+    "title": "TITANIC OCEAN",
+    "director": "KONSTANTINA KOTZAMANI",
+    "venue": "Bazin Theatre",
+    "durationMinutes": 130,
+    "dur": "2h10",
+    "end": "16:40",
+    "section": "Un Certain Regard",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "75": {
+    "day": "21",
+    "start": "15:00",
+    "title": "THE MAN I LOVE",
+    "director": "IRA SACHS",
+    "venue": "Grand Théâtre Lumière",
+    "durationMinutes": 95,
+    "dur": "1h35",
+    "end": "16:35",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "76": {
+    "day": "21",
+    "start": "16:00",
+    "title": "TITANIC OCEAN",
+    "director": "KONSTANTINA KOTZAMANI",
+    "venue": "Cineum Screen X",
+    "durationMinutes": 130,
+    "dur": "2h10",
+    "end": "18:10",
+    "section": "Un Certain Regard",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "79": {
+    "day": "21",
+    "start": "16:45",
+    "title": "FJORD",
+    "director": "CRISTIAN MUNGIU",
+    "venue": "Cineum Aurore",
+    "durationMinutes": 146,
+    "dur": "2h26",
+    "end": "19:11",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "85": {
+    "day": "21",
+    "start": "19:00",
+    "title": "LIVING TWICE, DYING THRICE",
+    "director": "KARIM LAKZADEH",
+    "venue": "Raimu",
+    "durationMinutes": 103,
+    "dur": "1h43",
+    "end": "20:43",
+    "section": "Acid",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "86": {
+    "day": "21",
+    "start": "19:30",
+    "title": "THE END OF IT",
+    "director": "MARIA MARTÍNEZ BAYONA",
+    "venue": "Debussy Theatre",
+    "durationMinutes": 102,
+    "dur": "1h42",
+    "end": "21:12",
+    "section": "Cannes Premiere",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "87": {
+    "day": "21",
+    "start": "20:00",
+    "title": "LIVING TWICE, DYING THRICE",
+    "director": "KARIM LAKZADEH",
+    "venue": "Olympia 2",
+    "durationMinutes": 103,
+    "dur": "1h43",
+    "end": "21:43",
+    "section": "Acid",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "92": {
+    "day": "21",
+    "start": "21:45",
+    "title": "LE VERTIGE (VERTIGINOUS)",
+    "director": "QUENTIN DUPIEUX",
+    "venue": "Théâtre Croisette",
+    "durationMinutes": 67,
+    "dur": "1h07",
+    "end": "22:52",
+    "section": "Directors' Fortnight",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "93": {
+    "day": "21",
+    "start": "22:00",
+    "title": "COWARD",
+    "director": "LUKAS DHONT",
+    "venue": "Grand Théâtre Lumière",
+    "durationMinutes": 120,
+    "dur": "2h00",
+    "end": "00:00",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 17.05 AT 8:00 AM"
+  },
+  "95": {
+    "day": "22",
+    "start": "08:30",
+    "title": "COWARD",
+    "director": "LUKAS DHONT",
+    "venue": "Agnès Varda Theatre",
+    "durationMinutes": 120,
+    "dur": "2h00",
+    "end": "10:30",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "97": {
+    "day": "22",
+    "start": "08:30",
+    "title": "VICTORIAN PSYCHO",
+    "director": "ZACHARY WIGON",
+    "venue": "Debussy Theatre",
+    "durationMinutes": 90,
+    "dur": "1h30",
+    "end": "10:00",
+    "section": "Un Certain Regard",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "98": {
+    "day": "22",
+    "start": "08:45",
+    "title": "COWARD",
+    "director": "LUKAS DHONT",
+    "venue": "Cineum Imax",
+    "durationMinutes": 120,
+    "dur": "2h00",
+    "end": "10:45",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "100": {
+    "day": "22",
+    "start": "08:45",
+    "title": "THE MAN I LOVE",
+    "director": "IRA SACHS",
+    "venue": "Cineum Aurore",
+    "durationMinutes": 95,
+    "dur": "1h35",
+    "end": "10:20",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "102": {
+    "day": "22",
+    "start": "09:15",
+    "title": "UĻA (ULYA)",
+    "director": "VIESTURS KAIRIŠS",
+    "venue": "Cineum Salle 3",
+    "durationMinutes": 102,
+    "dur": "1h42",
+    "end": "10:57",
+    "section": "Un Certain Regard",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "103": {
+    "day": "22",
+    "start": "10:30",
+    "title": "LA DÉRIVE (THE DRIFT)",
+    "director": "PAULA DELSOL",
+    "venue": "Buñuel Theatre",
+    "durationMinutes": 83,
+    "dur": "1h23",
+    "end": "11:53",
+    "section": "Cannes Classics - Restored prints",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "109": {
+    "day": "22",
+    "start": "11:30",
+    "title": "VICTORIAN PSYCHO",
+    "director": "ZACHARY WIGON",
+    "venue": "Cineum Salle 3",
+    "durationMinutes": 90,
+    "dur": "1h30",
+    "end": "13:00",
+    "section": "Un Certain Regard",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "111": {
+    "day": "22",
+    "start": "11:45",
+    "title": "YESTERDAY THE EYE DIDN'T SLEEP",
+    "director": "RAKAN MAYASI",
+    "venue": "Cineum Screen X",
+    "durationMinutes": 100,
+    "dur": "1h40",
+    "end": "13:25",
+    "section": "Un Certain Regard",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "112": {
+    "day": "22",
+    "start": "12:00",
+    "title": "COWARD",
+    "director": "LUKAS DHONT",
+    "venue": "Grand Théâtre Lumière",
+    "durationMinutes": 120,
+    "dur": "2h00",
+    "end": "14:00",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "113": {
+    "day": "22",
+    "start": "12:00",
+    "title": "LES ROCHES ROUGES (RED ROCKS)",
+    "director": "BRUNO DUMONT",
+    "venue": "Olympia 8",
+    "durationMinutes": 90,
+    "dur": "1h30",
+    "end": "13:30",
+    "section": "Directors' Fortnight",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "114": {
+    "day": "22",
+    "start": "13:15",
+    "title": "WE ARE ALIENS",
+    "director": "KOHEI KADOWAKI",
+    "venue": "Théâtre Croisette",
+    "durationMinutes": 117,
+    "dur": "1h57",
+    "end": "15:12",
+    "section": "Directors' Fortnight",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "115": {
+    "day": "22",
+    "start": "13:45",
+    "title": "MINOTAUR",
+    "director": "ANDREÏ ZVIAGUINTSEV",
+    "venue": "Cineum Salle 3",
+    "durationMinutes": 140,
+    "dur": "2h20",
+    "end": "16:05",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "118": {
+    "day": "22",
+    "start": "14:00",
+    "title": "TITANIC OCEAN",
+    "director": "KONSTANTINA KOTZAMANI",
+    "venue": "Cineum Screen X",
+    "durationMinutes": 130,
+    "dur": "2h10",
+    "end": "16:10",
+    "section": "Un Certain Regard",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "120": {
+    "day": "22",
+    "start": "14:30",
+    "title": "THE END OF IT",
+    "director": "MARIA MARTÍNEZ BAYONA",
+    "venue": "Agnès Varda Theatre",
+    "durationMinutes": 102,
+    "dur": "1h42",
+    "end": "16:12",
+    "section": "Cannes Premiere",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "122": {
+    "day": "22",
+    "start": "15:15",
+    "title": "THE END OF IT",
+    "director": "MARIA MARTÍNEZ BAYONA",
+    "venue": "Cineum Imax",
+    "durationMinutes": 102,
+    "dur": "1h42",
+    "end": "16:57",
+    "section": "Cannes Premiere",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "125": {
+    "day": "22",
+    "start": "16:30",
+    "title": "VESNA",
+    "director": "ROSTISLAV KIRPICENKO",
+    "venue": "Cineum Screen X",
+    "durationMinutes": 93,
+    "dur": "1h33",
+    "end": "18:03",
+    "section": "Special Screenings",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "127": {
+    "day": "22",
+    "start": "16:45",
+    "title": "UĻA (ULYA)",
+    "director": "VIESTURS KAIRIŠS",
+    "venue": "Agnès Varda Theatre",
+    "durationMinutes": 102,
+    "dur": "1h42",
+    "end": "18:27",
+    "section": "Un Certain Regard",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "128": {
+    "day": "22",
+    "start": "18:45",
+    "title": "LES ROCHES ROUGES (RED ROCKS)",
+    "director": "BRUNO DUMONT",
+    "venue": "Théâtre Croisette",
+    "durationMinutes": 90,
+    "dur": "1h30",
+    "end": "20:15",
+    "section": "Directors' Fortnight",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "133": {
+    "day": "22",
+    "start": "20:30",
+    "title": "9 TEMPLES TO HEAVEN",
+    "director": "SOMPOT CHIDGASORPONGSE",
+    "venue": "Olympia 8",
+    "durationMinutes": 140,
+    "dur": "2h20",
+    "end": "22:50",
+    "section": "Directors' Fortnight",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "134": {
+    "day": "22",
+    "start": "21:00",
+    "title": "BUTTERFLY JAM",
+    "director": "KANTEMIR BALAGOV",
+    "venue": "Théâtre Croisette",
+    "durationMinutes": 100,
+    "dur": "1h40",
+    "end": "22:40",
+    "section": "Directors' Fortnight",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "135": {
+    "day": "22",
+    "start": "21:30",
+    "title": "JE HAIS LES ACTEURS (I HATE ACTORS)",
+    "director": "GÉRARD KRAWCZYK",
+    "venue": "Plage Macé",
+    "durationMinutes": 90,
+    "dur": "1h30",
+    "end": "23:00",
+    "section": "Cinéma de la Plage - Restored prints",
+    "screeningType": "Entrée libre"
+  },
+  "136": {
+    "day": "22",
+    "start": "22:00",
+    "title": "L’OBJET DU DÉLIT (CRESCENDO )",
+    "director": "AGNÈS JAOUI",
+    "venue": "Grand Théâtre Lumière",
+    "durationMinutes": 133,
+    "dur": "2h13",
+    "end": "00:13",
+    "section": "Out of Competition",
+    "bookingStatus": "opening reservation 18.05 AT 8:00 AM"
+  },
+  "137": {
+    "day": "23",
+    "start": "08:45",
+    "title": "COWARD",
+    "director": "LUKAS DHONT",
+    "venue": "Cineum Aurore",
+    "durationMinutes": 120,
+    "dur": "2h00",
+    "end": "10:45",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 19.05 AT 8:00 AM"
+  },
+  "139": {
+    "day": "23",
+    "start": "09:15",
+    "title": "THE MAN I LOVE",
+    "director": "IRA SACHS",
+    "venue": "Cineum Salle 3",
+    "durationMinutes": 95,
+    "dur": "1h35",
+    "end": "10:50",
+    "section": "In Competition - Feature Films",
+    "bookingStatus": "opening reservation 19.05 AT 8:00 AM"
+  },
+  "140": {
+    "day": "23",
+    "start": "09:15",
+    "title": "UĻA (ULYA)",
+    "director": "VIESTURS KAIRIŠS",
+    "venue": "Cineum Screen X",
+    "durationMinutes": 102,
+    "dur": "1h42",
+    "end": "10:57",
+    "section": "Un Certain Regard",
+    "bookingStatus": "opening reservation 19.05 AT 8:00 AM"
+  },
+  "142": {
+    "day": "23",
+    "start": "11:30",
+    "title": "VICTORIAN PSYCHO",
+    "director": "ZACHARY WIGON",
+    "venue": "Cineum Screen X",
+    "durationMinutes": 90,
+    "dur": "1h30",
+    "end": "13:00",
+    "section": "Un Certain Regard",
+    "bookingStatus": "opening reservation 19.05 AT 8:00 AM"
+  },
+  "145": {
+    "day": "23",
+    "start": "13:45",
+    "title": "THE END OF IT",
+    "director": "MARIA MARTÍNEZ BAYONA",
+    "venue": "Cineum Screen X",
+    "durationMinutes": 102,
+    "dur": "1h42",
+    "end": "15:27",
+    "section": "Cannes Premiere",
+    "screeningType": "1st film",
+    "bookingStatus": "opening reservation 19.05 AT 8:00 AM"
+  }
+};
+
+const OFFICIAL_REVIEW_NOTES = {
+  "ambiguous": [
+
+  ],
+  "unmatchedPlannerExamples": [
+    {
+      "eventId": 51,
+      "planner": "21 09:00 Invitation: Next Step Studio Indonesia (Shorts)（邀请展映：印度尼西亚 Next Step Studio 短片） @ Espace Miramar"
+    },
+    {
+      "eventId": 53,
+      "planner": "21 09:15 Elastic Rome（弹性罗马） @ Cineum Salle 3"
+    },
+    {
+      "eventId": 55,
+      "planner": "21 11:00 La CINEF Selection — Programme 4（电影基石单元精选——第四组） @ Salle Buñuel"
+    },
+    {
+      "eventId": 56,
+      "planner": "21 11:00 Our Salvation（我们的救赎） @ Grand Théâtre Lumière"
+    },
+    {
+      "eventId": 57,
+      "planner": "21 11:00 Our Salvation（我们的救赎） @ Cineum IMAX"
+    },
+    {
+      "eventId": 58,
+      "planner": "21 11:00 Sony Discovery Prize & Ami Paris Grand Prix（索尼发现奖与 Ami Paris 大奖） @ Espace Miramar"
+    },
+    {
+      "eventId": 60,
+      "planner": "21 11:30 Iron Boy（铁男孩） @ Cineum Salle 3"
+    },
+    {
+      "eventId": 61,
+      "planner": "21 11:30 Shorts Programme 1 — Fortnight（导演双周短片节目一） @ Théâtre Croisette / JW Marriott"
+    },
+    {
+      "eventId": 62,
+      "planner": "21 11:45 Bitter Christmas（苦涩的圣诞） @ Cineum Aurore"
+    },
+    {
+      "eventId": 63,
+      "planner": "21 11:45 Elephants in the Fog（雾中的大象） @ Cineum Screen X"
+    },
+    {
+      "eventId": 65,
+      "planner": "21 13:45 The Survivors of Che（切的幸存者） @ Cineum Screen X"
+    },
+    {
+      "eventId": 66,
+      "planner": "21 14:00 Marriage with a Taste of Orange（橙味婚礼） @ Salle Agnès Varda"
+    },
+    {
+      "eventId": 69,
+      "planner": "21 14:15 The Battle of de Gaulle: The Iron Age（戴高乐之战：铁器时代） @ Cineum IMAX"
+    },
+    {
+      "eventId": 71,
+      "planner": "21 14:30 Rendez-vous with Tilda Swinton（与蒂尔达·斯文顿相约） @ Salle Buñuel"
+    },
+    {
+      "eventId": 73,
+      "planner": "21 15:00 Invitation: Morelia International Film Festival（邀请展映：莫雷利亚国际电影节） @ Espace Miramar"
+    },
+    {
+      "eventId": 74,
+      "planner": "21 15:00 Shorts Programme 2 — Fortnight（导演双周短片节目二） @ Théâtre Croisette / JW Marriott"
+    },
+    {
+      "eventId": 77,
+      "planner": "21 16:30 In the Ogre's Mouth（在食人魔口中） @ Alexandre III"
+    },
+    {
+      "eventId": 78,
+      "planner": "21 16:30 The Unknown Woman（无名女子） @ Cineum Salle 3"
+    },
+    {
+      "eventId": 80,
+      "planner": "21 17:15 Marriage with a Taste of Orange（橙味婚礼） @ Cineum IMAX"
+    },
+    {
+      "eventId": 81,
+      "planner": "21 17:15 Talents Adami | Shorts（Adami 新锐短片） @ Espace Miramar"
+    }
+  ],
+  "unmatchedOfficialCount": 134
+};
+
+// May 20 is hidden because the user does not hold tickets for that day; keep raw events intact for later re-enabling.
+const VISIBLE_DAYS = new Set(["21", "22", "23"]);
+const visibleEvents = events.filter(isVisibleEvent);
+
 // Уникальные категории и локации
-const allCategories = [...new Set(events.map(e => e.category))];
-const allLocations = [...new Set(events.map(e => e.location))].sort();
+const allCategories = [...new Set(visibleEvents.map(e => e.category))];
+const allLocations = [...new Set(visibleEvents.map(getDisplayVenue))].sort();
 
 const state = {
   selectedIds: new Set(),       // Set<id> — мульти-выбор
@@ -503,6 +1864,265 @@ const selectionBar = document.getElementById("selectionBar");
 const selectionList = document.getElementById("selectionList");
 const catFilters = document.getElementById("catFilters");
 const locFilters = document.getElementById("locFilters");
+const dayBookingNotice = document.getElementById("dayBookingNotice");
+const duplicateWarning = document.getElementById("duplicateWarning");
+
+const DAY_LABELS = { "21": "Thu 21", "22": "Fri 22", "23": "Sat 23" };
+
+function isVisibleEvent(event) {
+  return event && VISIBLE_DAYS.has(event.day);
+}
+
+function getVisibleSelectedEvents() {
+  return [...state.selectedIds]
+    .map(id => events.find(e => e.id === id))
+    .filter(isVisibleEvent);
+}
+
+function getDayLabel(day) {
+  return DAY_LABELS[String(day)] || `May ${day}`;
+}
+
+function normalizeTitle(title) {
+  return String(title || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/（[^）]*）|\([^)]*\)/g, "")
+    .replace(/[’‘]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+function getFilmKey(event) {
+  const parts = getTitleParts(event);
+  return normalizeTitle(parts.foreignTitle || event?.title || "");
+}
+
+function getVisibleScreeningsForFilm(event) {
+  const filmKey = getFilmKey(event);
+  return visibleEvents
+    .filter(candidate => getFilmKey(candidate) === filmKey)
+    .sort((a, b) => {
+      if (a.day !== b.day) return parseInt(a.day, 10) - parseInt(b.day, 10);
+      return (a.abs_s || 0) - (b.abs_s || 0);
+    });
+}
+
+function getOtherScreenings(event) {
+  return getVisibleScreeningsForFilm(event).filter(candidate => candidate.id !== event.id);
+}
+
+function getDoubanMapping(event) {
+  const normalized = normalizeTitle(event.title);
+  if (DOUBAN_FILM_MAP[normalized]) return DOUBAN_FILM_MAP[normalized];
+
+  return Object.values(DOUBAN_FILM_MAP).find(item => {
+    return [item.foreignTitle, item.chineseTitle]
+      .filter(Boolean)
+      .some(title => normalizeTitle(title) === normalized);
+  }) || null;
+}
+
+function getOfficialInfo(event) {
+  return event ? OFFICIAL_SCREENING_MAP[String(event.id)] || null : null;
+}
+
+function getDisplayTitle(event) {
+  const parts = getTitleParts(event);
+  if (parts.chineseTitle) return `${parts.foreignTitle}（${parts.chineseTitle}）`;
+  return parts.foreignTitle;
+}
+
+function getTitleParts(event) {
+  const official = getOfficialInfo(event);
+  const mapped = getDoubanMapping(event);
+  const rawTitle = event?.title || "";
+  const parsedChinese = rawTitle.match(/（([^）]+)）/)?.[1] || "";
+  const parsedForeign = rawTitle
+    .replace(/（[^）]*）|\([^)]*\)/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+  const foreignTitle = mapped?.foreignTitle || parsedForeign || official?.title || rawTitle;
+  const chineseTitle = mapped?.chineseTitle || parsedChinese;
+  return { foreignTitle, chineseTitle };
+}
+
+function getDirectorParts(event) {
+  const mapped = getDoubanMapping(event);
+  const normalizedTitle = normalizeTitle(event?.title);
+  const mappedChineseDirector = mapped?.directorChinese ||
+    mapped?.chineseDirector ||
+    DOUBAN_DIRECTOR_CHINESE_MAP[normalizedTitle] ||
+    DOUBAN_DIRECTOR_CHINESE_MAP[normalizeTitle(mapped?.foreignTitle)];
+  if (mapped) {
+    return {
+      englishDirector: event?.director || "",
+      chineseDirector: mappedChineseDirector || ""
+    };
+  }
+  return {
+    englishDirector: event?.director || "",
+    chineseDirector: mappedChineseDirector || ""
+  };
+}
+
+function getDisplayDirector(event) {
+  const { englishDirector, chineseDirector } = getDirectorParts(event);
+  return [englishDirector, chineseDirector].filter(Boolean).join(" ");
+}
+
+function getDisplayVenue(event) {
+  const official = getOfficialInfo(event);
+  return official?.venue || event.location;
+}
+
+function getDisplayDuration(event) {
+  const official = getOfficialInfo(event);
+  return official?.dur || event.dur;
+}
+
+function getDisplaySection(event) {
+  const official = getOfficialInfo(event);
+  return official?.section || event.category;
+}
+
+function getSectionDisplayName(event) {
+  const section = getDisplaySection(event);
+  const normalized = normalizeCompetitionText(section);
+  if (normalized === "competition" || normalized.includes("in competition")) return "Competition";
+  return section;
+}
+
+function getDisplayScreeningType(event) {
+  const official = getOfficialInfo(event);
+  return official?.screeningType || event.screening_type;
+}
+
+function getBookingStatus(event) {
+  const official = getOfficialInfo(event);
+  return official?.bookingStatus || "";
+}
+
+function formatBookingStatus(status) {
+  const normalized = String(status || "")
+    .replace(/\bAT\b/g, "at")
+    .replace(/\s+/g, " ")
+    .trim();
+  const opening = normalized.match(/^opening reservation\s+(.+)$/i);
+  if (opening) return `Opening reservation: ${opening[1]}`;
+  return normalized;
+}
+
+function getDayBookingSummary(day) {
+  const statuses = visibleEvents
+    .filter(event => event.day === day)
+    .map(getBookingStatus)
+    .filter(Boolean)
+    .map(formatBookingStatus);
+  return [...new Set(statuses)];
+}
+
+function renderDayBookingNotice(day) {
+  if (day === "all") {
+    dayBookingNotice.innerHTML = "";
+    return;
+  }
+
+  const days = [day];
+  const rows = days
+    .map(visibleDay => {
+      const statuses = getDayBookingSummary(visibleDay);
+      if (!statuses.length) return "";
+      const statusText = statuses.length === 1
+        ? escapeHtml(statuses[0])
+        : statuses.map(status => `• ${escapeHtml(status)}`).join("<br>");
+      return `<div><strong>${escapeHtml(getDayLabel(visibleDay))}:</strong> ${statusText}</div>`;
+    })
+    .filter(Boolean);
+
+  if (!rows.length) {
+    dayBookingNotice.innerHTML = "";
+    return;
+  }
+
+  dayBookingNotice.innerHTML = `
+    <div class="day-booking-notice">
+      <div class="day-booking-title">${rows.join("")}</div>
+      <div class="day-booking-meta">Based on saved official ticketing snapshot. Always check your official Cannes ticketing account before booking.</div>
+    </div>
+  `;
+}
+
+function renderOtherScreenings(event) {
+  const screenings = getOtherScreenings(event);
+  if (!screenings.length) return "";
+
+  const shown = screenings.slice(0, 4);
+  const remaining = screenings.length - shown.length;
+  const chips = shown.map(screening => {
+    const selected = state.selectedIds.has(screening.id);
+    const text = `${getDayLabel(screening.day)} ${screening.start}${selected ? " selected" : ""}`;
+    return `<span class="other-screening-chip${selected ? " selected" : ""}">${escapeHtml(text)}</span>`;
+  }).join("");
+  const more = remaining > 0 ? `<span class="other-screening-more">+${remaining} more</span>` : "";
+
+  return `
+    <div class="other-screenings">
+      <span class="other-screenings-label">Also screening:</span>
+      <div class="other-screening-chips">${chips}${more}</div>
+    </div>
+  `;
+}
+
+function getSelectedFilmDuplicateGroups(selectedEvents) {
+  const groups = new Map();
+  for (const event of selectedEvents) {
+    const key = getFilmKey(event);
+    if (!groups.has(key)) {
+      groups.set(key, { key, title: getTitleParts(event).foreignTitle || getDisplayTitle(event), count: 0, events: [] });
+    }
+    const group = groups.get(key);
+    group.count += 1;
+    group.events.push(event);
+  }
+  return [...groups.values()].filter(group => group.count > 1);
+}
+
+function normalizeCompetitionText(text) {
+  return String(text || "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+function isCompetitionFilm(event) {
+  const rawCategory = normalizeCompetitionText(event?.category);
+  const officialSection = normalizeCompetitionText(getDisplaySection(event));
+  return rawCategory === "competition" ||
+    officialSection === "competition" ||
+    officialSection.includes("in competition");
+}
+
+function getDoubanUrl(event) {
+  const mapped = getDoubanMapping(event);
+  if (mapped && mapped.doubanUrl) return mapped.doubanUrl;
+
+  const searchTitle = getDisplayTitle(event);
+  const director = event.director && event.director !== "—" ? event.director : "";
+  const query = [searchTitle, director].filter(Boolean).join(" ");
+  return `https://search.douban.com/movie/subject_search?search_text=${encodeURIComponent(query)}`;
+}
+
+function hasExactDoubanUrl(event) {
+  const mapped = getDoubanMapping(event);
+  return Boolean(mapped?.doubanUrl);
+}
+
+function getDoubanLabel(event) {
+  return hasExactDoubanUrl(event) ? "豆瓣 ↗" : "豆瓣搜索 ↗";
+}
 
 // Рендеринг кнопок-фильтров категорий
 function buildCategoryFilters() {
@@ -518,9 +2138,9 @@ function updateCatSummary() {
   const total = allCategories.length;
   const active = state.activeCats.size;
   const el = document.getElementById("catSummary");
-  if (active === total) el.textContent = `all ${total} active`;
-  else if (active === 0) el.textContent = `none active`;
-  else el.textContent = `${active} of ${total} active`;
+  if (active === total) el.textContent = "Sections: All";
+  else if (active === 0) el.textContent = "Sections: None";
+  else el.textContent = `Sections: ${active} selected`;
 }
 
 // Рендеринг чекбоксов локаций
@@ -536,9 +2156,9 @@ function updateLocSummary() {
   const total = allLocations.length;
   const active = state.activeLocs.size;
   const el = document.getElementById("locSummary");
-  if (active === total) el.textContent = `all ${total} active`;
-  else if (active === 0) el.textContent = `none active`;
-  else el.textContent = `${active} of ${total} active`;
+  if (active === total) el.textContent = "Venues: All";
+  else if (active === 0) el.textContent = "Venues: None";
+  else el.textContent = `Venues: ${active} selected`;
 }
 
 // Свёртывание / развёртывание секций фильтров
@@ -572,9 +2192,8 @@ function eventsConflict(a, b) {
 // Находит ВСЕ выбранные события, с которыми у film конфликт
 function conflictingSelected(film) {
   const conflicts = [];
-  for (const id of state.selectedIds) {
-    const sel = events.find(e => e.id === id);
-    if (sel && eventsConflict(film, sel)) conflicts.push(sel);
+  for (const sel of getVisibleSelectedEvents()) {
+    if (eventsConflict(film, sel)) conflicts.push(sel);
   }
   return conflicts;
 }
@@ -591,8 +2210,7 @@ function classify(film) {
   // Не конфликтует ни с чем — проверим, насколько комфортно успеть.
   // Возьмём ближайший выбранный сеанс по времени и проверим запас.
   let minMargin = Infinity;
-  for (const id of state.selectedIds) {
-    const sel = events.find(e => e.id === id);
+  for (const sel of getVisibleSelectedEvents()) {
     if (!sel || sel.abs_s === null) continue;
     const t = travel[sel.location] && travel[sel.location][film.location]
       ? travel[sel.location][film.location][state.transport]
@@ -612,14 +2230,13 @@ function classify(film) {
 
 // Текст с временем дороги — теперь относительно ближайшего выбранного
 function travelInfoFor(film) {
-  if (state.selectedIds.size === 0) return "";
+  if (getVisibleSelectedEvents().length === 0) return "";
   if (state.selectedIds.has(film.id)) return "";
 
   // Найдём самый "близкий" по времени выбранный сеанс
   let nearest = null;
   let nearestGap = Infinity;
-  for (const id of state.selectedIds) {
-    const sel = events.find(e => e.id === id);
+  for (const sel of getVisibleSelectedEvents()) {
     if (!sel || sel.abs_s === null || film.abs_s === null) continue;
     let gap;
     if (film.abs_s >= sel.abs_e) gap = film.abs_s - sel.abs_e;
@@ -633,24 +2250,24 @@ function travelInfoFor(film) {
   if (!nearest) return "";
 
   const t = travel[nearest.location] && travel[nearest.location][film.location]
-    ? travel[nearest.location][film.location][state.transport]
+    ? travel[nearest.location][film.location]
     : null;
-  if (!t) return "";
+  if (!t || typeof t[state.transport] !== "number") return "";
   const mins = t[state.transport];
   const icons = { walk: "🚶", scoot: "🛴", shuttle: "🚌" };
   const icon = icons[state.transport];
 
   let main;
   if (nearest.location === film.location) {
-    main = `📍 same venue as ${escapeHtml(nearest.title)}`;
+    main = `📍 same venue as ${escapeHtml(getDisplayTitle(nearest))}`;
   } else if (nearestGap < 0) {
-    main = `${icon} overlaps with ${escapeHtml(nearest.title)}`;
+    main = `${icon} overlaps with ${escapeHtml(getDisplayTitle(nearest))}`;
   } else {
     const margin = nearestGap - mins;
     if (margin >= 0) {
-      main = `${icon} ${mins} min from ${escapeHtml(nearest.title)} · ${margin} min spare`;
+      main = `${icon} ${mins} min from ${escapeHtml(getDisplayTitle(nearest))} · ${margin} min spare`;
     } else {
-      main = `${icon} ${mins} min from ${escapeHtml(nearest.title)} · short by ${-margin} min`;
+      main = `${icon} ${mins} min from ${escapeHtml(getDisplayTitle(nearest))} · short by ${-margin} min`;
     }
   }
 
@@ -673,24 +2290,37 @@ function statusBadge(cls) {
 }
 
 function renderSelectionBar() {
-  if (state.selectedIds.size === 0) {
+  const visibleSelectedEvents = getVisibleSelectedEvents();
+  if (visibleSelectedEvents.length === 0) {
     selectionBar.style.display = "none";
     selectionList.innerHTML = "";
+    duplicateWarning.style.display = "none";
+    duplicateWarning.innerHTML = "";
     return;
   }
-  const selectedEvents = [...state.selectedIds]
-    .map(id => events.find(e => e.id === id))
-    .filter(Boolean)
+  const selectedEvents = visibleSelectedEvents
     .sort((a, b) => {
       if (a.day !== b.day) return parseInt(a.day) - parseInt(b.day);
       return (a.abs_s || 0) - (b.abs_s || 0);
     });
+  const duplicateGroups = getSelectedFilmDuplicateGroups(selectedEvents);
+  const duplicateGroupMap = new Map(duplicateGroups.map(group => [group.key, group]));
   selectionBar.style.display = "block";
+  if (duplicateGroups.length) {
+    const message = duplicateGroups.length === 1
+      ? `You selected the same film more than once: ${escapeHtml(duplicateGroups[0].title)} ×${duplicateGroups[0].count}`
+      : `Duplicate selections: ${duplicateGroups.map(group => `${escapeHtml(group.title)} ×${group.count}`).join("; ")}`;
+    duplicateWarning.innerHTML = message;
+    duplicateWarning.style.display = "block";
+  } else {
+    duplicateWarning.style.display = "none";
+    duplicateWarning.innerHTML = "";
+  }
   selectionList.innerHTML = selectedEvents.map(e => `
-    <div class="selection-item">
+    <div class="selection-item${duplicateGroupMap.has(getFilmKey(e)) ? " duplicate" : ""}">
       <div class="info">
-        <b>${escapeHtml(e.title)}</b>
-        <div class="meta">May ${e.day} · ${e.start} · ${e.dur} · ${escapeHtml(e.location)}</div>
+        <b>${escapeHtml(getDisplayTitle(e))}${duplicateGroupMap.has(getFilmKey(e)) ? `<span class="duplicate-selection-marker">×${duplicateGroupMap.get(getFilmKey(e)).count}</span>` : ""}</b>
+        <div class="meta">May ${e.day} · ${e.start} · ${getDisplayDuration(e)} · ${escapeHtml(getDisplayVenue(e))}</div>
       </div>
       <button data-remove="${e.id}" title="Remove from plan">×</button>
     </div>
@@ -699,31 +2329,42 @@ function renderSelectionBar() {
 
 function render() {
   const q = state.search.toLowerCase().trim();
+  if (state.day !== "all" && !VISIBLE_DAYS.has(state.day)) state.day = "all";
 
-  const filtered = events.filter(e => {
+  const filtered = visibleEvents.filter(e => {
     if (state.day !== "all" && e.day !== state.day) return false;
     if (!state.activeCats.has(e.category)) return false;
-    if (!state.activeLocs.has(e.location)) return false;
+    if (!state.activeLocs.has(getDisplayVenue(e))) return false;
     if (q) {
-      const hay = `${e.title} ${e.director} ${e.location} ${e.category} ${e.screening_type}`.toLowerCase();
+      const mapped = getDoubanMapping(e);
+      const mappedText = mapped ? `${mapped.foreignTitle || ""} ${mapped.chineseTitle || ""} ${mapped.director || ""} ${mapped.directorChinese || ""} ${mapped.chineseDirector || ""}` : "";
+      const official = getOfficialInfo(e);
+      const officialText = official ? `${official.title || ""} ${official.director || ""} ${official.venue || ""} ${official.section || ""} ${official.screeningType || ""} ${official.bookingStatus || ""}` : "";
+      const titleParts = getTitleParts(e);
+      const directorParts = getDirectorParts(e);
+      const partsText = `${titleParts.foreignTitle} ${titleParts.chineseTitle} ${directorParts.englishDirector} ${directorParts.chineseDirector}`;
+      const competitionText = isCompetitionFilm(e) ? "competition in competition compétition" : "";
+      const hay = `${e.title} ${getDisplayTitle(e)} ${partsText} ${mappedText} ${officialText} ${competitionText} ${e.director} ${e.location} ${e.category} ${e.screening_type}`.toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
   });
 
   // Статистика
-  if (state.selectedIds.size > 0) {
-    const lockedCnt = events.filter(e => classify(e) === "locked").length;
-    stats.innerHTML = `<strong>${state.selectedIds.size}</strong> in your plan · <strong>${lockedCnt}</strong> screenings locked due to conflicts · Showing ${filtered.length} screenings below`;
+  const visibleSelectedCount = getVisibleSelectedEvents().length;
+  if (visibleSelectedCount > 0) {
+    const lockedCnt = visibleEvents.filter(e => classify(e) === "locked").length;
+    stats.innerHTML = `<strong>${visibleSelectedCount}</strong> in your plan · <strong>${lockedCnt}</strong> screenings locked due to conflicts · Showing ${filtered.length} screenings below`;
     legend.style.display = "flex";
     clearBtn.disabled = false;
   } else {
-    stats.innerHTML = `Showing ${filtered.length} of ${events.length} screenings. Click a film to add it to your plan.`;
+    stats.innerHTML = `Showing ${filtered.length} of ${visibleEvents.length} screenings. Click a film to add it to your plan.`;
     legend.style.display = "none";
     clearBtn.disabled = true;
   }
 
   renderSelectionBar();
+  renderDayBookingNotice(state.day);
 
   if (filtered.length === 0) {
     grid.innerHTML = '<div class="empty">No screenings match your filters.</div>';
@@ -732,31 +2373,44 @@ function render() {
 
   grid.innerHTML = filtered.map(e => {
     const cls = classify(e);
-    const cardClass = cls === "selected" ? "selected" :
-                      cls === "ok" ? "ok" :
-                      cls === "tight" ? "tight" :
-                      cls === "locked" ? "locked" : "";
+    const stateClass = cls === "selected" ? "selected" :
+                       cls === "ok" ? "ok" :
+                       cls === "tight" ? "tight" :
+                       cls === "locked" ? "locked" : "";
+    const competitionClass = isCompetitionFilm(e) ? "is-competition" : "";
+    const cardClass = [stateClass, competitionClass].filter(Boolean).join(" ");
     const tt = travelInfoFor(e);
-    const badge = state.selectedIds.size > 0 ? statusBadge(cls) : "";
+    const badge = visibleSelectedCount > 0 ? statusBadge(cls) : "";
     const catColor = catColors[e.category] || "#999";
     const galaIcon = e.gala ? '<span class="gala-icon" title="Black tie required">🎩</span>' : "";
-    const titleAttr = cls === "locked" ? `title="Conflicts with: ${conflictingSelected(e).map(c => c.title).join(', ').replace(/"/g, '&quot;')}"` : '';
-    const typeTag = e.screening_type && e.screening_type !== "Premiere"
-      ? `<span class="tag type">${escapeHtml(e.screening_type)}</span>`
-      : "";
+    const titleParts = getTitleParts(e);
+    const directorParts = getDirectorParts(e);
+    const displayDirector = getDisplayDirector(e);
+    const displayVenue = getDisplayVenue(e);
+    const displaySection = getSectionDisplayName(e);
+    const doubanUrl = getDoubanUrl(e);
+    const doubanLabel = getDoubanLabel(e);
+    const otherScreeningsMarkup = renderOtherScreenings(e);
+    const titleAttr = cls === "locked" ? `title="Conflicts with: ${conflictingSelected(e).map(c => getDisplayTitle(c)).join(', ').replace(/"/g, '&quot;')}"` : '';
     return `
       <div class="film ${cardClass}" data-id="${e.id}" style="--cat-color:${catColor}" ${titleAttr}>
         ${badge}
-        <div class="film-title">${escapeHtml(e.title)}${galaIcon}</div>
-        <div class="film-meta">
-          <span class="tag time">May ${e.day} · ${e.start} · ${e.dur}</span>
+        <div class="film-title-block">
+          <div class="film-title-en">${escapeHtml(titleParts.foreignTitle)}${galaIcon}</div>
+          <div class="film-title-zh-row">
+            ${titleParts.chineseTitle ? `<span class="film-title-zh">${escapeHtml(titleParts.chineseTitle)}</span>` : ""}
+            <span class="douban-link">
+              <a href="${escapeAttr(doubanUrl)}" target="_blank" rel="noopener noreferrer" title="Open Douban">${escapeHtml(doubanLabel)}</a>
+            </span>
+          </div>
         </div>
-        <div class="film-meta" style="margin-top:4px">
-          <span class="tag loc">${escapeHtml(e.location)}</span>
-          <span class="tag cat" style="background:${catColor}">${escapeHtml(e.category)}</span>
-          ${typeTag}
+        <div class="film-primary-meta">
+          <span class="meta-chip time-chip">${escapeHtml(e.start)}</span>
+          <span class="meta-chip venue-chip">${escapeHtml(displayVenue)}</span>
+          <span class="meta-chip section-chip">${escapeHtml(displaySection)}</span>
         </div>
-        ${e.director && e.director !== "—" ? `<div class="film-meta" style="margin-top:4px;color:#888">${escapeHtml(e.director)}</div>` : ""}
+        ${displayDirector && displayDirector !== "—" ? `<div class="film-director-line"><span class="director-label">Director</span><span class="director-name">${escapeHtml(directorParts.englishDirector)}${directorParts.chineseDirector ? ` ${escapeHtml(directorParts.chineseDirector)}` : ""}</span></div>` : ""}
+        ${otherScreeningsMarkup}
         ${tt ? `<div class="travel-info">${tt}</div>` : ""}
       </div>
     `;
@@ -769,11 +2423,14 @@ function escapeHtml(s) {
   }[c]));
 }
 function escapeAttr(s) {
-  return String(s).replace(/"/g, '&quot;');
+  return String(s).replace(/[&"]/g, c => ({
+    "&":"&amp;",'"':"&quot;"
+  }[c]));
 }
 
 // Клик по карточке — добавить/убрать в план (если не locked)
 grid.addEventListener("click", (ev) => {
+  if (ev.target.closest("a")) return;
   const card = ev.target.closest(".film");
   if (!card) return;
   if (card.classList.contains("locked")) return; // блокировка
