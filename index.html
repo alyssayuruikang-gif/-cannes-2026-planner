@@ -20,10 +20,24 @@
   --panel: rgba(255, 252, 244, 0.82);
   --panel-solid: #fbf7ec;
   --shadow-soft: 0 10px 28px rgba(29, 24, 16, 0.08);
+  --focus-ring: 0 0 0 3px rgba(165,138,70,0.45);
+  /* Two-font system: serif for prose / display, sans for UI controls */
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 * { box-sizing: border-box; }
+:focus { outline: none; }
+:focus-visible {
+  outline: 2px solid var(--cannes-gold);
+  outline-offset: 2px;
+  box-shadow: var(--focus-ring);
+  border-radius: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
+}
 body {
-  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--serif);
   margin: 0;
   background:
     linear-gradient(180deg, rgba(255,255,255,0.35), rgba(232,222,203,0.65)),
@@ -47,7 +61,7 @@ header {
 .poster-kicker {
   margin: 0 0 10px;
   color: var(--cannes-gold);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -66,7 +80,7 @@ header h1 {
   margin: 16px 0 0;
   max-width: 720px;
   color: rgba(246,241,230,0.92);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 14px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -86,34 +100,44 @@ header h1 {
 }
 .controls label {
   color: var(--muted);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.09em;
   text-transform: uppercase;
 }
-.controls input[type="text"] {
+.controls input[type="text"],
+.controls input[type="search"] {
   flex: 1;
   min-width: 200px;
-  padding: 10px 12px;
+  padding: 11px 14px;
   border: 1px solid var(--line);
   border-radius: 2px;
-  font-size: 14px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 15px;
+  font-family: var(--sans);
   background: rgba(255,250,240,0.78);
   color: var(--ink);
+  -webkit-appearance: none;
+  appearance: none;
 }
-.controls input[type="text"]:focus {
+.controls input[type="text"]:focus,
+.controls input[type="search"]:focus {
   outline: 2px solid rgba(165,138,70,0.35);
   border-color: var(--cannes-gold);
 }
+.controls label {
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
 .controls select {
-  padding: 8px 10px;
+  padding: 9px 12px;
   border: 1px solid var(--line);
   border-radius: 2px;
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 12px;
+  font-family: var(--sans);
+  font-size: 13px;
   background: var(--panel-solid);
   cursor: pointer;
 }
@@ -132,7 +156,7 @@ header h1 {
   border-radius: 999px;
   cursor: pointer;
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -145,7 +169,7 @@ header h1 {
   border-color: var(--ink);
 }
 
-/* Категория-кнопки фильтра */
+/* Section / venue filter pill triggers */
 .filter-section {
   position: relative;
   background: transparent;
@@ -155,7 +179,7 @@ header h1 {
   box-shadow: none;
   overflow: visible;
 }
-.filter-section h3 {
+.filter-section .filter-trigger {
   margin: 0;
   min-height: 34px;
   padding: 9px 14px;
@@ -163,7 +187,7 @@ header h1 {
   border-radius: 999px;
   background: transparent;
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
@@ -175,34 +199,48 @@ header h1 {
   user-select: none;
   transition: background 0.15s;
   gap: 8px;
+  width: 100%;
+  text-align: left;
 }
-.filter-section h3:hover { background: rgba(165,138,70,0.08); }
-.filter-section h3 .head-meta {
+.filter-section .filter-trigger:hover { background: rgba(165,138,70,0.08); }
+.filter-section .filter-trigger .head-meta {
   display: flex;
   align-items: center;
   gap: 10px;
   text-transform: none;
   letter-spacing: 0;
 }
-.filter-section h3 .summary {
+.filter-section .filter-trigger .summary {
   font-size: 11px;
   font-weight: 400;
   color: var(--muted);
 }
-.filter-section h3 .reset-link {
+.filter-section .filter-trigger .reset-link {
   font-size: 11px;
   font-weight: 700;
   color: var(--cannes-olive);
   cursor: pointer;
+  background: transparent;
+  border: 0;
+  padding: 2px 4px;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  font-family: inherit;
 }
-.filter-section h3 .reset-link:hover { color: var(--ink); text-decoration: underline; }
-.filter-section h3 .chevron {
+.filter-section .filter-trigger .reset-link:hover { color: var(--ink); text-decoration: underline; }
+.filter-section .filter-trigger .reset-link.clear-link {
+  color: #a04734;
+}
+.filter-section .filter-trigger .reset-link.clear-link:hover {
+  color: #5f1f17;
+}
+.filter-section .filter-trigger .chevron {
   font-size: 10px;
   color: var(--muted);
   transition: transform 0.2s;
   display: inline-block;
 }
-.filter-section.collapsed h3 .chevron { transform: rotate(-90deg); }
+.filter-section.collapsed .filter-trigger .chevron { transform: rotate(-90deg); }
 .filter-body {
   position: absolute;
   top: calc(100% + 6px);
@@ -218,32 +256,6 @@ header h1 {
   box-shadow: var(--shadow-soft);
 }
 .filter-section.collapsed .filter-body { display: none; }
-.filter-actions {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-.filter-actions button {
-  padding: 5px 10px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgba(255,250,240,0.7);
-  color: var(--ink);
-  cursor: pointer;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-.filter-actions button:hover {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--paper);
-}
-.compact-filter-trigger {}
-.compact-filter-panel {}
-.filter-popover {}
 .cat-filters { display: flex; flex-wrap: wrap; gap: 6px; }
 .cat-filters button {
   padding: 6px 11px;
@@ -252,7 +264,7 @@ header h1 {
   color: var(--ink);
   border-radius: 999px;
   cursor: pointer;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -275,7 +287,7 @@ header h1 {
   align-items: center;
   gap: 5px;
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 12px;
   cursor: pointer;
   user-select: none;
@@ -288,7 +300,7 @@ header h1 {
 
 .stats {
   color: var(--muted);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 13px;
   margin-bottom: 12px;
 }
@@ -303,11 +315,12 @@ header h1 {
 .selection-bar h3 {
   margin: 0 0 8px 0;
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
+  line-height: 1.4;
 }
 .selection-list { display: flex; flex-direction: column; gap: 6px; }
 .selection-item {
@@ -336,7 +349,7 @@ header h1 {
   border-radius: 2px;
   background: rgba(251,247,236,0.9);
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 11px;
   line-height: 1.45;
 }
@@ -365,6 +378,349 @@ header h1 {
 }
 .selection-item button:hover { color: #5f1f17; }
 .film-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 12px; }
+/* All Days view: one card per unique film, wider so poster + info fit comfortably */
+.film-grid.all-days-grid { grid-template-columns: repeat(auto-fill, minmax(460px, 1fr)); gap: 14px; }
+.film-card {
+  background: #fbf7ec;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 14px;
+  padding: 14px;
+}
+.film-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--cannes-gold);
+}
+.film-card.is-competition {
+  border-color: rgba(169,155,97,0.72);
+  background:
+    linear-gradient(90deg, rgba(169,155,97,0.09), rgba(251,247,236,0.98) 24%),
+    #fbf7ec;
+}
+.film-card.is-competition::before { width: 4px; }
+.film-card.is-competition::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(45deg, transparent 50%, rgba(169,155,97,0.28) 50%);
+  pointer-events: none;
+}
+.film-card-poster {
+  width: 110px;
+  aspect-ratio: 2 / 3;
+  background: rgba(165,138,70,0.08);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  overflow: hidden;
+}
+.film-card-poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.film-card-body { min-width: 0; }
+.film-card-title {
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.film-card-title .gala-icon {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 13px;
+  opacity: 0.85;
+}
+.film-card-title-zh {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+}
+.film-card-meta {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  font-family: var(--sans);
+  font-size: 11px;
+}
+.film-card-meta .meta-chip {
+  padding: 3px 9px;
+  min-height: 22px;
+}
+.film-card-director {
+  margin-top: 7px;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.film-card-director .director-label {
+  color: var(--cannes-olive);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-right: 6px;
+}
+.film-card-note {
+  margin-top: 6px;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.film-card-note.curated {
+  color: var(--ink);
+  font-style: italic;
+}
+.film-card-douban {
+  margin-top: 7px;
+}
+.film-card-douban a {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+.film-card-douban a:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+.film-card-screenings {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+  border-top: 1px dashed var(--line);
+  padding-top: 10px;
+}
+.film-card-screenings-summary {
+  list-style: none;
+  cursor: pointer;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.film-card-screenings-summary::-webkit-details-marker { display: none; }
+.film-card-screenings-toggle {
+  color: var(--muted);
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+.film-card-screenings[open] .film-card-screenings-toggle { transform: rotate(180deg); }
+.film-card-screenings-label {
+  display: inline-block;
+  color: var(--cannes-olive);
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+/* Desktop: always show the screenings list regardless of <details> open state.
+   The summary still toggles open/closed under the hood, but content is forced visible. */
+@media (min-width: 601px) {
+  .film-card-screenings > .film-card-screening-list { display: flex !important; }
+  .film-card-screenings-toggle { display: none; }
+  .film-card-screenings-summary { cursor: default; }
+}
+.film-card-screening-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.film-card-screening {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(255,250,240,0.7);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  font-family: var(--sans);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, transform 0.12s;
+}
+.film-card-screening:hover {
+  background: rgba(165,138,70,0.14);
+  border-color: var(--cannes-gold);
+  transform: translateX(2px);
+}
+.film-card-screening .scrn-day {
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  min-width: 56px;
+}
+.film-card-screening .scrn-time {
+  font-weight: 800;
+  color: var(--ink);
+  min-width: 44px;
+}
+.film-card-screening .scrn-venue { color: var(--ink); flex: 1; min-width: 0; }
+.film-card-screening .scrn-type {
+  color: var(--muted);
+  font-size: 11px;
+  font-style: italic;
+}
+.film-card-screening.selected {
+  background: rgba(249,240,218,0.96);
+  border-color: var(--cannes-gold);
+}
+.film-card-screening.locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: var(--danger-soft);
+  border-color: #d7c0b8;
+}
+.film-card-screening.locked:hover { transform: none; }
+.film-card-screening.tight {
+  background: var(--tight-soft);
+  border-color: #e0cf9d;
+}
+.film-card-screening .scrn-status {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(251,247,236,0.92);
+}
+.film-card-screening.selected .scrn-status {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.film-card-screening.locked .scrn-status {
+  background: #c9a39a;
+  color: #3d1711;
+  border-color: #c9a39a;
+}
+/* Backlog section: films whose every screening is locked by current plan */
+.all-days-backlog {
+  grid-column: 1 / -1;
+  margin-top: 18px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.all-days-backlog > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  padding: 8px 12px;
+  background: rgba(165,138,70,0.08);
+  border: 1px dashed rgba(169,155,97,0.55);
+  border-radius: 2px;
+  color: var(--muted);
+  font-family: var(--sans);
+  font-size: 12px;
+}
+.all-days-backlog > summary::-webkit-details-marker { display: none; }
+.all-days-backlog-label {
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.all-days-backlog-hint {
+  flex: 1;
+  font-style: italic;
+  font-size: 11px;
+}
+.all-days-backlog-chevron {
+  font-size: 12px;
+  color: var(--muted);
+  transition: transform 0.2s;
+}
+.all-days-backlog[open] > summary .all-days-backlog-chevron { transform: rotate(180deg); }
+.all-days-backlog[open] > summary {
+  background: rgba(165,138,70,0.12);
+}
+.all-days-backlog-grid {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(460px, 1fr));
+  gap: 14px;
+}
+.all-days-backlog-grid .film-card { opacity: 0.72; }
+
+@media (max-width: 600px) {
+  /* Ultra-compact mobile cards */
+  .film-grid.all-days-grid { grid-template-columns: 1fr; gap: 10px; }
+  .all-days-backlog-grid { grid-template-columns: 1fr; gap: 10px; }
+  .film-card {
+    grid-template-columns: 50px 1fr;
+    padding: 10px;
+    gap: 10px;
+  }
+  .film-card-poster { width: 50px; }
+  .film-card-title { font-size: 13px; letter-spacing: 0.04em; }
+  .film-card-title-zh { font-size: 12px; margin-top: 2px; }
+  .film-card-meta { margin-top: 6px; gap: 4px; }
+  .film-card-meta .meta-chip { font-size: 10px; padding: 2px 7px; min-height: 20px; }
+  .film-card-director { font-size: 11px; margin-top: 5px; }
+  .film-card-director .director-label { font-size: 9px; margin-right: 4px; }
+  .film-card-note { font-size: 11px; margin-top: 4px; }
+  .film-card-douban { margin-top: 5px; }
+  .film-card-douban a { font-size: 9px; padding: 2px 6px; }
+  .film-card-screenings { margin-top: 8px; padding-top: 8px; }
+  .film-card-screenings-summary { padding: 4px 0; }
+  /* Mobile: <details> controls visibility natively — screenings collapsed by default */
+  .film-card-screening {
+    font-size: 11px;
+    padding: 5px 8px;
+    gap: 6px;
+  }
+  .film-card-screening .scrn-day { min-width: 44px; font-size: 10px; }
+  .film-card-screening .scrn-time { min-width: 36px; font-size: 11px; }
+  .film-card-screening .scrn-type { font-size: 10px; }
+  .film-card-screening .scrn-status { font-size: 9px; padding: 1px 5px; }
+  .all-days-backlog-hint { display: none; } /* save space on mobile */
+}
 .film {
   background: #fbf7ec;
   border-radius: 2px;
@@ -467,7 +823,7 @@ header h1 {
   border-radius: 999px;
   background: transparent;
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -486,7 +842,7 @@ header h1 {
   gap: 6px;
   margin-top: 7px;
   color: var(--muted);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 12px;
   line-height: 1.4;
 }
@@ -523,7 +879,7 @@ header h1 {
   gap: 7px;
   margin-top: 8px;
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 13px;
   line-height: 1.4;
 }
@@ -544,7 +900,7 @@ header h1 {
   flex-wrap: wrap;
   gap: 6px;
   align-items: center;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 12px;
 }
 .tag {
@@ -590,7 +946,7 @@ header h1 {
   gap: 14px;
   flex-wrap: wrap;
   color: var(--muted);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 12px;
   margin-bottom: 12px;
 }
@@ -606,7 +962,7 @@ header h1 {
 .other-screenings {
   margin-top: 7px;
   color: var(--muted);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 11px;
   line-height: 1.45;
 }
@@ -642,6 +998,24 @@ header h1 {
   border-color: var(--cannes-gold);
   background: rgba(249,240,218,0.96);
 }
+.other-screening-chip[role="button"] {
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, transform 0.12s;
+}
+.other-screening-chip[role="button"]:hover {
+  background: rgba(165,138,70,0.16);
+  border-color: var(--cannes-gold);
+  transform: translateY(-1px);
+}
+.other-screening-chip[role="button"][aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.other-screening-chip[role="button"][aria-disabled="true"]:hover {
+  transform: none;
+  background: rgba(251,247,236,0.92);
+  border-color: var(--line);
+}
 .other-screening-more {
   display: inline-flex;
   align-items: center;
@@ -658,23 +1032,19 @@ header h1 {
   border: 1px solid var(--line);
   border-left: 3px solid var(--cannes-gold);
   border-radius: 2px;
-  padding: 10px 14px;
+  padding: 8px 14px;
   margin-bottom: 14px;
   color: var(--ink);
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.45;
 }
 .day-booking-title {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 12px;
   font-weight: 800;
-  letter-spacing: 0.03em;
-  line-height: 1.6;
+  letter-spacing: 0.02em;
 }
 .day-booking-meta {
-  margin-top: 4px;
-  color: var(--muted);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 11px;
-  line-height: 1.45;
+  display: none; /* meta line hidden in compact view; full text lives in the info-pill above */
 }
 .clear-btn {
   padding: 8px 13px;
@@ -683,7 +1053,7 @@ header h1 {
   border-radius: 999px;
   cursor: pointer;
   color: var(--ink);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -691,49 +1061,41 @@ header h1 {
 }
 .clear-btn:hover { background: rgba(165,138,70,0.12); }
 .clear-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-.gala-info {
+/* Single compact info strip combining black-tie / Competition / official snapshot */
+.info-pill {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 8px 14px;
+  margin-bottom: 12px;
   background: rgba(165,138,70,0.11);
   border-left: 3px solid var(--cannes-gold);
-  padding: 8px 12px;
-  margin-bottom: 12px;
   border-radius: 2px;
-  font-size: 12px;
   color: var(--ink);
-}
-.official-snapshot-compact {
-  margin-bottom: 14px;
-  color: var(--muted);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 11px;
-}
-.official-snapshot-details {
-  display: inline-block;
-  max-width: 100%;
-}
-.official-snapshot-details summary {
-  cursor: pointer;
-  list-style: none;
-  color: var(--muted);
-}
-.official-snapshot-details summary::-webkit-details-marker { display: none; }
-.official-snapshot-details summary:hover { color: var(--ink); }
-.official-snapshot-body {
-  margin-top: 6px;
-  max-width: 720px;
+  font-family: var(--sans);
+  font-size: 12px;
   line-height: 1.45;
 }
-.official-snapshot-link {
+.info-pill .sep {
+  color: var(--muted);
+  user-select: none;
+}
+.info-pill-link {
   color: var(--ink);
   font-weight: 800;
   text-decoration: none;
   border-bottom: 1px solid var(--cannes-gold);
 }
-.official-snapshot-link:hover { color: var(--cannes-olive); }
-.unofficial-note {
-  font-size: 11px;
-  color: var(--muted);
-  margin-top: 6px;
-  font-style: italic;
+.info-pill-link:hover { color: var(--cannes-olive); }
+.info-pill-meta { color: var(--muted); }
+@media (max-width: 600px) {
+  .info-pill {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .info-pill .sep { display: none; }
 }
 .snapshot-note {
   font-size: 11px;
@@ -746,7 +1108,7 @@ footer {
   margin: 18px auto 0;
   padding: 24px 20px 34px;
   color: var(--muted);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--sans);
   font-size: 12px;
   line-height: 1.65;
   border-top: 1px solid var(--line);
@@ -848,7 +1210,7 @@ footer {
 
 <div class="container">
   <div class="controls">
-    <input type="text" id="search" placeholder="🔍 Search by title, director, venue or section…">
+    <input type="search" id="search" aria-label="Search films" title="Press / to focus search" placeholder="🔍 Search by title, director, venue or section…">
     <label>Transport:
       <select id="transport">
         <option value="walk">🚶 Walking</option>
@@ -869,43 +1231,50 @@ footer {
   </div>
 
   <div class="day-filter-row">
-    <div class="day-tabs" id="dayTabs">
-      <button class="active" data-day="21">Thu 21</button>
-      <button data-day="22">Fri 22</button>
-      <button data-day="23">Sat 23</button>
-      <button data-day="all">All days</button>
+    <div class="day-tabs" id="dayTabs" role="tablist" aria-label="Filter by day">
+      <button type="button" role="tab" aria-pressed="false" data-day="21">Thu 21</button>
+      <button type="button" role="tab" aria-pressed="false" data-day="22">Fri 22</button>
+      <button type="button" role="tab" aria-pressed="false" data-day="23">Sat 23</button>
+      <button type="button" role="tab" aria-pressed="true" class="active" data-day="all">All days</button>
     </div>
 
-    <div class="filter-section filter-popover collapsed" id="catSection">
-      <h3 class="compact-filter-trigger" data-toggle="catSection">
+    <div class="filter-section collapsed" id="catSection">
+      <div role="button" tabindex="0" class="filter-trigger" data-toggle="catSection" aria-expanded="false" aria-controls="catFilters">
         <span class="summary" id="catSummary"></span>
         <span class="head-meta">
-          <span class="reset-link" id="resetCats">all</span>
-          <span class="chevron">▼</span>
+          <button type="button" class="reset-link" id="resetCats" aria-label="Select all sections">all</button>
+          <button type="button" class="reset-link clear-link" id="clearCats" aria-label="Clear all sections">clear</button>
+          <span class="chevron" aria-hidden="true">▼</span>
         </span>
-      </h3>
-      <div class="filter-body compact-filter-panel">
-        <div class="filter-actions"><button type="button" id="allCats">All</button><button type="button" id="clearCats">Clear</button></div>
-        <div class="cat-filters" id="catFilters"></div>
+      </div>
+      <div class="filter-body">
+        <div class="cat-filters" id="catFilters" role="group" aria-label="Festival sections"></div>
       </div>
     </div>
 
-    <div class="filter-section filter-popover collapsed" id="locSection">
-      <h3 class="compact-filter-trigger" data-toggle="locSection">
+    <div class="filter-section collapsed" id="locSection">
+      <div role="button" tabindex="0" class="filter-trigger" data-toggle="locSection" aria-expanded="false" aria-controls="locFilters">
         <span class="summary" id="locSummary"></span>
         <span class="head-meta">
-          <span class="reset-link" id="resetLocs">all</span>
-          <span class="chevron">▼</span>
+          <button type="button" class="reset-link" id="resetLocs" aria-label="Select all venues">all</button>
+          <button type="button" class="reset-link clear-link" id="clearLocs" aria-label="Clear all venues">clear</button>
+          <span class="chevron" aria-hidden="true">▼</span>
         </span>
-      </h3>
-      <div class="filter-body compact-filter-panel">
-        <div class="filter-actions"><button type="button" id="allLocs">All</button><button type="button" id="clearLocs">Clear</button></div>
-        <div class="loc-filters" id="locFilters"></div>
+      </div>
+      <div class="filter-body">
+        <div class="loc-filters" id="locFilters" role="group" aria-label="Venues"></div>
       </div>
     </div>
   </div>
-  <div class="gala-info">
-    🎩 <strong>Black tie</strong> · <strong>Different colour = Competition</strong> · Official checked 2026-05-10 · <a class="official-snapshot-link" href="https://www.festival-cannes.com/2026/les-horaires-des-projections-du-79e-festival-de-cannes/" target="_blank" rel="noopener noreferrer">Verify schedule ↗</a>
+
+  <div class="info-pill" role="note" aria-label="Festival info">
+    <span title="Evening Lumière galas and the closing ceremony require black tie">🎩 <strong>Black tie</strong></span>
+    <span class="sep" aria-hidden="true">·</span>
+    <span class="info-pill-meta">Different colour = Competition</span>
+    <span class="sep" aria-hidden="true">·</span>
+    <span class="info-pill-meta">Official checked 2026-05-10</span>
+    <span class="sep" aria-hidden="true">·</span>
+    <a class="info-pill-link" href="https://www.festival-cannes.com/2026/les-horaires-des-projections-du-79e-festival-de-cannes/" target="_blank" rel="noopener noreferrer">Verify schedule ↗</a>
   </div>
 
   <div class="legend" id="legend" style="display:none">
@@ -915,8 +1284,8 @@ footer {
     <span><span class="swatch locked"></span> Locked (conflicts)</span>
   </div>
 
-  <div class="selection-bar" id="selectionBar" style="display:none">
-    <h3>Your plan</h3>
+  <div class="selection-bar" id="selectionBar" style="display:none" aria-live="polite">
+    <h3 id="selectionBarTitle">Your plan</h3>
     <div class="duplicate-warning" id="duplicateWarning" style="display:none"></div>
     <div class="selection-list" id="selectionList"></div>
   </div>
@@ -951,7 +1320,7 @@ footer {
 
   <div class="footer-source">
     Source: 79<sup>e</sup> Festival International du Film de Cannes — official screenings guide.<br>
-    Travel times: walking 5 km/h · scooter 15 km/h + 2 min unlock · festival shuttle (Navette ↔ Cineum) ≈18 min including average wait.<br>
+    Travel times: walking 5 km/h · scooter 15 km/h + 2 min unlock · festival shuttle (Palais ↔ Cineum) ≈18 min including average wait.<br>
     <span class="unofficial">Unofficial planner. Not affiliated with the Festival de Cannes.</span>
   </div>
 </footer>
@@ -960,6 +1329,504 @@ footer {
 const events = [{"id": 0,"day": "20","start": "00:30","title": "Elastic Rome（弹性罗马）","director": "Bertrand Mandico","dur": "1h47","location": "Grand Théâtre Lumière","category": "Midnight Screening","screening_type": "Premiere","gala": false,"abs_s": 30,"abs_e": 137},{"id": 1,"day": "20","start": "08:30","title": "Iron Boy（铁男孩）","director": "Louis Clichy","dur": "1h29","location": "Salle Debussy","category": "Un Certain Regard","screening_type": "Next-Day Screening","gala": false,"abs_s": 510,"abs_e": 599},{"id": 2,"day": "20","start": "08:30","title": "Minotaur（弥诺陶洛斯）","director": "Andreï Zviaguintsev","dur": "2h15","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": false,"abs_s": 510,"abs_e": 645},{"id": 3,"day": "20","start": "08:45","title": "I See Buildings Fall Like Lightning（我看见建筑如闪电般坠落）","director": "Clio Barnard","dur": "1h49","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 525,"abs_e": 634},{"id": 4,"day": "20","start": "08:45","title": "The Unknown Woman（无名女子）","director": "Arthur Harari","dur": "2h19","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 525,"abs_e": 664},{"id": 5,"day": "20","start": "08:45","title": "Minotaur（弥诺陶洛斯）","director": "Andreï Zviaguintsev","dur": "2h15","location": "Cineum IMAX","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 525,"abs_e": 660},{"id": 6,"day": "20","start": "08:45","title": "Six Months in the Pink and Blue Building（粉蓝楼里的六个月）","director": "Bruno Santamaría Razo","dur": "1h45","location": "Espace Miramar","category": "Critics' Week","screening_type": "Premiere","gala": false,"abs_s": 525,"abs_e": 630},{"id": 7,"day": "20","start": "09:15","title": "Ben'Imana（贝尼玛娜）","director": "Marie-Clémentine Dusabejambo","dur": "1h36","location": "Cineum Salle 3","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 555,"abs_e": 651},{"id": 8,"day": "20","start": "09:15","title": "Everytime（每一次）","director": "Sandra Wollner","dur": "2h01","location": "Cineum Screen X","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 555,"abs_e": 676},{"id": 9,"day": "20","start": "11:00","title": "A Secret Heart（秘密的心）","director": "Tom Fontenille","dur": "1h28","location": "Studio 13","category": "ACID","screening_type": "Premiere","gala": false,"abs_s": 660,"abs_e": 748},{"id": 10,"day": "20","start": "11:00","title": "Elephants in the Fog（雾中的大象）","director": "Abinash Bikram Shah","dur": "1h43","location": "Salle Debussy","category": "Un Certain Regard","screening_type": "Premiere","gala": false,"abs_s": 660,"abs_e": 763},{"id": 11,"day": "20","start": "11:30","title": "Farewell, Cruel World（再见，残酷世界）","director": "Félix de Givry","dur": "1h33","location": "Espace Miramar","category": "Critics' Week","screening_type": "Premiere","gala": false,"abs_s": 690,"abs_e": 783},{"id": 12,"day": "20","start": "11:30","title": "The Bitch（母狗）","director": "Dominga Sotomayor","dur": "1h52","location": "Les Arcades","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 690,"abs_e": 802},{"id": 13,"day": "20","start": "11:30","title": "Iron Boy（铁男孩）","director": "Louis Clichy","dur": "1h29","location": "Cineum Salle 3","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 690,"abs_e": 779},{"id": 14,"day": "20","start": "11:45","title": "Bitter Christmas（苦涩的圣诞）","director": "Pedro Almodóvar","dur": "1h52","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": false,"abs_s": 705,"abs_e": 817},{"id": 15,"day": "20","start": "11:45","title": "Bitter Christmas（苦涩的圣诞）","director": "Pedro Almodóvar","dur": "1h52","location": "Cineum IMAX","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 705,"abs_e": 817},{"id": 16,"day": "20","start": "11:45","title": "Fjord（峡湾）","director": "Cristian Mungiu","dur": "2h26","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 705,"abs_e": 851},{"id": 17,"day": "20","start": "11:50","title": "The Sweetest One（最甜的她）","director": "Laïla Marrakchi","dur": "1h41","location": "Cineum Screen X","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 710,"abs_e": 811},{"id": 18,"day": "20","start": "12:00","title": "Death Has No Master（死亡无主）","director": "Jorge Thielen Armand","dur": "1h44","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 720,"abs_e": 824},{"id": 19,"day": "20","start": "14:00","title": "Moulin（磨坊）","director": "László Nemes","dur": "2h10","location": "Cineum Salle 3","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 840,"abs_e": 970},{"id": 20,"day": "20","start": "14:00","title": "Yesterday the Eye Didn't Sleep（昨日，眼睛未眠）","director": "Rakan Mayasi","dur": "1h40","location": "Salle Debussy","category": "Un Certain Regard","screening_type": "Premiere","gala": false,"abs_s": 840,"abs_e": 940},{"id": 21,"day": "20","start": "14:15","title": "Diamond（钻石）","director": "Andy Garcia","dur": "1h58","location": "Cineum IMAX","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 855,"abs_e": 973},{"id": 22,"day": "20","start": "14:15","title": "Lucy Lost（迷失的露西）","director": "Olivier Clert","dur": "1h25","location": "Cineum Screen X","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 855,"abs_e": 940},{"id": 23,"day": "20","start": "14:45","title": "The Golden Triangle（金三角）","director": "Hélène Rosselet-Ruiz","dur": "1h30","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 885,"abs_e": 975},{"id": 24,"day": "20","start": "15:00","title": "Red Rocks（红岩）","director": "Bruno Dumont","dur": "1h31","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 900,"abs_e": 991},{"id": 25,"day": "20","start": "15:00","title": "Our Salvation（我们的救赎）","director": "Emmanuel Marre","dur": "2h35","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": false,"abs_s": 900,"abs_e": 1055},{"id": 26,"day": "20","start": "16:30","title": "Blaise（布莱斯）","director": "Dimitri Planchon & Jean-Paul Guigue","dur": "1h22","location": "Alexandre III","category": "ACID","screening_type": "Premiere","gala": false,"abs_s": 990,"abs_e": 1072},{"id": 27,"day": "20","start": "16:30","title": "Her Private Hell（她的私人地狱）","director": "Nicolas Winding Refn","dur": "1h49","location": "Cineum Screen X","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 990,"abs_e": 1099},{"id": 28,"day": "20","start": "16:30","title": "The Pastoral Symphony（田园交响曲）","director": "Jean Delannoy","dur": "1h37","location": "Salle Buñuel","category": "Cannes Classics","screening_type": "Premiere","gala": false,"abs_s": 990,"abs_e": 1087},{"id": 29,"day": "20","start": "16:30","title": "Titanic Ocean（泰坦尼克之海）","director": "Konstantina Kotzamani","dur": "2h10","location": "Salle Debussy","category": "Un Certain Regard","screening_type": "Premiere","gala": false,"abs_s": 990,"abs_e": 1120},{"id": 30,"day": "20","start": "16:45","title": "Hope（希望）","director": "Na Hong-jin","dur": "2h40","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 1005,"abs_e": 1165},{"id": 31,"day": "20","start": "16:45","title": "Kokurojo / Arioka Castle（黑牢城／有冈城）","director": "Kurosawa Kiyoshi","dur": "2h27","location": "Cineum IMAX","category": "Cannes Première","screening_type": "Selection Rerun","gala": false,"abs_s": 1005,"abs_e": 1152},{"id": 32,"day": "20","start": "17:00","title": "Garance（加朗斯）","director": "Jeanne Herry","dur": "2h00","location": "Cineum Salle 3","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 1020,"abs_e": 1140},{"id": 33,"day": "20","start": "18:30","title": "I See Buildings Fall Like Lightning（我看见建筑如闪电般坠落）","director": "Clio Barnard","dur": "1h49","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 1110,"abs_e": 1219},{"id": 34,"day": "20","start": "18:45","title": "Ben'Imana（贝尼玛娜）","director": "Marie-Clémentine Dusabejambo","dur": "1h36","location": "Salle Bazin","category": "Un Certain Regard","screening_type": "Next-Day Screening","gala": false,"abs_s": 1125,"abs_e": 1221},{"id": 35,"day": "20","start": "18:45","title": "The Battle of de Gaulle: The Iron Age（戴高乐之战：铁器时代）","director": "Antonin Baudry","dur": "2h40","location": "Grand Théâtre Lumière","category": "Special Screening","screening_type": "Premiere","gala": true,"abs_s": 1125,"abs_e": 1285},{"id": 36,"day": "20","start": "19:00","title": "Dernsie: The Amazing Life of Bruce Dern（德恩西：布鲁斯·邓恩的精彩人生）","director": "Mike Mendez","dur": "1h51","location": "Salle Buñuel","category": "Cannes Classics","screening_type": "Premiere","gala": false,"abs_s": 1140,"abs_e": 1251},{"id": 37,"day": "20","start": "19:30","title": "Marriage with a Taste of Orange（橙味婚礼）","director": "Christophe Honoré","dur": "1h55","location": "Salle Debussy","category": "Cannes Première","screening_type": "Premiere","gala": false,"abs_s": 1170,"abs_e": 1285},{"id": 38,"day": "20","start": "19:45","title": "The Survivors of Che（切的幸存者）","director": "Christophe Dimitri Réveille","dur": "1h38","location": "Salle Agnès Varda","category": "Special Screening","screening_type": "Premiere","gala": false,"abs_s": 1185,"abs_e": 1283},{"id": 39,"day": "20","start": "20:00","title": "A Secret Heart（秘密的心）","director": "Tom Fontenille","dur": "1h28","location": "Les Arcades","category": "ACID","screening_type": "Premiere","gala": false,"abs_s": 1200,"abs_e": 1288},{"id": 40,"day": "20","start": "20:45","title": "Farewell, Cruel World（再见，残酷世界）","director": "Félix de Givry","dur": "1h33","location": "Espace Miramar","category": "Critics' Week","screening_type": "Premiere","gala": false,"abs_s": 1245,"abs_e": 1338},{"id": 41,"day": "20","start": "21:00","title": "Kokurojo / Arioka Castle（黑牢城／有冈城）","director": "Kurosawa Kiyoshi","dur": "2h27","location": "Salle Agnès Varda","category": "Cannes Première","screening_type": "Next-Day Screening","gala": false,"abs_s": 1260,"abs_e": 1407},{"id": 42,"day": "20","start": "21:15","title": "Death Has No Master（死亡无主）","director": "Jorge Thielen Armand","dur": "1h44","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 1275,"abs_e": 1379},{"id": 43,"day": "20","start": "21:30","title": "Raise Ravens（饲养乌鸦）","director": "Carlos Saura","dur": "1h45","location": "Plage Macé","category": "Cinéma de la Plage","screening_type": "Premiere","gala": false,"abs_s": 1290,"abs_e": 1395},{"id": 44,"day": "20","start": "22:30","title": "Low Expectations（低期待）","director": "Eivind Landsvik","dur": "1h45","location": "Les Arcades","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 1350,"abs_e": 1455},{"id": 45,"day": "20","start": "22:30","title": "The Man I Love（我爱的男人）","director": "Ira Sachs","dur": "1h35","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": true,"abs_s": 1350,"abs_e": 1445},{"id": 46,"day": "21","start": "08:30","title": "The Man I Love（我爱的男人）","director": "Ira Sachs","dur": "1h35","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": false,"abs_s": 1950,"abs_e": 2045},{"id": 47,"day": "21","start": "08:30","title": "Yesterday the Eye Didn't Sleep（昨日，眼睛未眠）","director": "Rakan Mayasi","dur": "1h40","location": "Salle Debussy","category": "Un Certain Regard","screening_type": "Next-Day Screening","gala": false,"abs_s": 1950,"abs_e": 2050},{"id": 48,"day": "21","start": "08:45","title": "Vertiginous（眩晕）","director": "Quentin Dupieux","dur": "1h07","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 1965,"abs_e": 2032},{"id": 49,"day": "21","start": "08:45","title": "Minotaur（弥诺陶洛斯）","director": "Andreï Zviaguintsev","dur": "2h15","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 1965,"abs_e": 2100},{"id": 50,"day": "21","start": "08:45","title": "The Man I Love（我爱的男人）","director": "Ira Sachs","dur": "1h35","location": "Cineum IMAX","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 1965,"abs_e": 2060},{"id": 51,"day": "21","start": "09:00","title": "Invitation: Next Step Studio Indonesia (Shorts)（邀请展映：印度尼西亚 Next Step Studio 短片）","director": "—","dur": "1h01","location": "Espace Miramar","category": "Critics' Week","screening_type": "Premiere","gala": false,"abs_s": 1980,"abs_e": 2041},{"id": 52,"day": "21","start": "09:15","title": "Ben'Imana（贝尼玛娜）","director": "Marie-Clémentine Dusabejambo","dur": "1h36","location": "Cineum Screen X","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 1995,"abs_e": 2091},{"id": 53,"day": "21","start": "09:15","title": "Elastic Rome（弹性罗马）","director": "Bertrand Mandico","dur": "1h47","location": "Cineum Salle 3","category": "Midnight Screening","screening_type": "Selection Rerun","gala": false,"abs_s": 1995,"abs_e": 2102},{"id": 54,"day": "21","start": "11:00","title": "Living Twice, Dying Thrice（活两次，死三回）","director": "Karim Lakzadeh","dur": "1h43","location": "Studio 13","category": "ACID","screening_type": "Premiere","gala": false,"abs_s": 2100,"abs_e": 2203},{"id": 55,"day": "21","start": "11:00","title": "La CINEF Selection — Programme 4（电影基石单元精选——第四组）","director": "—","dur": "1h15","location": "Salle Buñuel","category": "La CINEF","screening_type": "Premiere","gala": false,"abs_s": 2100,"abs_e": 2175},{"id": 56,"day": "21","start": "11:00","title": "Our Salvation（我们的救赎）","director": "Emmanuel Marre","dur": "2h35","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": false,"abs_s": 2100,"abs_e": 2255},{"id": 57,"day": "21","start": "11:00","title": "Our Salvation（我们的救赎）","director": "Emmanuel Marre","dur": "2h35","location": "Cineum IMAX","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 2100,"abs_e": 2255},{"id": 58,"day": "21","start": "11:00","title": "Sony Discovery Prize & Ami Paris Grand Prix（索尼发现奖与 Ami Paris 大奖）","director": "—","dur": "—","location": "Espace Miramar","category": "Critics' Week","screening_type": "Premiere","gala": false,"abs_s": null,"abs_e": null},{"id": 59,"day": "21","start": "11:00","title": "Ulya（乌莉娅）","director": "Viesturs Kairišs","dur": "1h42","location": "Salle Debussy","category": "Un Certain Regard","screening_type": "Premiere","gala": false,"abs_s": 2100,"abs_e": 2202},{"id": 60,"day": "21","start": "11:30","title": "Iron Boy（铁男孩）","director": "Louis Clichy","dur": "1h29","location": "Cineum Salle 3","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 2130,"abs_e": 2219},{"id": 61,"day": "21","start": "11:30","title": "Shorts Programme 1 — Fortnight（导演双周短片节目一）","director": "—","dur": "1h44","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 2130,"abs_e": 2234},{"id": 62,"day": "21","start": "11:45","title": "Bitter Christmas（苦涩的圣诞）","director": "Pedro Almodóvar","dur": "1h52","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 2145,"abs_e": 2257},{"id": 63,"day": "21","start": "11:45","title": "Elephants in the Fog（雾中的大象）","director": "Abinash Bikram Shah","dur": "1h43","location": "Cineum Screen X","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 2145,"abs_e": 2248},{"id": 64,"day": "21","start": "12:00","title": "I See Buildings Fall Like Lightning（我看见建筑如闪电般坠落）","director": "Clio Barnard","dur": "1h49","location": "Olympia","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 2160,"abs_e": 2269},{"id": 65,"day": "21","start": "13:45","title": "The Survivors of Che（切的幸存者）","director": "Christophe Dimitri Réveille","dur": "1h38","location": "Cineum Screen X","category": "Special Screening","screening_type": "Selection Rerun","gala": false,"abs_s": 2265,"abs_e": 2363},{"id": 66,"day": "21","start": "14:00","title": "Marriage with a Taste of Orange（橙味婚礼）","director": "Christophe Honoré","dur": "1h55","location": "Salle Agnès Varda","category": "Cannes Première","screening_type": "Next-Day Screening","gala": false,"abs_s": 2280,"abs_e": 2395},{"id": 67,"day": "21","start": "14:00","title": "Victorian Psycho（维多利亚时代的精神病人）","director": "Zachary Wigon","dur": "1h30","location": "Salle Debussy","category": "Un Certain Regard","screening_type": "Premiere","gala": false,"abs_s": 2280,"abs_e": 2370},{"id": 68,"day": "21","start": "14:15","title": "Diamond（钻石）","director": "Andy Garcia","dur": "1h58","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 2295,"abs_e": 2413},{"id": 69,"day": "21","start": "14:15","title": "The Battle of de Gaulle: The Iron Age（戴高乐之战：铁器时代）","director": "Antonin Baudry","dur": "2h40","location": "Cineum IMAX","category": "Special Screening","screening_type": "Selection Rerun","gala": false,"abs_s": 2295,"abs_e": 2455},{"id": 70,"day": "21","start": "14:15","title": "Yesterday the Eye Didn't Sleep（昨日，眼睛未眠）","director": "Rakan Mayasi","dur": "1h40","location": "Cineum Salle 3","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 2295,"abs_e": 2395},{"id": 71,"day": "21","start": "14:30","title": "Rendez-vous with Tilda Swinton（与蒂尔达·斯文顿相约）","director": "—","dur": "1h30","location": "Salle Buñuel","category": "Rendez-vous","screening_type": "Premiere","gala": false,"abs_s": 2310,"abs_e": 2400},{"id": 72,"day": "21","start": "14:30","title": "Titanic Ocean（泰坦尼克之海）","director": "Konstantina Kotzamani","dur": "2h10","location": "Salle Bazin","category": "Un Certain Regard","screening_type": "Next-Day Screening","gala": false,"abs_s": 2310,"abs_e": 2440},{"id": 73,"day": "21","start": "15:00","title": "Invitation: Morelia International Film Festival（邀请展映：莫雷利亚国际电影节）","director": "—","dur": "1h12","location": "Espace Miramar","category": "Critics' Week","screening_type": "Premiere","gala": false,"abs_s": 2340,"abs_e": 2412},{"id": 74,"day": "21","start": "15:00","title": "Shorts Programme 2 — Fortnight（导演双周短片节目二）","director": "—","dur": "1h49","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 2340,"abs_e": 2449},{"id": 75,"day": "21","start": "15:00","title": "The Man I Love（我爱的男人）","director": "Ira Sachs","dur": "1h35","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": false,"abs_s": 2340,"abs_e": 2435},{"id": 76,"day": "21","start": "16:00","title": "Titanic Ocean（泰坦尼克之海）","director": "Konstantina Kotzamani","dur": "2h10","location": "Cineum Screen X","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 2400,"abs_e": 2530},{"id": 77,"day": "21","start": "16:30","title": "In the Ogre's Mouth（在食人魔口中）","director": "Mahsa Karampour","dur": "1h26","location": "Alexandre III","category": "ACID","screening_type": "Premiere","gala": false,"abs_s": 2430,"abs_e": 2516},{"id": 78,"day": "21","start": "16:30","title": "The Unknown Woman（无名女子）","director": "Arthur Harari","dur": "2h19","location": "Cineum Salle 3","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 2430,"abs_e": 2569},{"id": 79,"day": "21","start": "16:45","title": "Fjord（峡湾）","director": "Cristian Mungiu","dur": "2h26","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 2445,"abs_e": 2591},{"id": 80,"day": "21","start": "17:15","title": "Marriage with a Taste of Orange（橙味婚礼）","director": "Christophe Honoré","dur": "1h55","location": "Cineum IMAX","category": "Cannes Première","screening_type": "Selection Rerun","gala": false,"abs_s": 2475,"abs_e": 2590},{"id": 81,"day": "21","start": "17:15","title": "Talents Adami | Shorts（Adami 新锐短片）","director": "—","dur": "1h00","location": "Espace Miramar","category": "Critics' Week","screening_type": "Premiere","gala": false,"abs_s": 2475,"abs_e": 2535},{"id": 82,"day": "21","start": "18:00","title": "The Black Ball（黑球）","director": "Javier Calvo & Javier Ambrossi","dur": "2h35","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": true,"abs_s": 2520,"abs_e": 2675},{"id": 83,"day": "21","start": "18:00","title": "La CINEF Awards（电影基石单元获奖名单）","director": "—","dur": "—","location": "Salle Buñuel","category": "La CINEF","screening_type": "Premiere","gala": false,"abs_s": null,"abs_e": null},{"id": 84,"day": "21","start": "19:00","title": "Vertiginous (Closing)（眩晕／闭幕片）","director": "Quentin Dupieux","dur": "1h07","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 2580,"abs_e": 2647},{"id": 85,"day": "21","start": "19:00","title": "Living Twice, Dying Thrice（活两次，死三回）","director": "Karim Lakzadeh","dur": "1h43","location": "Le Raimu","category": "ACID","screening_type": "Premiere","gala": false,"abs_s": 2580,"abs_e": 2683},{"id": 86,"day": "21","start": "19:30","title": "The End of It（它的终结）","director": "Maria Martínez Bayona","dur": "1h42","location": "Salle Debussy","category": "Cannes Première","screening_type": "Premiere","gala": false,"abs_s": 2610,"abs_e": 2712},{"id": 87,"day": "21","start": "20:00","title": "Living Twice, Dying Thrice（活两次，死三回）","director": "Karim Lakzadeh","dur": "1h43","location": "Olympia","category": "ACID","screening_type": "Premiere","gala": false,"abs_s": 2640,"abs_e": 2743},{"id": 88,"day": "21","start": "20:00","title": "Gan Foundation Distribution Award（Gan 基金会发行奖）","director": "—","dur": "—","location": "Espace Miramar","category": "Critics' Week","screening_type": "Premiere","gala": false,"abs_s": null,"abs_e": null},{"id": 89,"day": "21","start": "20:15","title": "Elephants in the Fog（雾中的大象）","director": "Abinash Bikram Shah","dur": "1h43","location": "Salle Bazin","category": "Un Certain Regard","screening_type": "Next-Day Screening","gala": false,"abs_s": 2655,"abs_e": 2758},{"id": 90,"day": "21","start": "20:30","title": "Death Has No Master（死亡无主）","director": "Jorge Thielen Armand","dur": "1h44","location": "Olympia","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 2670,"abs_e": 2774},{"id": 91,"day": "21","start": "21:30","title": "The Birds, the Bees and the Italians（这些先生女士们）","director": "Pietro Germi","dur": "2h00","location": "Plage Macé","category": "Cinéma de la Plage","screening_type": "Premiere","gala": false,"abs_s": 2730,"abs_e": 2850},{"id": 92,"day": "21","start": "21:45","title": "Vertiginous（眩晕）","director": "Quentin Dupieux","dur": "1h07","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 2745,"abs_e": 2812},{"id": 93,"day": "21","start": "22:00","title": "Coward（懦夫）","director": "Lukas Dhont","dur": "2h00","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": true,"abs_s": 2760,"abs_e": 2880},{"id": 94,"day": "21","start": "22:00","title": "Our Salvation（我们的救赎）","director": "Emmanuel Marre","dur": "2h35","location": "Salle Agnès Varda","category": "Compétition","screening_type": "Next-Day Screening","gala": false,"abs_s": 2760,"abs_e": 2915},{"id": 95,"day": "22","start": "08:30","title": "Coward（懦夫）","director": "Lukas Dhont","dur": "2h00","location": "Salle Agnès Varda","category": "Compétition","screening_type": "Next-Day Screening","gala": false,"abs_s": 3390,"abs_e": 3510},{"id": 96,"day": "22","start": "08:30","title": "The Black Ball（黑球）","director": "Javier Calvo & Javier Ambrossi","dur": "2h35","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": false,"abs_s": 3390,"abs_e": 3545},{"id": 97,"day": "22","start": "08:30","title": "Victorian Psycho（维多利亚时代的精神病人）","director": "Zachary Wigon","dur": "1h30","location": "Salle Debussy","category": "Un Certain Regard","screening_type": "Next-Day Screening","gala": false,"abs_s": 3390,"abs_e": 3480},{"id": 98,"day": "22","start": "08:45","title": "Coward（懦夫）","director": "Lukas Dhont","dur": "2h00","location": "Cineum IMAX","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 3405,"abs_e": 3525},{"id": 99,"day": "22","start": "08:45","title": "Thank You for Coming（谢谢你来）","director": "Alain Cavalier","dur": "1h22","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 3405,"abs_e": 3487},{"id": 100,"day": "22","start": "08:45","title": "The Man I Love（我爱的男人）","director": "Ira Sachs","dur": "1h35","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 3405,"abs_e": 3500},{"id": 101,"day": "22","start": "09:15","title": "Elephants in the Fog（雾中的大象）","director": "Abinash Bikram Shah","dur": "1h43","location": "Cineum Screen X","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 3435,"abs_e": 3538},{"id": 102,"day": "22","start": "09:15","title": "Ulya（乌莉娅）","director": "Viesturs Kairišs","dur": "1h42","location": "Cineum Salle 3","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 3435,"abs_e": 3537},{"id": 103,"day": "22","start": "10:30","title": "The Drift（漂流）","director": "Paula Delsol","dur": "1h23","location": "Salle Buñuel","category": "Cannes Classics","screening_type": "Premiere","gala": false,"abs_s": 3510,"abs_e": 3593},{"id": 104,"day": "22","start": "11:00","title": "Bad Star（厄运之星）","director": "Lola Cambourieu & Yann Berlier","dur": "2h05","location": "Studio 13","category": "ACID","screening_type": "Premiere","gala": false,"abs_s": 3540,"abs_e": 3665},{"id": 105,"day": "22","start": "11:00","title": "Our Salvation（我们的救赎）","director": "Emmanuel Marre","dur": "2h35","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 3540,"abs_e": 3695},{"id": 106,"day": "22","start": "11:00","title": "Prix Alpine: Conversation with Alice Winocour（Alpine 奖：与爱丽丝·维诺库尔对谈）","director": "—","dur": "—","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": null,"abs_e": null},{"id": 107,"day": "22","start": "11:00","title": "Shorts in Competition（竞赛短片）","director": "—","dur": "2h28","location": "Salle Debussy","category": "Short Films","screening_type": "Premiere","gala": false,"abs_s": 3540,"abs_e": 3688},{"id": 108,"day": "22","start": "11:15","title": "The Black Ball（黑球）","director": "Javier Calvo & Javier Ambrossi","dur": "2h35","location": "Salle Agnès Varda","category": "Compétition","screening_type": "Next-Day Screening","gala": false,"abs_s": 3555,"abs_e": 3710},{"id": 109,"day": "22","start": "11:30","title": "Victorian Psycho（维多利亚时代的精神病人）","director": "Zachary Wigon","dur": "1h30","location": "Cineum Salle 3","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 3570,"abs_e": 3660},{"id": 110,"day": "22","start": "11:45","title": "The Black Ball（黑球）","director": "Javier Calvo & Javier Ambrossi","dur": "2h35","location": "Cineum IMAX","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 3585,"abs_e": 3740},{"id": 111,"day": "22","start": "11:45","title": "Yesterday the Eye Didn't Sleep（昨日，眼睛未眠）","director": "Rakan Mayasi","dur": "1h40","location": "Cineum Screen X","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 3585,"abs_e": 3685},{"id": 112,"day": "22","start": "12:00","title": "Coward（懦夫）","director": "Lukas Dhont","dur": "2h00","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": false,"abs_s": 3600,"abs_e": 3720},{"id": 113,"day": "22","start": "12:00","title": "Red Rocks（红岩）","director": "Bruno Dumont","dur": "1h31","location": "Olympia","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 3600,"abs_e": 3691},{"id": 114,"day": "22","start": "13:15","title": "We Are Aliens（我们是外星人）","director": "Kohei Kadowaki","dur": "1h57","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 3675,"abs_e": 3792},{"id": 115,"day": "22","start": "13:45","title": "Minotaur（弥诺陶洛斯）","director": "Andreï Zviaguintsev","dur": "2h15","location": "Cineum Salle 3","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 3705,"abs_e": 3840},{"id": 116,"day": "22","start": "14:00","title": "Shorts in Competition（竞赛短片）","director": "—","dur": "2h28","location": "Salle Buñuel","category": "Short Films","screening_type": "Premiere","gala": false,"abs_s": 3720,"abs_e": 3868},{"id": 117,"day": "22","start": "14:00","title": "Shorts in Competition（竞赛短片）","director": "—","dur": "2h28","location": "Salle Buñuel","category": "Short Films","screening_type": "Next-Day Screening","gala": false,"abs_s": 3720,"abs_e": 3868},{"id": 118,"day": "22","start": "14:00","title": "Titanic Ocean（泰坦尼克之海）","director": "Konstantina Kotzamani","dur": "2h10","location": "Cineum Screen X","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 3720,"abs_e": 3850},{"id": 119,"day": "22","start": "14:15","title": "The Battle of de Gaulle: The Iron Age（戴高乐之战：铁器时代）","director": "Antonin Baudry","dur": "2h40","location": "Cineum Aurore","category": "Special Screening","screening_type": "Selection Rerun","gala": false,"abs_s": 3735,"abs_e": 3895},{"id": 120,"day": "22","start": "14:30","title": "The End of It（它的终结）","director": "Maria Martínez Bayona","dur": "1h42","location": "Salle Agnès Varda","category": "Cannes Première","screening_type": "Next-Day Screening","gala": false,"abs_s": 3750,"abs_e": 3852},{"id": 121,"day": "22","start": "15:00","title": "The Dreamed Adventure（梦中的冒险）","director": "Valeska Grisebach","dur": "2h47","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": false,"abs_s": 3780,"abs_e": 3947},{"id": 122,"day": "22","start": "15:15","title": "The End of It（它的终结）","director": "Maria Martínez Bayona","dur": "1h42","location": "Cineum IMAX","category": "Cannes Première","screening_type": "Selection Rerun","gala": false,"abs_s": 3795,"abs_e": 3897},{"id": 123,"day": "22","start": "16:00","title": "Atonement（赎罪）","director": "Reed Van Dyk","dur": "1h58","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 3840,"abs_e": 3958},{"id": 124,"day": "22","start": "16:30","title": "Bitter Christmas（苦涩的圣诞）","director": "Pedro Almodóvar","dur": "1h52","location": "Cineum Salle 3","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 3870,"abs_e": 3982},{"id": 125,"day": "22","start": "16:30","title": "Vesna（维斯娜）","director": "Rostislav Kirpičenko","dur": "1h33","location": "Cineum Screen X","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 3870,"abs_e": 3963},{"id": 126,"day": "22","start": "16:30","title": "Summer Drift（夏日漂移）","director": "Céline Carridroit & Aline Suter","dur": "1h29","location": "Alexandre III","category": "ACID","screening_type": "Premiere","gala": false,"abs_s": 3870,"abs_e": 3959},{"id": 127,"day": "22","start": "16:45","title": "Ulya（乌莉娅）","director": "Viesturs Kairišs","dur": "1h42","location": "Salle Agnès Varda","category": "Un Certain Regard","screening_type": "Next-Day Screening","gala": false,"abs_s": 3885,"abs_e": 3987},{"id": 128,"day": "22","start": "18:45","title": "Red Rocks（红岩）","director": "Bruno Dumont","dur": "1h31","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 4005,"abs_e": 4096},{"id": 129,"day": "22","start": "19:00","title": "Stories of the Night（夜之故事）","director": "Léa Mysius","dur": "1h54","location": "Grand Théâtre Lumière","category": "Compétition","screening_type": "Premiere","gala": true,"abs_s": 4020,"abs_e": 4134},{"id": 130,"day": "22","start": "19:15","title": "Seagulls Die in the Harbour（海鸥死在港口）","director": "Rik Kuypers, Roland Verhavert & Ivo Michiels","dur": "1h27","location": "Salle Agnès Varda","category": "Cannes Classics","screening_type": "Premiere","gala": false,"abs_s": 4035,"abs_e": 4122},{"id": 131,"day": "22","start": "20:00","title": "Pierre Angénieux Tribute to Akiko Ashizawa（皮埃尔·安热尼厄致敬芦泽明子）","director": "—","dur": "1h15","location": "Salle Buñuel","category": "Cannes Classics","screening_type": "Premiere","gala": false,"abs_s": 4080,"abs_e": 4155},{"id": 132,"day": "22","start": "20:15","title": "Ulysses — UCR Closing（尤利西斯——一种关注闭幕片）","director": "Laetitia Masson","dur": "1h37","location": "Salle Debussy","category": "Un Certain Regard","screening_type": "Premiere","gala": false,"abs_s": 4095,"abs_e": 4192},{"id": 133,"day": "22","start": "20:30","title": "9 Temples to Heaven（通往天堂的九座寺庙）","director": "Sompot Chidgasornpongse","dur": "2h20","location": "Olympia","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 4110,"abs_e": 4250},{"id": 134,"day": "22","start": "21:00","title": "Butterfly Jam（蝴蝶果酱）","director": "Kantemir Balagov","dur": "1h42","location": "Théâtre Croisette / JW Marriott","category": "Directors' Fortnight","screening_type": "Premiere","gala": false,"abs_s": 4140,"abs_e": 4242},{"id": 135,"day": "22","start": "21:30","title": "I Hate Actors（我讨厌演员）","director": "Gérard Krawczyk","dur": "1h30","location": "Plage Macé","category": "Cinéma de la Plage","screening_type": "Premiere","gala": false,"abs_s": 4170,"abs_e": 4260},{"id": 136,"day": "22","start": "22:00","title": "Crescendo（渐强）","director": "Agnès Jaoui","dur": "2h13","location": "Grand Théâtre Lumière","category": "Special Screening","screening_type": "Premiere","gala": true,"abs_s": 4200,"abs_e": 4333},{"id": 137,"day": "23","start": "08:45","title": "Coward（懦夫）","director": "Lukas Dhont","dur": "2h00","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 4845,"abs_e": 4965},{"id": 138,"day": "23","start": "08:45","title": "Stories of the Night（夜之故事）","director": "Léa Mysius","dur": "1h54","location": "Cineum IMAX","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 4845,"abs_e": 4959},{"id": 139,"day": "23","start": "09:15","title": "The Man I Love（我爱的男人）","director": "Ira Sachs","dur": "1h35","location": "Cineum Salle 3","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 4875,"abs_e": 4970},{"id": 140,"day": "23","start": "09:15","title": "Ulya（乌莉娅）","director": "Viesturs Kairišs","dur": "1h42","location": "Cineum Screen X","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 4875,"abs_e": 4977},{"id": 141,"day": "23","start": "11:30","title": "The Black Ball（黑球）","director": "Javier Calvo & Javier Ambrossi","dur": "2h35","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 5010,"abs_e": 5165},{"id": 142,"day": "23","start": "11:30","title": "Victorian Psycho（维多利亚时代的精神病人）","director": "Zachary Wigon","dur": "1h30","location": "Cineum Screen X","category": "Un Certain Regard","screening_type": "Selection Rerun","gala": false,"abs_s": 5010,"abs_e": 5100},{"id": 143,"day": "23","start": "11:45","title": "The Dreamed Adventure（梦中的冒险）","director": "Valeska Grisebach","dur": "2h47","location": "Cineum IMAX","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 5025,"abs_e": 5192},{"id": 144,"day": "23","start": "11:45","title": "Our Salvation（我们的救赎）","director": "Emmanuel Marre","dur": "2h35","location": "Cineum Salle 3","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 5025,"abs_e": 5180},{"id": 145,"day": "23","start": "13:45","title": "The End of It（它的终结）","director": "Maria Martínez Bayona","dur": "1h42","location": "Cineum Screen X","category": "Cannes Première","screening_type": "Selection Rerun","gala": false,"abs_s": 5145,"abs_e": 5247},{"id": 146,"day": "23","start": "14:45","title": "Ulysses（尤利西斯）","director": "Laetitia Masson","dur": "1h37","location": "Cineum Aurore","category": "Compétition","screening_type": "Selection Rerun","gala": false,"abs_s": 5205,"abs_e": 5302},{"id": 147,"day": "23","start": "15:00","title": "The Object of the Offence（犯罪物证）","director": "Agnès Jaoui","dur": "2h13","location": "Cineum IMAX","category": "Special Screening","screening_type": "Selection Rerun","gala": false,"abs_s": 5220,"abs_e": 5353},{"id": 148,"day": "23","start": "20:15","title": "Closing Ceremony（闭幕式）","director": "—","dur": "—","location": "Grand Théâtre Lumière","category": "Ceremony","screening_type": "Premiere","gala": true,"abs_s": null,"abs_e": null},{"id": 149,"day": "23","start": "21:30","title": "My Uncle（我的舅舅）","director": "Jacques Tati","dur": "1h56","location": "Plage Macé","category": "Cinéma de la Plage","screening_type": "Premiere","gala": false,"abs_s": 5610,"abs_e": 5726}];
 const travel = {"Grand Théâtre Lumière": {"Grand Théâtre Lumière": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Salle Debussy": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Buñuel": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Agnès Varda": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Bazin": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum IMAX": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Aurore": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Screen X": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Salle 3": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Théâtre Croisette / JW Marriott": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Espace Miramar": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Olympia": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Alexandre III": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Le Raimu": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Les Arcades": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Studio 13": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Plage Macé": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}}, "Salle Debussy": {"Grand Théâtre Lumière": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Debussy": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Salle Buñuel": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Agnès Varda": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Bazin": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum IMAX": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Aurore": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Screen X": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Salle 3": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Théâtre Croisette / JW Marriott": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Espace Miramar": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Olympia": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Alexandre III": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Le Raimu": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Les Arcades": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Studio 13": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Plage Macé": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}}, "Salle Buñuel": {"Grand Théâtre Lumière": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Debussy": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Buñuel": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Salle Agnès Varda": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Bazin": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum IMAX": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Aurore": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Screen X": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Salle 3": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Théâtre Croisette / JW Marriott": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Espace Miramar": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Olympia": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Alexandre III": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Le Raimu": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Les Arcades": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Studio 13": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Plage Macé": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}}, "Salle Agnès Varda": {"Grand Théâtre Lumière": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Debussy": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Buñuel": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Agnès Varda": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Salle Bazin": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum IMAX": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Aurore": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Screen X": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Salle 3": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Théâtre Croisette / JW Marriott": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Espace Miramar": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Olympia": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Alexandre III": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Le Raimu": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Les Arcades": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Studio 13": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Plage Macé": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}}, "Salle Bazin": {"Grand Théâtre Lumière": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Debussy": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Buñuel": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Agnès Varda": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Salle Bazin": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Cineum IMAX": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Aurore": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Screen X": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum Salle 3": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Théâtre Croisette / JW Marriott": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Espace Miramar": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Olympia": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Alexandre III": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Le Raimu": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Les Arcades": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Studio 13": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Plage Macé": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}}, "Cineum IMAX": {"Grand Théâtre Lumière": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Debussy": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Buñuel": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Agnès Varda": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Bazin": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum IMAX": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Cineum Aurore": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Screen X": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Salle 3": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Théâtre Croisette / JW Marriott": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Espace Miramar": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Olympia": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Alexandre III": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Le Raimu": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Les Arcades": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Studio 13": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Plage Macé": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}}, "Cineum Aurore": {"Grand Théâtre Lumière": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Debussy": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Buñuel": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Agnès Varda": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Bazin": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum IMAX": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Aurore": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Cineum Screen X": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Salle 3": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Théâtre Croisette / JW Marriott": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Espace Miramar": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Olympia": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Alexandre III": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Le Raimu": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Les Arcades": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Studio 13": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Plage Macé": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}}, "Cineum Screen X": {"Grand Théâtre Lumière": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Debussy": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Buñuel": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Agnès Varda": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Bazin": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum IMAX": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Aurore": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Screen X": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Cineum Salle 3": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Théâtre Croisette / JW Marriott": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Espace Miramar": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Olympia": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Alexandre III": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Le Raimu": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Les Arcades": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Studio 13": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Plage Macé": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}}, "Cineum Salle 3": {"Grand Théâtre Lumière": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Debussy": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Buñuel": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Agnès Varda": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Salle Bazin": {"walk": 56, "scoot": 21, "shuttle": 18, "km": 4.7}, "Cineum IMAX": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Aurore": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Screen X": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.05}, "Cineum Salle 3": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Théâtre Croisette / JW Marriott": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Espace Miramar": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Olympia": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Alexandre III": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Le Raimu": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Les Arcades": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Studio 13": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Plage Macé": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}}, "Théâtre Croisette / JW Marriott": {"Grand Théâtre Lumière": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Salle Debussy": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Salle Buñuel": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Salle Agnès Varda": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Salle Bazin": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Cineum IMAX": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Cineum Aurore": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Cineum Screen X": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Cineum Salle 3": {"walk": 63, "scoot": 23, "shuttle": 63, "km": 5.29}, "Théâtre Croisette / JW Marriott": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Espace Miramar": {"walk": 4, "scoot": 3, "shuttle": 4, "km": 0.32}, "Olympia": {"walk": 9, "scoot": 5, "shuttle": 9, "km": 0.75}, "Alexandre III": {"walk": 12, "scoot": 6, "shuttle": 12, "km": 0.99}, "Le Raimu": {"walk": 62, "scoot": 23, "shuttle": 62, "km": 5.17}, "Les Arcades": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.84}, "Studio 13": {"walk": 16, "scoot": 7, "shuttle": 16, "km": 1.31}, "Plage Macé": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.21}}, "Espace Miramar": {"Grand Théâtre Lumière": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Salle Debussy": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Salle Buñuel": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Salle Agnès Varda": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Salle Bazin": {"walk": 11, "scoot": 6, "shuttle": 11, "km": 0.92}, "Cineum IMAX": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Cineum Aurore": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Cineum Screen X": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Cineum Salle 3": {"walk": 67, "scoot": 24, "shuttle": 67, "km": 5.6}, "Théâtre Croisette / JW Marriott": {"walk": 4, "scoot": 3, "shuttle": 4, "km": 0.32}, "Espace Miramar": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Olympia": {"walk": 13, "scoot": 6, "shuttle": 13, "km": 1.07}, "Alexandre III": {"walk": 8, "scoot": 5, "shuttle": 8, "km": 0.68}, "Le Raimu": {"walk": 66, "scoot": 24, "shuttle": 66, "km": 5.49}, "Les Arcades": {"walk": 14, "scoot": 7, "shuttle": 14, "km": 1.16}, "Studio 13": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.61}, "Plage Macé": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.48}}, "Olympia": {"Grand Théâtre Lumière": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Salle Debussy": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Salle Buñuel": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Salle Agnès Varda": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Salle Bazin": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.22}, "Cineum IMAX": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Cineum Aurore": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Cineum Screen X": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Cineum Salle 3": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.6}, "Théâtre Croisette / JW Marriott": {"walk": 9, "scoot": 5, "shuttle": 9, "km": 0.75}, "Espace Miramar": {"walk": 13, "scoot": 6, "shuttle": 13, "km": 1.07}, "Olympia": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Alexandre III": {"walk": 21, "scoot": 9, "shuttle": 21, "km": 1.75}, "Le Raimu": {"walk": 53, "scoot": 20, "shuttle": 53, "km": 4.41}, "Les Arcades": {"walk": 1, "scoot": 2, "shuttle": 1, "km": 0.1}, "Studio 13": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.62}, "Plage Macé": {"walk": 8, "scoot": 5, "shuttle": 8, "km": 0.66}}, "Alexandre III": {"Grand Théâtre Lumière": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Salle Debussy": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Salle Buñuel": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Salle Agnès Varda": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Salle Bazin": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.58}, "Cineum IMAX": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Cineum Aurore": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Cineum Screen X": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Cineum Salle 3": {"walk": 75, "scoot": 27, "shuttle": 75, "km": 6.23}, "Théâtre Croisette / JW Marriott": {"walk": 12, "scoot": 6, "shuttle": 12, "km": 0.99}, "Espace Miramar": {"walk": 8, "scoot": 5, "shuttle": 8, "km": 0.68}, "Olympia": {"walk": 21, "scoot": 9, "shuttle": 21, "km": 1.75}, "Alexandre III": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Le Raimu": {"walk": 74, "scoot": 27, "shuttle": 74, "km": 6.16}, "Les Arcades": {"walk": 22, "scoot": 9, "shuttle": 22, "km": 1.84}, "Studio 13": {"walk": 27, "scoot": 11, "shuttle": 27, "km": 2.28}, "Plage Macé": {"walk": 14, "scoot": 7, "shuttle": 14, "km": 1.13}}, "Le Raimu": {"Grand Théâtre Lumière": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Salle Debussy": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Salle Buñuel": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Salle Agnès Varda": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Salle Bazin": {"walk": 55, "scoot": 20, "shuttle": 55, "km": 4.59}, "Cineum IMAX": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Cineum Aurore": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Cineum Screen X": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Cineum Salle 3": {"walk": 23, "scoot": 10, "shuttle": 23, "km": 1.9}, "Théâtre Croisette / JW Marriott": {"walk": 62, "scoot": 23, "shuttle": 62, "km": 5.17}, "Espace Miramar": {"walk": 66, "scoot": 24, "shuttle": 66, "km": 5.49}, "Olympia": {"walk": 53, "scoot": 20, "shuttle": 53, "km": 4.41}, "Alexandre III": {"walk": 74, "scoot": 27, "shuttle": 74, "km": 6.16}, "Le Raimu": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Les Arcades": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.32}, "Studio 13": {"walk": 47, "scoot": 18, "shuttle": 47, "km": 3.94}, "Plage Macé": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.05}}, "Les Arcades": {"Grand Théâtre Lumière": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Salle Debussy": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Salle Buñuel": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Salle Agnès Varda": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Salle Bazin": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.27}, "Cineum IMAX": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Cineum Aurore": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Cineum Screen X": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Cineum Salle 3": {"walk": 54, "scoot": 20, "shuttle": 54, "km": 4.49}, "Théâtre Croisette / JW Marriott": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.84}, "Espace Miramar": {"walk": 14, "scoot": 7, "shuttle": 14, "km": 1.16}, "Olympia": {"walk": 1, "scoot": 2, "shuttle": 1, "km": 0.1}, "Alexandre III": {"walk": 22, "scoot": 9, "shuttle": 22, "km": 1.84}, "Le Raimu": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.32}, "Les Arcades": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Studio 13": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Plage Macé": {"walk": 9, "scoot": 5, "shuttle": 9, "km": 0.73}}, "Studio 13": {"Grand Théâtre Lumière": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Salle Debussy": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Salle Buñuel": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Salle Agnès Varda": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Salle Bazin": {"walk": 10, "scoot": 5, "shuttle": 10, "km": 0.85}, "Cineum IMAX": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Cineum Aurore": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Cineum Screen X": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Cineum Salle 3": {"walk": 52, "scoot": 19, "shuttle": 52, "km": 4.34}, "Théâtre Croisette / JW Marriott": {"walk": 16, "scoot": 7, "shuttle": 16, "km": 1.31}, "Espace Miramar": {"walk": 19, "scoot": 8, "shuttle": 19, "km": 1.61}, "Olympia": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.62}, "Alexandre III": {"walk": 27, "scoot": 11, "shuttle": 27, "km": 2.28}, "Le Raimu": {"walk": 47, "scoot": 18, "shuttle": 47, "km": 3.94}, "Les Arcades": {"walk": 7, "scoot": 4, "shuttle": 7, "km": 0.6}, "Studio 13": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}, "Plage Macé": {"walk": 15, "scoot": 7, "shuttle": 15, "km": 1.26}}, "Plage Macé": {"Grand Théâtre Lumière": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}, "Salle Debussy": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}, "Salle Buñuel": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}, "Salle Agnès Varda": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}, "Salle Bazin": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.46}, "Cineum IMAX": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}, "Cineum Aurore": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}, "Cineum Screen X": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}, "Cineum Salle 3": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.12}, "Théâtre Croisette / JW Marriott": {"walk": 3, "scoot": 3, "shuttle": 3, "km": 0.21}, "Espace Miramar": {"walk": 6, "scoot": 4, "shuttle": 6, "km": 0.48}, "Olympia": {"walk": 8, "scoot": 5, "shuttle": 8, "km": 0.66}, "Alexandre III": {"walk": 14, "scoot": 7, "shuttle": 14, "km": 1.13}, "Le Raimu": {"walk": 61, "scoot": 22, "shuttle": 61, "km": 5.05}, "Les Arcades": {"walk": 9, "scoot": 5, "shuttle": 9, "km": 0.73}, "Studio 13": {"walk": 15, "scoot": 7, "shuttle": 15, "km": 1.26}, "Plage Macé": {"walk": 0, "scoot": 0, "shuttle": 0, "km": 0.0}}};
 const catColors = {"Compétition": "#c0392b", "Un Certain Regard": "#8e44ad", "Cannes Première": "#16a085", "Special Screening": "#d35400", "Midnight Screening": "#2c3e50", "Cannes Classics": "#b8860b", "Rendez-vous": "#2980b9", "Directors' Fortnight": "#27ae60", "Critics' Week": "#e91e63", "ACID": "#e67e22", "La CINEF": "#9b59b6", "Short Films": "#34495e", "Ceremony": "#c0392b", "Cinéma de la Plage": "#1abc9c"};
+
+// Rich Douban details (poster, director, genre, country, note) for films available in douban-source/.
+// Keyed by normalized foreign title (matches getFilmKey output).
+const DOUBAN_FILM_DETAILS = {
+  "9 temples to heaven": {
+    "cast": "Amara Ramnarong / Surachai Ningsanond / Jirawut Chiwaruck",
+    "chineseTitle": "九庙上天堂 9",
+    "country": "泰国",
+    "director": "索波特·智德瓜索泼瑟",
+    "doubanUrl": "https://movie.douban.com/subject/34954059/",
+    "genre": "剧情",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2618275149.jpg",
+    "year": "2026"
+  },
+  "a secret heart": {
+    "chineseTitle": "秘密的心",
+    "country": "法国",
+    "director": "Tom Fontenille",
+    "doubanUrl": "https://movie.douban.com/subject/37895250/",
+    "genre": "剧情",
+    "note": "ACID",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2931701590.jpg",
+    "year": "2026"
+  },
+  "atonement": {
+    "cast": "波伊德·霍布鲁克 / 肯尼思·布拉纳 / 西娅姆·阿巴斯",
+    "chineseTitle": "求恕者",
+    "country": "美国",
+    "director": "里德·范·迪克",
+    "doubanUrl": "https://movie.douban.com/subject/37344062/",
+    "genre": "剧情",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2931997148.jpg",
+    "year": "2026"
+  },
+  "blaise": {
+    "cast": "蕾雅·德吕盖 / Timéo Beasse / 雅克·冈布兰",
+    "chineseTitle": "布莱兹",
+    "country": "法国",
+    "director": "Dimitri Planchon / 让-保罗·吉格",
+    "doubanUrl": "https://movie.douban.com/subject/38211618/",
+    "genre": "喜剧 / 动画",
+    "posterUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2931701412.jpg",
+    "year": "2026"
+  },
+  "butterfly jam": {
+    "cast": "巴里·基奥恩 / 莫妮卡·贝鲁奇 / 哈利·米尔林",
+    "chineseTitle": "蝴蝶果酱",
+    "country": "法国/美国",
+    "director": "康捷米尔·巴拉戈夫",
+    "doubanUrl": "https://movie.douban.com/subject/35942275/",
+    "genre": "剧情",
+    "note": "导演双周",
+    "posterUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2931612654.jpg",
+    "year": "2026"
+  },
+  "coward": {
+    "cast": "瓦伦丁·坎帕涅 / Emmanuel Macchia / Jonas Wertz",
+    "chineseTitle": "懦夫",
+    "country": "比利时/法国/荷兰",
+    "director": "卢卡斯·德霍特",
+    "doubanUrl": "https://movie.douban.com/subject/37148241/",
+    "genre": "剧情 / 战争",
+    "posterUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2931442603.jpg",
+    "year": "2026"
+  },
+  "death has no master": {
+    "cast": "艾莎·阿基多 / Jorge Thielen Hedderich",
+    "chineseTitle": "死神无主",
+    "country": "委内瑞拉/加拿大/卢森堡",
+    "director": "豪尔赫·迭伦·阿尔曼德",
+    "doubanUrl": "https://movie.douban.com/subject/36919908/",
+    "genre": "剧情 / 惊悚",
+    "posterUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2931596754.jpg",
+    "year": "2026"
+  },
+  "dernsie: the amazing life of bruce dern": {
+    "cast": "乔·丹特 / 劳拉·邓恩 / Will Forte",
+    "country": "美国",
+    "director": "迈克·门德兹",
+    "doubanUrl": "https://movie.douban.com/subject/38451667/",
+    "genre": "纪录片",
+    "posterUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2932227457.jpg",
+    "year": "2026"
+  },
+  "diamond": {
+    "cast": "安迪·加西亚 / 布兰登·费舍 / 比尔·默瑞",
+    "chineseTitle": "钻石",
+    "country": "美国",
+    "director": "安迪·加西亚",
+    "doubanUrl": "https://movie.douban.com/subject/37666654/",
+    "genre": "剧情 / 犯罪",
+    "posterUrl": "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2932233101.jpg",
+    "year": "2026"
+  },
+  "elephants in the fog": {
+    "cast": "Deepak Yadav / Jasmine Bishwokarma / Aliz Ghimire",
+    "chineseTitle": "雾中的大象",
+    "country": "尼泊尔/法国",
+    "director": "阿比纳什·维克拉姆·沙阿",
+    "doubanUrl": "https://movie.douban.com/subject/36473054/",
+    "genre": "剧情",
+    "posterUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2932263423.jpg",
+    "year": "2026"
+  },
+  "everytime": {
+    "cast": "比吉特·米尼希迈尔 / Lotte Shirin Keiling / Tristan López",
+    "chineseTitle": "逝者萦念",
+    "country": "奥地利/德国",
+    "director": "桑德拉·沃纳尔",
+    "doubanUrl": "https://movie.douban.com/subject/36159749/",
+    "genre": "剧情",
+    "posterUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2932226632.jpg",
+    "year": "2026"
+  },
+  "fjord": {
+    "cast": "雷娜特·赖因斯夫 / 塞巴斯蒂安·斯坦 / 克里斯蒂安·鲁贝克",
+    "chineseTitle": "峡湾",
+    "country": "挪威/罗马尼亚/瑞典/芬兰/丹麦/法国",
+    "director": "克里斯蒂安·蒙吉",
+    "doubanUrl": "https://movie.douban.com/subject/37168181/",
+    "genre": "剧情",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2931452659.jpg",
+    "year": "2026"
+  },
+  "garance": {
+    "cast": "阿黛尔·艾克萨勒霍布洛斯 / 萨拉·吉罗多 / Rudgy Pajany",
+    "chineseTitle": "嘉朗丝",
+    "country": "法国",
+    "director": "让娜·埃里",
+    "doubanUrl": "https://movie.douban.com/subject/37521904/",
+    "genre": "剧情",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2931443489.jpg",
+    "year": "2026"
+  },
+  "her private hell": {
+    "cast": "索菲·撒切尔 / 查尔斯·梅尔顿 / 克里斯汀·弗劳赛斯",
+    "chineseTitle": "她的私人地狱",
+    "country": "丹麦/美国",
+    "director": "尼古拉斯·温丁·雷弗恩",
+    "doubanUrl": "https://movie.douban.com/subject/36788515/",
+    "genre": "剧情",
+    "note": "非竞赛",
+    "posterUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2932076883.jpg",
+    "year": "2026"
+  },
+  "hope": {
+    "cast": "黄政民 / 赵寅成 / 郑好娟",
+    "chineseTitle": "希望",
+    "country": "韩国",
+    "director": "罗泓轸",
+    "doubanUrl": "https://movie.douban.com/subject/36179101/",
+    "genre": "动作 / 科幻 / 惊悚",
+    "posterUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2925247432.jpg",
+    "year": "2026"
+  },
+  "i see buildings fall like lightning": {
+    "cast": "安东尼·鲍伊 / 乔·科尔 / 杰伊·利库戈",
+    "chineseTitle": "忽喇喇似大厦倾",
+    "country": "英国",
+    "director": "克里欧·巴纳德",
+    "doubanUrl": "https://movie.douban.com/subject/37294802/",
+    "genre": "剧情",
+    "posterUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2931896675.jpg",
+    "year": "2026"
+  },
+  "living twice, dying thrice": {
+    "cast": "Ebrahim Naeej / Mehdi Rashidi / Hojjat Hosseini",
+    "chineseTitle": "两生三死",
+    "country": "伊朗",
+    "director": "卡里姆·拉克扎德",
+    "doubanUrl": "https://movie.douban.com/subject/38424335/",
+    "posterUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2931702244.jpg",
+    "year": "2026"
+  },
+  "lucy lost": {
+    "cast": "Charlie ROSENZWEIG / 昆汀·佛雷 / Léonie DIDIER-CHIARA",
+    "chineseTitle": "迷失的露西",
+    "country": "法国",
+    "director": "Olivier Clert",
+    "doubanUrl": "https://movie.douban.com/subject/36801349/",
+    "genre": "动画 / 冒险",
+    "note": "特别展映-家庭展映",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2922561160.jpg",
+    "year": "2025"
+  },
+  "moulin": {
+    "cast": "吉尔·勒卢什 / 拉斯·艾丁格 / 菲利克斯·勒费弗尔",
+    "chineseTitle": "穆兰",
+    "country": "法国",
+    "director": "拉斯洛·奈迈施",
+    "doubanUrl": "https://movie.douban.com/subject/37248336/",
+    "genre": "历史 / 战争",
+    "posterUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2931485982.jpg",
+    "year": "2026"
+  },
+  "my uncle": {
+    "cast": "让·皮埃尔·佐拉 / Adrienne Servantie / 吕西安·弗雷吉斯",
+    "chineseTitle": "我的舅舅",
+    "country": "法国/意大利",
+    "director": "雅克·塔蒂",
+    "doubanUrl": "https://movie.douban.com/subject/1400829/",
+    "genre": "喜剧",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p685838678.jpg",
+    "year": "1958"
+  },
+  "our salvation": {
+    "cast": "斯万·阿劳德 / 桑德琳·布朗克 /  马蒂厄·珀罗托",
+    "chineseTitle": "我们的救赎",
+    "country": "法国",
+    "director": "伊曼努尔·马雷",
+    "doubanUrl": "https://movie.douban.com/subject/36660162/",
+    "genre": "剧情",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2931452568.jpg",
+    "year": "2026"
+  },
+  "raise ravens": {
+    "cast": "杰拉丁·卓别林 / 莫妮卡·兰达利 / 弗洛琳达·奇科",
+    "chineseTitle": "饲养乌鸦",
+    "country": "西班牙",
+    "director": "卡洛斯·绍拉",
+    "doubanUrl": "https://movie.douban.com/subject/1303813/",
+    "genre": "剧情",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2204703690.jpg",
+    "year": "1976"
+  },
+  "red rocks": {
+    "cast": "Kaylon Lancel / Kelsie Verdeilles / Louise Podolski",
+    "chineseTitle": "红岩",
+    "country": "法国",
+    "director": "布鲁诺·杜蒙",
+    "doubanUrl": "https://movie.douban.com/subject/36778280/",
+    "genre": "剧情",
+    "note": "导演双周 特别展映",
+    "posterUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2932248745.jpg",
+    "year": "2026"
+  },
+  "the black ball": {
+    "cast": "米格尔·贝尔纳尔德阿尤 / 卡洛斯·冈萨雷斯 / 米洛·基菲斯",
+    "chineseTitle": "黑球",
+    "country": "西班牙/法国",
+    "director": "哈维尔·安布罗希 / 哈维尔·卡尔沃",
+    "doubanUrl": "https://movie.douban.com/subject/37215318/",
+    "genre": "剧情 / 同性",
+    "posterUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2926418304.jpg",
+    "year": "2026"
+  },
+  "the drift": {
+    "cast": "Jacqueline Vandal / 波莱特·杜博斯特 / 让-弗朗索瓦·卡尔夫",
+    "chineseTitle": "漂流",
+    "country": "法国",
+    "director": "Paula Delsol",
+    "doubanUrl": "https://movie.douban.com/subject/5127460/",
+    "genre": "剧情 / 爱情",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2641943998.jpg",
+    "year": "1964"
+  },
+  "the end of it": {
+    "cast": "丽贝卡·豪尔 / 劳米·拉佩斯 / 盖尔·加西亚·贝纳尔",
+    "chineseTitle": "择日而终",
+    "country": "英国",
+    "director": "Maria Martinez Bayona",
+    "doubanUrl": "https://movie.douban.com/subject/37342648/",
+    "genre": "科幻",
+    "posterUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2932237062.jpg",
+    "year": "2026"
+  },
+  "the man i love": {
+    "cast": "拉米·马雷克 / 丽贝卡·豪尔 / 艾邦·摩斯-巴克拉赫",
+    "chineseTitle": "我爱的男人",
+    "country": "美国",
+    "director": "艾拉·萨克斯",
+    "doubanUrl": "https://movie.douban.com/subject/37494774/",
+    "genre": "剧情 / 奇幻 / 同性 / 歌舞",
+    "posterUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2931452835.jpg",
+    "year": "2026"
+  },
+  "the survivors of che": {
+    "cast": "Billy Ayers / Benigno / 菲德尔·卡斯特罗",
+    "chineseTitle": "切的幸存者",
+    "country": "法国",
+    "director": "Christophe Dimitri Réveille",
+    "doubanUrl": "https://movie.douban.com/subject/6873891/",
+    "genre": "传记",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2932237790.jpg",
+    "year": "2026"
+  },
+  "titanic ocean": {
+    "cast": "Arisa Sasaki / Melina Mardini / Haruna Matsui",
+    "chineseTitle": "人鱼海洋",
+    "country": "希腊/德国/罗马尼亚/西班牙/日本/法国/英国/塞浦路斯/美国",
+    "director": "康斯坦蒂娜·科扎马尼",
+    "doubanUrl": "https://movie.douban.com/subject/35972827/",
+    "genre": "剧情 / 科幻 / 奇幻",
+    "posterUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2931881706.jpg",
+    "year": "2026"
+  },
+  "ulya": {
+    "cast": "卡尔李斯·阿诺兹·阿沃茨",
+    "chineseTitle": "乌莉娅",
+    "country": "拉脱维亚",
+    "director": "维斯特·凯里斯",
+    "doubanUrl": "https://movie.douban.com/subject/35937672/",
+    "genre": "剧情 / 传记 / 运动",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2932171810.jpg",
+    "year": "2026"
+  },
+  "ulysses": {
+    "cast": "埃洛迪·布歇 / 斯坦尼斯拉斯·莫哈 / 罗曼娜·波琳热",
+    "chineseTitle": "尤利西斯",
+    "country": "法国",
+    "director": "拉埃蒂恰·玛松",
+    "doubanUrl": "https://movie.douban.com/subject/37331389/",
+    "genre": "剧情 / 喜剧",
+    "note": "一种关注闭幕片",
+    "posterUrl": "https://img9.doubanio.com/view/photo/s_ratio_poster/public/p2931803944.jpg",
+    "year": "2026"
+  },
+  "vertiginous": {
+    "cast": "阿兰·夏巴 / 乔纳森·科恩 / 阿娜伊斯·德穆斯蒂埃",
+    "chineseTitle": "眩晕",
+    "country": "法国",
+    "director": "昆汀·杜皮约",
+    "doubanUrl": "https://movie.douban.com/subject/38424785/",
+    "genre": "剧情 / 动画",
+    "note": "导演双周 闭幕片",
+    "posterUrl": "https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2931846319.jpg",
+    "year": "2026"
+  },
+  "victorian psycho": {
+    "cast": "麦卡·梦露 / 詹森·艾萨克 / 托马辛·麦肯齐",
+    "chineseTitle": "维多利亚时代的精神病人",
+    "country": "美国",
+    "director": "扎克瑞·维贡",
+    "doubanUrl": "https://movie.douban.com/subject/37097039/",
+    "genre": "惊悚 / 恐怖",
+    "posterUrl": "https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2931820277.jpg",
+    "year": "2026"
+  },
+  "yesterday the eye didn't sleep": {
+    "cast": "Yasser Al Mawla / Jawaher Al Mawla / Rim Al Mawla",
+    "chineseTitle": "昨天，那只眼彻夜未眠",
+    "country": "黎巴嫩/比利时/巴勒斯坦",
+    "director": "拉坎·马亚西",
+    "doubanUrl": "https://movie.douban.com/subject/37441482/",
+    "genre": "剧情",
+    "posterUrl": "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p2931486651.jpg",
+    "year": "2026"
+  }
+};
+
+// Letterboxd metadata (poster, Letterboxd URL, list note) — keyed by normalized foreign title.
+const LETTERBOXD_FILM_DETAILS = {
+  "ben'imana": {
+    "letterboxdUrl": "https://letterboxd.com/film/benimana/",
+    "note": "Un Certain Regard",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/2/8/7/8/7/6/1287876-benimana-0-460-0-690-crop.jpg"
+  },
+  "bitter christmas": {
+    "letterboxdUrl": "https://letterboxd.com/film/bitter-christmas/",
+    "note": "Compétition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/9/8/1/4/3/7/981437-bitter-christmas-0-140-0-210-crop.jpg?v=48a0d3de63"
+  },
+  "coward": {
+    "letterboxdUrl": "https://letterboxd.com/film/coward-2026/",
+    "note": "Compétition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/3/1/5/7/5/5/1315755-coward-2026-0-140-0-210-crop.jpg?v=e43f5c4b70"
+  },
+  "crescendo": {
+    "letterboxdUrl": "https://letterboxd.com/film/crescendo-2026-2/",
+    "note": "Hors Compétition / Out of Competition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/3/4/3/0/8/1/1343081-crescendo-2026-2-0-460-0-690-crop.jpg"
+  },
+  "diamond": {
+    "letterboxdUrl": "https://letterboxd.com/film/diamond-2026/",
+    "note": "Hors Compétition / Out of Competition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/4/3/5/9/4/0/1435940-diamond-2026-0-460-0-690-crop.jpg"
+  },
+  "elastic rome": {
+    "letterboxdUrl": "https://letterboxd.com/film/roma-elastica/",
+    "note": "Séances de Minuit / Midnight Screenings",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/1/8/4/6/5/9/1184659-roma-elastica-0-460-0-690-crop.jpg"
+  },
+  "elephants in the fog": {
+    "letterboxdUrl": "https://letterboxd.com/film/elephants-in-the-fog/",
+    "note": "Un Certain Regard",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/5/2/5/4/8/3/1525483-elephants-in-the-fog-0-460-0-690-crop.jpg"
+  },
+  "everytime": {
+    "letterboxdUrl": "https://letterboxd.com/film/everytime/",
+    "note": "Un Certain Regard",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/5/1/8/9/4/7/1518947-everytime-0-460-0-690-crop.jpg"
+  },
+  "fjord": {
+    "letterboxdUrl": "https://letterboxd.com/film/fjord-2026/",
+    "note": "Compétition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/2/8/5/1/6/8/1285168-fjord-2026-0-460-0-690-crop.jpg"
+  },
+  "her private hell": {
+    "letterboxdUrl": "https://letterboxd.com/film/her-private-hell-2026/",
+    "note": "Hors Compétition / Out of Competition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/3/4/6/0/5/7/1346057-her-private-hell-2026-0-460-0-690-crop.jpg"
+  },
+  "hope": {
+    "letterboxdUrl": "https://letterboxd.com/film/hope-2026-3/",
+    "note": "Compétition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/9/5/4/6/6/3/954663-hope-11-0-140-0-210-crop.jpg?v=e168b955b5"
+  },
+  "iron boy": {
+    "letterboxdUrl": "https://letterboxd.com/film/iron-boy/",
+    "note": "Un Certain Regard",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/8/5/1/7/4/7/851747-iron-boy-0-460-0-690-crop.jpg"
+  },
+  "kokurojo / arioka castle": {
+    "letterboxdUrl": "https://letterboxd.com/film/the-samurai-and-the-prisoner/",
+    "note": "Cannes Première / Cannes Premiere",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/4/8/8/8/2/0/1488820-the-samurai-and-the-prisoner-0-460-0-690-crop.jpg"
+  },
+  "lucy lost": {
+    "letterboxdUrl": "https://letterboxd.com/film/lucy-lost/",
+    "note": "Séance Famille / Family Screening",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/1/0/1/5/8/8/1101588-lucy-lost-0-460-0-690-crop.jpg"
+  },
+  "marriage with a taste of orange": {
+    "letterboxdUrl": "https://letterboxd.com/film/orange-flavoured-wedding/",
+    "note": "Cannes Première / Cannes Premiere",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/4/3/7/1/0/9/1437109-orange-flavoured-wedding-0-460-0-690-crop.jpg"
+  },
+  "minotaur": {
+    "letterboxdUrl": "https://letterboxd.com/film/minotaur-2026/",
+    "note": "Compétition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/7/6/3/3/3/9/763339-minotaur-2026-0-460-0-690-crop.jpg"
+  },
+  "moulin": {
+    "letterboxdUrl": "https://letterboxd.com/film/moulin/",
+    "note": "Compétition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/3/1/5/7/2/7/1315727-moulin-0-460-0-690-crop.jpg"
+  },
+  "the battle of de gaulle: the iron age": {
+    "letterboxdUrl": "https://letterboxd.com/film/de-gaulle-tilting-iron-film-1/",
+    "note": "Hors Compétition / Out of Competition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/0/5/1/0/0/0/1051000-de-gaulle-tilting-iron-film-1-0-460-0-690-crop.jpg"
+  },
+  "the black ball": {
+    "letterboxdUrl": "https://letterboxd.com/film/the-black-ball-2026/",
+    "note": "Compétition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/3/0/2/0/3/0/1302030-the-black-ball-2026-0-140-0-210-crop.jpg?v=c0116274bd"
+  },
+  "the dreamed adventure": {
+    "letterboxdUrl": "https://letterboxd.com/film/the-dreamed-adventure/",
+    "note": "Compétition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/9/1/3/2/2/9/913229-the-dreamed-adventure-0-140-0-210-crop.jpg?v=cfd0fda154"
+  },
+  "the end of it": {
+    "letterboxdUrl": "https://letterboxd.com/film/the-end-of-it/",
+    "note": "Cannes Première / Cannes Premiere",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/3/5/3/5/8/9/1353589-the-end-of-it-0-460-0-690-crop.jpg"
+  },
+  "the golden triangle": {
+    "letterboxdUrl": "https://letterboxd.com/film/le-triangle-dor/",
+    "note": "Séances Spéciales / Special Screenings",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/3/4/3/6/4/9/1343649-le-triangle-dor-0-460-0-690-crop.jpg"
+  },
+  "the man i love": {
+    "letterboxdUrl": "https://letterboxd.com/film/the-man-i-love-2026/",
+    "note": "Compétition",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/3/3/6/0/4/3/1336043-the-man-i-love-2026-0-460-0-690-crop.jpg"
+  },
+  "titanic ocean": {
+    "letterboxdUrl": "https://letterboxd.com/film/titanic-ocean/",
+    "note": "Un Certain Regard",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/9/0/1/6/6/8/901668-titanic-ocean-0-460-0-690-crop.jpg"
+  },
+  "ulya": {
+    "letterboxdUrl": "https://letterboxd.com/film/ulya/",
+    "note": "Un Certain Regard",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/3/6/6/7/3/5/1366735-ulya-0-460-0-690-crop.jpg"
+  },
+  "ulysses": {
+    "letterboxdUrl": "https://letterboxd.com/film/ulysse-2026/",
+    "note": "Un Certain Regard / Film de Clôture - Closing Film",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/2/6/8/6/4/9/1268649-ulysse-2026-0-460-0-690-crop.jpg"
+  },
+  "ulysses - ucr closing": {
+    "letterboxdUrl": "https://letterboxd.com/film/ulysse-2026/",
+    "note": "Un Certain Regard / Film de Clôture - Closing Film",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/2/6/8/6/4/9/1268649-ulysse-2026-0-460-0-690-crop.jpg"
+  },
+  "victorian psycho": {
+    "letterboxdUrl": "https://letterboxd.com/film/victorian-psycho/",
+    "note": "Un Certain Regard",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/2/6/5/1/9/4/1265194-victorian-psycho-0-460-0-690-crop.jpg"
+  },
+  "yesterday the eye didn't sleep": {
+    "letterboxdUrl": "https://letterboxd.com/film/yesterday-the-eye-didnt-sleep/",
+    "note": "Un Certain Regard",
+    "posterUrl": "https://a.ltrbxd.com/resized/film-poster/1/4/0/4/7/6/7/1404767-yesterday-the-eye-didnt-sleep-0-460-0-690-crop.jpg"
+  }
+};
 
 const DOUBAN_FILM_MAP = {
   "9 temples to heaven": {
@@ -1917,20 +2784,20 @@ const OFFICIAL_REVIEW_NOTES = {
 const VISIBLE_DAYS = new Set(["21", "22", "23"]);
 const visibleEvents = events.filter(isVisibleEvent);
 
-// Уникальные категории и локации
+// Indexed lookup for event-by-id (faster than .find on every selection change)
+const eventById = new Map(events.map(e => [e.id, e]));
+
+// Unique categories and venues (used to populate the filter UI)
 const allCategories = [...new Set(visibleEvents.map(e => e.category))];
 const allLocations = [...new Set(visibleEvents.map(getDisplayVenue))].sort();
-const popularCategories = new Set(["Compétition", "Un Certain Regard", "Directors' Fortnight", "Special Screening"]);
-const defaultActiveCategories = allCategories.filter(cat => popularCategories.has(cat));
-if (!defaultActiveCategories.length) defaultActiveCategories.push(...allCategories);
 
 const state = {
-  selectedIds: new Set(),       // Set<id> — мульти-выбор
+  selectedIds: new Set(),       // Set<id> — multi-select plan
   search: "",
-  day: "21",
+  day: "all",
   transport: "walk",
   buffer: 20,
-  activeCats: new Set(defaultActiveCategories),
+  activeCats: new Set(allCategories),  // all sections enabled by default
   activeLocs: new Set(allLocations),
 };
 
@@ -1953,7 +2820,7 @@ function isVisibleEvent(event) {
 
 function getVisibleSelectedEvents() {
   return [...state.selectedIds]
-    .map(id => events.find(e => e.id === id))
+    .map(id => eventById.get(id))
     .filter(isVisibleEvent);
 }
 
@@ -2007,6 +2874,31 @@ function getOfficialInfo(event) {
   return event ? OFFICIAL_SCREENING_MAP[String(event.id)] || null : null;
 }
 
+// Rich details merged from Letterboxd (poster, lb link) + Douban (director, genre, country, note).
+// Keyed by getFilmKey(). Letterboxd posters are preferred because doubanio.com blocks
+// hot-linking from non-Douban referrers.
+function getFilmDetails(event) {
+  if (!event) return null;
+  const key = getFilmKey(event);
+  const douban = DOUBAN_FILM_DETAILS[key] || null;
+  const lb = LETTERBOXD_FILM_DETAILS[key] || null;
+  if (!douban && !lb) return null;
+  return {
+    // Only use Letterboxd for posters — Douban blocks hotlinking from non-Douban domains.
+    posterUrl: (lb && lb.posterUrl) || "",
+    letterboxdUrl: (lb && lb.letterboxdUrl) || "",
+    letterboxdNote: (lb && lb.note) || "",
+    doubanUrl: (douban && douban.doubanUrl) || "",
+    director: (douban && douban.director) || "",
+    cast: (douban && douban.cast) || "",
+    genre: (douban && douban.genre) || "",
+    country: (douban && douban.country) || "",
+    year: (douban && douban.year) || "",
+    note: (douban && douban.note) || "",
+    chineseTitle: (douban && douban.chineseTitle) || "",
+  };
+}
+
 function getDisplayTitle(event) {
   const parts = getTitleParts(event);
   if (parts.chineseTitle) return `${parts.foreignTitle}（${parts.chineseTitle}）`;
@@ -2034,12 +2926,6 @@ function getDirectorParts(event) {
     mapped?.chineseDirector ||
     DOUBAN_DIRECTOR_CHINESE_MAP[normalizedTitle] ||
     DOUBAN_DIRECTOR_CHINESE_MAP[normalizeTitle(mapped?.foreignTitle)];
-  if (mapped) {
-    return {
-      englishDirector: event?.director || "",
-      chineseDirector: mappedChineseDirector || ""
-    };
-  }
   return {
     englishDirector: event?.director || "",
     chineseDirector: mappedChineseDirector || ""
@@ -2083,13 +2969,28 @@ function getBookingStatus(event) {
   return official?.bookingStatus || "";
 }
 
+// Reformat strings like "opening reservation 17.05 AT 8:00 AM" → "Opening reservation 8 am May 17"
 function formatBookingStatus(status) {
+  const MONTHS = ["", "January","February","March","April","May","June","July","August","September","October","November","December"];
   const normalized = String(status || "")
     .replace(/\bAT\b/g, "at")
     .replace(/\s+/g, " ")
     .trim();
+
+  const m = normalized.match(/^opening reservation\s+(\d{1,2})\.(\d{1,2})\s+at\s+(\d{1,2}):(\d{2})\s*([ap]m)$/i);
+  if (m) {
+    const [, dd, mm, hh, mins, ap] = m;
+    const month = MONTHS[parseInt(mm, 10)] || "";
+    const day = parseInt(dd, 10);
+    const hour = parseInt(hh, 10);
+    const ampm = ap.toLowerCase();
+    const time = parseInt(mins, 10) === 0 ? `${hour} ${ampm}` : `${hour}:${mins} ${ampm}`;
+    return `Opening reservation ${time} ${month} ${day}`;
+  }
+
+  // Fallback: capitalize "Opening reservation" prefix even if format is unexpected
   const opening = normalized.match(/^opening reservation\s+(.+)$/i);
-  if (opening) return `Opening reservation: ${opening[1]}`;
+  if (opening) return `Opening reservation ${opening[1]}`;
   return normalized;
 }
 
@@ -2128,6 +3029,7 @@ function renderDayBookingNotice(day) {
   dayBookingNotice.innerHTML = `
     <div class="day-booking-notice">
       <div class="day-booking-title">${rows.join("")}</div>
+      <div class="day-booking-meta">Based on saved official ticketing snapshot. Always check your official Cannes ticketing account before booking.</div>
     </div>
   `;
 }
@@ -2140,8 +3042,24 @@ function renderOtherScreenings(event) {
   const remaining = screenings.length - shown.length;
   const chips = shown.map(screening => {
     const selected = state.selectedIds.has(screening.id);
-    const text = `${getDayLabel(screening.day)} ${screening.start}${selected ? " selected" : ""}`;
-    return `<span class="other-screening-chip${selected ? " selected" : ""}">${escapeHtml(text)}</span>`;
+    const cls = classify(screening);
+    const isLocked = cls === "locked";
+    const isSelected = cls === "selected";
+    const labelExtra = isSelected ? " · in plan" : (isLocked ? " · locked" : "");
+    const text = `${getDayLabel(screening.day)} ${screening.start}${labelExtra}`;
+    const aria = isSelected
+      ? `Remove this screening from your plan`
+      : (isLocked ? `Cannot add: conflicts with another screening in your plan` : `Add this screening to your plan`);
+    return `<span
+      class="other-screening-chip${selected ? " selected" : ""}"
+      role="button"
+      tabindex="0"
+      data-other-screening-id="${screening.id}"
+      aria-disabled="${isLocked}"
+      aria-pressed="${isSelected}"
+      aria-label="${escapeAttr(aria)} (${escapeAttr(text)})"
+      title="${escapeAttr(aria)}"
+    >${escapeHtml(text)}</span>`;
   }).join("");
   const more = remaining > 0 ? `<span class="other-screening-more">+${remaining} more</span>` : "";
 
@@ -2201,7 +3119,7 @@ function getDoubanLabel(event) {
   return hasExactDoubanUrl(event) ? "豆瓣 ↗" : "豆瓣搜索 ↗";
 }
 
-// Рендеринг кнопок-фильтров категорий
+// Render the section (category) filter pills
 function buildCategoryFilters() {
   catFilters.innerHTML = allCategories.map(cat => {
     const color = catColors[cat] || "#999";
@@ -2220,7 +3138,7 @@ function updateCatSummary() {
   else el.textContent = `Sections: ${active} selected`;
 }
 
-// Рендеринг чекбоксов локаций
+// Render the venue filter checkboxes
 function buildLocationFilters() {
   locFilters.innerHTML = allLocations.map(loc => {
     const checked = state.activeLocs.has(loc) ? "checked" : "";
@@ -2238,25 +3156,40 @@ function updateLocSummary() {
   else el.textContent = `Venues: ${active} selected`;
 }
 
-// Свёртывание / развёртывание секций фильтров
-document.querySelectorAll('h3[data-toggle]').forEach(h => {
-  h.addEventListener('click', (ev) => {
-    // не сворачиваем если кликнули на reset-link
+// Collapse / expand filter sections, keeping aria-expanded in sync.
+// The trigger is a div[role="button"] (not a real <button>) so it can contain
+// the inner "reset" <button> without invalid HTML nesting.
+function toggleFilterSection(trigger) {
+  const id = trigger.dataset.toggle;
+  const section = document.getElementById(id);
+  if (!section) return;
+  section.classList.toggle('collapsed');
+  trigger.setAttribute('aria-expanded', String(!section.classList.contains('collapsed')));
+}
+document.querySelectorAll('.filter-trigger[data-toggle]').forEach(trigger => {
+  trigger.addEventListener('click', (ev) => {
+    // Don't toggle the section when the user actually clicked the inner reset button
     if (ev.target.closest('.reset-link')) return;
-    const id = h.dataset.toggle;
-    document.getElementById(id).classList.toggle('collapsed');
+    toggleFilterSection(trigger);
+  });
+  trigger.addEventListener('keydown', (ev) => {
+    if (ev.target.closest('.reset-link')) return;
+    if (ev.key === 'Enter' || ev.key === ' ') {
+      ev.preventDefault();
+      toggleFilterSection(trigger);
+    }
   });
 });
 
-// Проверка: пересекаются ли два события (с учётом дороги и буфера)
+// Are two events in conflict, accounting for travel time and buffer?
 function eventsConflict(a, b) {
   if (a.id === b.id) return false;
   if (a.abs_s === null || b.abs_s === null) return false;
   const t = travel[a.location] && travel[a.location][b.location]
     ? travel[a.location][b.location][state.transport]
     : 15;
-  // конфликт = два сеанса пересекаются ИЛИ между ними меньше времени дороги
-  if (a.abs_s < b.abs_e && b.abs_s < a.abs_e) return true;  // пересечение
+  // Two screenings conflict if they overlap, OR if there's less travel-time gap between them than required
+  if (a.abs_s < b.abs_e && b.abs_s < a.abs_e) return true;  // direct overlap
   if (a.abs_s >= b.abs_e) {
     return (a.abs_s - b.abs_e) < t;
   }
@@ -2266,7 +3199,7 @@ function eventsConflict(a, b) {
   return false;
 }
 
-// Находит ВСЕ выбранные события, с которыми у film конфликт
+// All currently-selected events that conflict with the given film
 function conflictingSelected(film) {
   const conflicts = [];
   for (const sel of getVisibleSelectedEvents()) {
@@ -2275,7 +3208,7 @@ function conflictingSelected(film) {
   return conflicts;
 }
 
-// Классификация карточки относительно ВСЕХ выбранных
+// Classify a card relative to the current plan: selected / ok / tight / locked / neutral
 function classify(film) {
   if (state.selectedIds.has(film.id)) return "selected";
   if (state.selectedIds.size === 0) return "neutral";
@@ -2284,8 +3217,8 @@ function classify(film) {
   const conflicts = conflictingSelected(film);
   if (conflicts.length > 0) return "locked";
 
-  // Не конфликтует ни с чем — проверим, насколько комфортно успеть.
-  // Возьмём ближайший выбранный сеанс по времени и проверим запас.
+  // No hard conflict — measure how comfortable the closest gap is and label
+  // the card as "ok" (>= buffer) or "tight" (smaller margin).
   let minMargin = Infinity;
   for (const sel of getVisibleSelectedEvents()) {
     if (!sel || sel.abs_s === null) continue;
@@ -2305,12 +3238,12 @@ function classify(film) {
   return "tight";
 }
 
-// Текст с временем дороги — теперь относительно ближайшего выбранного
+// Travel-time hint text relative to the user's nearest selected screening
 function travelInfoFor(film) {
   if (getVisibleSelectedEvents().length === 0) return "";
   if (state.selectedIds.has(film.id)) return "";
 
-  // Найдём самый "близкий" по времени выбранный сеанс
+  // Find the closest-in-time selected screening to compare against
   let nearest = null;
   let nearestGap = Infinity;
   for (const sel of getVisibleSelectedEvents()) {
@@ -2368,11 +3301,13 @@ function statusBadge(cls) {
 
 function renderSelectionBar() {
   const visibleSelectedEvents = getVisibleSelectedEvents();
+  const titleEl = document.getElementById("selectionBarTitle");
   if (visibleSelectedEvents.length === 0) {
     selectionBar.style.display = "none";
     selectionList.innerHTML = "";
     duplicateWarning.style.display = "none";
     duplicateWarning.innerHTML = "";
+    if (titleEl) titleEl.textContent = "Your plan";
     return;
   }
   const selectedEvents = visibleSelectedEvents
@@ -2383,6 +3318,11 @@ function renderSelectionBar() {
   const duplicateGroups = getSelectedFilmDuplicateGroups(selectedEvents);
   const duplicateGroupMap = new Map(duplicateGroups.map(group => [group.key, group]));
   selectionBar.style.display = "block";
+  if (titleEl) {
+    const screeningCount = selectedEvents.length;
+    const dayCount = new Set(selectedEvents.map(e => e.day)).size;
+    titleEl.textContent = `Your plan · ${screeningCount} screening${screeningCount === 1 ? "" : "s"} across ${dayCount} day${dayCount === 1 ? "" : "s"}`;
+  }
   if (duplicateGroups.length) {
     const message = duplicateGroups.length === 1
       ? `You selected the same film more than once: ${escapeHtml(duplicateGroups[0].title)} ×${duplicateGroups[0].count}`
@@ -2404,9 +3344,176 @@ function renderSelectionBar() {
   `).join("");
 }
 
+// Group an array of screenings by film identity (Map<filmKey, screenings[]>)
+function groupScreeningsByFilm(events) {
+  const groups = new Map();
+  for (const ev of events) {
+    const key = getFilmKey(ev);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(ev);
+  }
+  for (const screenings of groups.values()) {
+    screenings.sort((a, b) => {
+      if (a.day !== b.day) return parseInt(a.day, 10) - parseInt(b.day, 10);
+      return (a.abs_s || 0) - (b.abs_s || 0);
+    });
+  }
+  return groups;
+}
+
+// Render one film card for the All Days view (poster + info + all screenings)
+function renderFilmCard(filmKey, screenings, visibleSelectedCount) {
+  // Use the earliest screening as the "canonical" event for title / director / section info.
+  const canonical = screenings[0];
+  const details = getFilmDetails(canonical);
+  const isComp = screenings.some(isCompetitionFilm);
+  const competitionClass = isComp ? "is-competition" : "";
+  const hasGala = screenings.some(s => s.gala);
+  const galaIcon = hasGala ? '<span class="gala-icon" title="Black tie required for some screenings">🎩</span>' : "";
+
+  const titleParts = getTitleParts(canonical);
+  const directorParts = getDirectorParts(canonical);
+  const displayDirector = getDisplayDirector(canonical);
+  const displaySection = getSectionDisplayName(canonical);
+  const displayDuration = getDisplayDuration(canonical);
+  const doubanUrl = getDoubanUrl(canonical);
+  const doubanLabel = getDoubanLabel(canonical);
+
+  // Poster (from douban data) — null-tolerant
+  const poster = details && details.posterUrl
+    ? `<img src="${escapeAttr(details.posterUrl)}" alt="" loading="lazy" referrerpolicy="no-referrer">`
+    : '<span>No poster</span>';
+
+  // Description: curated note when available, else genre + country
+  let descriptionHtml = "";
+  if (details && details.note) {
+    descriptionHtml = `<div class="film-card-note curated">“${escapeHtml(details.note)}”</div>`;
+  } else if (details && (details.genre || details.country)) {
+    const parts = [details.genre, details.country, details.year].filter(Boolean).join(" · ");
+    descriptionHtml = `<div class="film-card-note">${escapeHtml(parts)}</div>`;
+  }
+
+  // How many screenings of this film the user has already picked? Used to auto-open the card on mobile.
+  const selectedInFilm = screenings.reduce((n, s) => state.selectedIds.has(s.id) ? n + 1 : n, 0);
+  const anySelectedInFilm = selectedInFilm > 0;
+
+  // Each screening row inside the card
+  const screeningRows = screenings.map(s => {
+    const cls = classify(s);
+    const isLocked = cls === "locked";
+    const isSelected = cls === "selected";
+    const isTight = cls === "tight";
+    const rowClass = [
+      isSelected && "selected",
+      isLocked && "locked",
+      isTight && "tight"
+    ].filter(Boolean).join(" ");
+    const venue = getDisplayVenue(s);
+    const type = getDisplayScreeningType(s) || "";
+    const statusText = isSelected ? "in plan" :
+                       isLocked ? "locked" :
+                       isTight ? "tight" :
+                       (visibleSelectedCount > 0 && cls === "ok") ? "doable" : "";
+    const statusChip = statusText
+      ? `<span class="scrn-status">${escapeHtml(statusText)}</span>`
+      : "";
+    const titleAttr = isLocked
+      ? `title="${escapeAttr('Conflicts with: ' + conflictingSelected(s).map(c => getDisplayTitle(c)).join(', '))}"`
+      : (isSelected ? `title="Click to remove from your plan"` : `title="Click to add to your plan"`);
+    const ariaLabel = `${getDayLabel(s.day)} ${s.start} at ${venue}${type ? ', ' + type : ''}${isLocked ? ' (locked)' : (isSelected ? ' (in your plan)' : '')}`;
+    return `<div class="film-card-screening ${rowClass}"
+      role="button"
+      tabindex="${isLocked ? -1 : 0}"
+      aria-pressed="${isSelected}"
+      aria-disabled="${isLocked}"
+      aria-label="${escapeAttr(ariaLabel)}"
+      data-other-screening-id="${s.id}"
+      ${titleAttr}>
+      <span class="scrn-day">${escapeHtml(getDayLabel(s.day))}</span>
+      <span class="scrn-time">${escapeHtml(s.start)}</span>
+      <span class="scrn-venue">${escapeHtml(venue)}</span>
+      ${type ? `<span class="scrn-type">${escapeHtml(type)}</span>` : ""}
+      ${statusChip}
+    </div>`;
+  }).join("");
+
+  // Card-level aria summary
+  const cardAria = `${getDisplayTitle(canonical)}, ${screenings.length} screening${screenings.length === 1 ? "" : "s"}`;
+
+  return `
+    <article class="film-card ${competitionClass}" data-film-key="${escapeAttr(filmKey)}" aria-label="${escapeAttr(cardAria)}">
+      <div class="film-card-poster" aria-hidden="true">${poster}</div>
+      <div class="film-card-body">
+        <div class="film-card-title">${escapeHtml(titleParts.foreignTitle)}${galaIcon}</div>
+        ${titleParts.chineseTitle ? `<div class="film-card-title-zh">${escapeHtml(titleParts.chineseTitle)}</div>` : ""}
+        <div class="film-card-meta">
+          <span class="meta-chip section-chip">${escapeHtml(displaySection)}</span>
+          ${displayDuration && displayDuration !== "—" ? `<span class="meta-chip">${escapeHtml(displayDuration)}</span>` : ""}
+        </div>
+        ${displayDirector && displayDirector !== "—" ? `<div class="film-card-director"><span class="director-label">Director</span>${escapeHtml(directorParts.englishDirector)}${directorParts.chineseDirector ? ` ${escapeHtml(directorParts.chineseDirector)}` : ""}</div>` : ""}
+        ${descriptionHtml}
+        <div class="film-card-douban">
+          <a href="${escapeAttr(doubanUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtml(doubanLabel)}</a>
+        </div>
+      </div>
+      <details class="film-card-screenings"${anySelectedInFilm ? " open" : ""}>
+        <summary class="film-card-screenings-summary">
+          <span class="film-card-screenings-label">All screenings (${screenings.length})${anySelectedInFilm ? ` · ${selectedInFilm} in plan` : ""}</span>
+          <span class="film-card-screenings-toggle" aria-hidden="true">▾</span>
+        </summary>
+        <div class="film-card-screening-list">${screeningRows}</div>
+      </details>
+    </article>
+  `;
+}
+
+// Compare two grouped film entries: Compétition first, then alphabetical.
+function compareFilmGroups([, a], [, b]) {
+  const aComp = a.some(isCompetitionFilm) ? 0 : 1;
+  const bComp = b.some(isCompetitionFilm) ? 0 : 1;
+  if (aComp !== bComp) return aComp - bComp;
+  const aTitle = (getTitleParts(a[0]).foreignTitle || "").toLowerCase();
+  const bTitle = (getTitleParts(b[0]).foreignTitle || "").toLowerCase();
+  return aTitle.localeCompare(bTitle);
+}
+
+// Render the All Days grid: groups films into main (at least one screening still doable)
+// and backlog (every screening conflicts with the current plan). Backlog appears as a
+// collapsed section at the bottom so the main grid stays focused on what's actionable.
+function renderAllDaysGrid(filtered, visibleSelectedCount) {
+  const groups = groupScreeningsByFilm(filtered);
+  const main = [];
+  const backlog = [];
+  for (const entry of groups.entries()) {
+    const [, screenings] = entry;
+    // A film is "fully locked" if every screening is locked AND none are already selected.
+    const everyLocked = screenings.every(s => classify(s) === "locked");
+    const anySelected = screenings.some(s => state.selectedIds.has(s.id));
+    if (everyLocked && !anySelected && visibleSelectedCount > 0) {
+      backlog.push(entry);
+    } else {
+      main.push(entry);
+    }
+  }
+  main.sort(compareFilmGroups);
+  backlog.sort(compareFilmGroups);
+  const mainHtml = main.map(([key, screenings]) => renderFilmCard(key, screenings, visibleSelectedCount)).join("");
+  if (!backlog.length) return mainHtml;
+  const backlogHtml = backlog.map(([key, screenings]) => renderFilmCard(key, screenings, visibleSelectedCount)).join("");
+  return mainHtml + `
+    <details class="all-days-backlog">
+      <summary>
+        <span class="all-days-backlog-label">Locked by your plan (${backlog.length})</span>
+        <span class="all-days-backlog-hint">tap to expand · remove a screening from your plan to unlock</span>
+        <span class="all-days-backlog-chevron" aria-hidden="true">▾</span>
+      </summary>
+      <div class="all-days-backlog-grid">${backlogHtml}</div>
+    </details>`;
+}
+
 function render() {
   const q = state.search.toLowerCase().trim();
-  if (state.day !== "all" && !VISIBLE_DAYS.has(state.day)) state.day = "21";
+  if (state.day !== "all" && !VISIBLE_DAYS.has(state.day)) state.day = "all";
 
   const filtered = visibleEvents.filter(e => {
     if (state.day !== "all" && e.day !== state.day) return false;
@@ -2421,42 +3528,44 @@ function render() {
       const directorParts = getDirectorParts(e);
       const partsText = `${titleParts.foreignTitle} ${titleParts.chineseTitle} ${directorParts.englishDirector} ${directorParts.chineseDirector}`;
       const competitionText = isCompetitionFilm(e) ? "competition in competition compétition" : "";
-      const hay = `${e.title} ${getDisplayTitle(e)} ${partsText} ${mappedText} ${officialText} ${competitionText} ${e.director} ${e.location} ${e.category} ${e.screening_type}`.toLowerCase();
+      const details = getFilmDetails(e);
+      const detailsText = details ? `${details.director || ""} ${details.cast || ""} ${details.genre || ""} ${details.country || ""} ${details.note || ""}` : "";
+      const hay = `${e.title} ${getDisplayTitle(e)} ${partsText} ${mappedText} ${officialText} ${detailsText} ${competitionText} ${e.director} ${e.location} ${e.category} ${e.screening_type}`.toLowerCase();
       if (!hay.includes(q)) return false;
     }
     return true;
   });
 
-  // Статистика and mobile-friendly availability filtering
+  // Plan state drives legend + clear button (stats line is no longer rendered)
   const visibleSelectedCount = getVisibleSelectedEvents().length;
-  const displayEvents = visibleSelectedCount > 0
-    ? filtered.filter(e => classify(e) !== "locked")
-    : filtered;
-  const hiddenLockedCount = filtered.length - displayEvents.length;
-
   if (visibleSelectedCount > 0) {
-    stats.innerHTML = hiddenLockedCount > 0
-      ? `<strong>${visibleSelectedCount}</strong> in your plan · ${hiddenLockedCount} unavailable screenings hidden`
-      : `<strong>${visibleSelectedCount}</strong> in your plan`;
     legend.style.display = "flex";
     clearBtn.disabled = false;
   } else {
-    stats.innerHTML = "";
     legend.style.display = "none";
     clearBtn.disabled = true;
   }
+  if (stats) stats.innerHTML = "";
 
   renderSelectionBar();
   renderDayBookingNotice(state.day);
 
-  if (displayEvents.length === 0) {
-    grid.innerHTML = visibleSelectedCount > 0
-      ? '<div class="empty">No available screenings match this plan and filter. Clear your plan or adjust filters.</div>'
-      : '<div class="empty">No screenings match your filters.</div>';
+  if (filtered.length === 0) {
+    grid.className = "film-grid";
+    grid.innerHTML = '<div class="empty">No screenings match your filters.</div>';
     return;
   }
 
-  grid.innerHTML = displayEvents.map(e => {
+  // "All days" view: group by unique film and render film cards.
+  if (state.day === "all") {
+    grid.className = "film-grid all-days-grid";
+    grid.innerHTML = renderAllDaysGrid(filtered, visibleSelectedCount);
+    return;
+  }
+
+  // Daily view: one card per screening (the original layout)
+  grid.className = "film-grid";
+  grid.innerHTML = filtered.map(e => {
     const cls = classify(e);
     const stateClass = cls === "selected" ? "selected" :
                        cls === "ok" ? "ok" :
@@ -2476,9 +3585,24 @@ function render() {
     const doubanUrl = getDoubanUrl(e);
     const doubanLabel = getDoubanLabel(e);
     const otherScreeningsMarkup = renderOtherScreenings(e);
-    const titleAttr = cls === "locked" ? `title="Conflicts with: ${conflictingSelected(e).map(c => getDisplayTitle(c)).join(', ').replace(/"/g, '&quot;')}"` : '';
+    const isLocked = cls === "locked";
+    const isSelected = cls === "selected";
+    const conflictTitle = isLocked
+      ? `Conflicts with: ${conflictingSelected(e).map(c => getDisplayTitle(c)).join(', ').replace(/"/g, '&quot;')}`
+      : (isSelected ? "Click to remove from your plan" : "Click to add to your plan");
+    const titleAttr = `title="${conflictTitle}"`;
+    const tabIndex = isLocked ? -1 : 0;
+    const ariaLabel = `${getDisplayTitle(e)} — ${getDayLabel(e.day)} ${e.start}, ${getDisplayVenue(e)}${isLocked ? " (locked, conflicts with your plan)" : (isSelected ? " (in your plan)" : "")}`;
     return `
-      <div class="film ${cardClass}" data-id="${e.id}" style="--cat-color:${catColor}" ${titleAttr}>
+      <div class="film ${cardClass}"
+           data-id="${e.id}"
+           style="--cat-color:${catColor}"
+           role="button"
+           tabindex="${tabIndex}"
+           aria-pressed="${isSelected}"
+           aria-disabled="${isLocked}"
+           aria-label="${escapeAttr(ariaLabel)}"
+           ${titleAttr}>
         ${badge}
         <div class="film-title-block">
           <div class="film-title-en">${escapeHtml(titleParts.foreignTitle)}${galaIcon}</div>
@@ -2513,22 +3637,63 @@ function escapeAttr(s) {
   }[c]));
 }
 
-// Клик по карточке — добавить/убрать в план (если не locked)
-grid.addEventListener("click", (ev) => {
-  if (ev.target.closest("a")) return;
-  const card = ev.target.closest(".film");
-  if (!card) return;
-  if (card.classList.contains("locked")) return; // блокировка
-  const id = parseInt(card.dataset.id, 10);
+// Toggle a film into / out of the plan when its card is clicked.
+// Clicks on inner links and "Also screening" chips are handled separately.
+function toggleEventInPlan(id) {
+  if (!Number.isFinite(id)) return false;
+  const ev = eventById.get(id);
+  if (!ev) return false;
   if (state.selectedIds.has(id)) {
     state.selectedIds.delete(id);
-  } else {
-    state.selectedIds.add(id);
+    return true;
   }
-  render();
+  // Don't let users add a screening that already conflicts with their plan
+  if (classify(ev) === "locked") return false;
+  state.selectedIds.add(id);
+  return true;
+}
+
+grid.addEventListener("click", (ev) => {
+  if (ev.target.closest("a")) return;
+
+  // "Also screening" chip OR an All Days film-card-screening row — both use data-other-screening-id
+  const screening = ev.target.closest("[data-other-screening-id]");
+  if (screening) {
+    ev.stopPropagation();
+    if (screening.getAttribute("aria-disabled") === "true") return;
+    const sId = parseInt(screening.dataset.otherScreeningId, 10);
+    if (toggleEventInPlan(sId)) render();
+    return;
+  }
+
+  const card = ev.target.closest(".film");
+  if (!card) return;
+  if (card.classList.contains("locked")) return; // locked cards are not selectable
+  const id = parseInt(card.dataset.id, 10);
+  if (toggleEventInPlan(id)) render();
 });
 
-// Удаление из плана через крестик
+// Keyboard: Enter / Space toggles film cards or screening rows
+grid.addEventListener("keydown", (ev) => {
+  if (ev.key !== "Enter" && ev.key !== " ") return;
+
+  const screening = ev.target.closest?.("[data-other-screening-id]");
+  if (screening) {
+    ev.preventDefault();
+    if (screening.getAttribute("aria-disabled") === "true") return;
+    const sId = parseInt(screening.dataset.otherScreeningId, 10);
+    if (toggleEventInPlan(sId)) render();
+    return;
+  }
+
+  const card = ev.target.closest?.(".film");
+  if (!card || card.classList.contains("locked")) return;
+  ev.preventDefault();
+  const id = parseInt(card.dataset.id, 10);
+  if (toggleEventInPlan(id)) render();
+});
+
+// Remove an item from the plan via the × button
 selectionList.addEventListener("click", (ev) => {
   const btn = ev.target.closest("button[data-remove]");
   if (!btn) return;
@@ -2537,7 +3702,7 @@ selectionList.addEventListener("click", (ev) => {
   render();
 });
 
-// Категории-фильтры
+// Section filter pills
 catFilters.addEventListener("click", (ev) => {
   const btn = ev.target.closest("button[data-cat]");
   if (!btn) return;
@@ -2557,19 +3722,13 @@ document.getElementById("resetCats").addEventListener("click", () => {
   render();
 });
 
-document.getElementById("allCats").addEventListener("click", () => {
-  state.activeCats = new Set(allCategories);
-  buildCategoryFilters();
-  render();
-});
-
 document.getElementById("clearCats").addEventListener("click", () => {
   state.activeCats = new Set();
   buildCategoryFilters();
   render();
 });
 
-// Чекбоксы локаций
+// Venue filter checkboxes
 locFilters.addEventListener("change", (ev) => {
   const cb = ev.target.closest('input[type="checkbox"][data-loc]');
   if (!cb) return;
@@ -2586,30 +3745,41 @@ document.getElementById("resetLocs").addEventListener("click", () => {
   render();
 });
 
-document.getElementById("allLocs").addEventListener("click", () => {
-  state.activeLocs = new Set(allLocations);
-  buildLocationFilters();
-  render();
-});
-
 document.getElementById("clearLocs").addEventListener("click", () => {
   state.activeLocs = new Set();
   buildLocationFilters();
   render();
 });
 
-// Остальные контролы
+// Other controls (search, transport, buffer, day tabs)
 document.getElementById("search").addEventListener("input", (e) => { state.search = e.target.value; render(); });
 document.getElementById("transport").addEventListener("change", (e) => { state.transport = e.target.value; render(); });
 document.getElementById("buffer").addEventListener("change", (e) => { state.buffer = parseInt(e.target.value, 10); render(); });
 document.getElementById("dayTabs").addEventListener("click", (e) => {
   if (e.target.tagName !== "BUTTON") return;
-  document.querySelectorAll("#dayTabs button").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll("#dayTabs button").forEach(b => {
+    b.classList.remove("active");
+    b.setAttribute("aria-pressed", "false");
+  });
   e.target.classList.add("active");
+  e.target.setAttribute("aria-pressed", "true");
   state.day = e.target.dataset.day;
   render();
 });
 clearBtn.addEventListener("click", () => { state.selectedIds.clear(); render(); });
+
+// Press "/" anywhere on the page to jump to the search box (skip when typing in another field)
+document.addEventListener("keydown", (ev) => {
+  if (ev.key !== "/" || ev.metaKey || ev.ctrlKey || ev.altKey) return;
+  const target = ev.target;
+  if (target && (target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable)) return;
+  ev.preventDefault();
+  const searchInput = document.getElementById("search");
+  if (searchInput) {
+    searchInput.focus();
+    searchInput.select();
+  }
+});
 
 // Init
 buildCategoryFilters();
